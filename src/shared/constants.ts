@@ -3,12 +3,15 @@ export const CHAT_ENDPOINT = `${LEMONADE_BASE_URL}/v1/chat/completions`
 export const IMAGE_ENDPOINT = `${LEMONADE_BASE_URL}/v1/images/generations`
 export const HEALTH_ENDPOINT = `${LEMONADE_BASE_URL}/v1/models`
 
-export const DETECTIVE_MODEL = 'Phi-4-mini-instruct-GGUF'
-export const VISUALIST_MODEL = 'Phi-4-mini-instruct-GGUF'
+export const DETECTIVE_MODEL = 'Qwen3-4B-Instruct-2507-GGUF'
+export const VISUALIST_MODEL = 'Qwen3-4B-Instruct-2507-GGUF'
 export const IMAGE_MODEL = 'SDXL-Turbo'
 
 export const CONFIDENCE_THRESHOLD = 0.9
 export const MAX_TURNS = 25
+
+// Set to false to disable image generation during detective testing
+export const ENABLE_IMAGE_GENERATION = false
 
 // SDXL-Turbo progressive quality: low cfg_scale (turbo models work best near 1.0)
 // Steps ramp from 2 (fast/blurry) to 6 (sharp) over turns

@@ -1,9 +1,9 @@
 import { useCallback, useRef } from 'react'
 import { useGameState, useGameDispatch } from '../context/GameContext'
-import { askDetective } from '../services/detective'
+import { askDetective, recordRejectedGuess, recordAmbiguousQuestion, resetSessionLearning } from '../services/detective'
 import { buildImagePrompt } from '../services/visualist'
 import { renderImage, renderHeroImage } from '../services/artist'
-import { CONFIDENCE_THRESHOLD } from '../../shared/constants'
+import { CONFIDENCE_THRESHOLD, ENABLE_IMAGE_GENERATION } from '../../shared/constants'
 import type { AnswerValue, Trait } from '../types/game'
 
 export function useGameLoop() {
@@ -13,6 +13,10 @@ export function useGameLoop() {
   stateRef.current = state
 
   const generateImageInBackground = useCallback((traits: Trait[], turn: number, seed: number) => {
+    if (!ENABLE_IMAGE_GENERATION) {
+      console.info('[GameLoop] Image generation disabled')
+      return
+    }
     ;(async () => {
       try {
         const prompt = buildImagePrompt(traits, turn)
@@ -25,6 +29,7 @@ export function useGameLoop() {
   }, [dispatch])
 
   const startGame = useCallback(async () => {
+    resetSessionLearning() // Reset learning for new game
     dispatch({ type: 'START_GAME' })
     try {
       const { question, newTraits, topGuesses } = await askDetective([], [], 1, [])
@@ -40,6 +45,11 @@ export function useGameLoop() {
   const submitAnswer = useCallback(async (answer: AnswerValue) => {
     const s = stateRef.current
     dispatch({ type: 'SUBMIT_ANSWER', answer })
+
+    // Track ambiguous questions (user doesn't know the answer)
+    if (answer === 'dont_know' && s.currentQuestion) {
+      recordAmbiguousQuestion(s.currentQuestion, s.turn)
+    }
 
     try {
       const turnHistory = [
@@ -77,14 +87,24 @@ export function useGameLoop() {
     dispatch({ type: 'CONFIRM_GUESS', correct })
 
     if (correct) {
-      try {
-        const prompt = buildImagePrompt(s.traits, 20)
-        const heroUrl = await renderHeroImage(prompt, s.seed)
-        dispatch({ type: 'HERO_RENDER_COMPLETE', imageUrl: heroUrl })
-      } catch {
-        dispatch({ type: 'HERO_RENDER_COMPLETE', imageUrl: s.currentImageUrl || '' })
+      if (!ENABLE_IMAGE_GENERATION) {
+        console.info('[GameLoop] Hero image generation disabled')
+        dispatch({ type: 'HERO_RENDER_COMPLETE', imageUrl: '' })
+      } else {
+        try {
+          const prompt = buildImagePrompt(s.traits, 20)
+          const heroUrl = await renderHeroImage(prompt, s.seed)
+          dispatch({ type: 'HERO_RENDER_COMPLETE', imageUrl: heroUrl })
+        } catch {
+          dispatch({ type: 'HERO_RENDER_COMPLETE', imageUrl: s.currentImageUrl || '' })
+        }
       }
     } else {
+      // Record rejection for learning
+      if (s.finalGuess) {
+        recordRejectedGuess(s.finalGuess, s.traits, s.turn)
+      }
+      
       // After rejection, rejectedGuesses is updated in reducer
       const rejected = s.finalGuess
         ? [...s.rejectedGuesses, s.finalGuess]

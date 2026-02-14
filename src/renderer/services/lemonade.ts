@@ -1,17 +1,41 @@
 import { CHAT_ENDPOINT, IMAGE_ENDPOINT, HEALTH_ENDPOINT } from '../../shared/constants'
 import type { ChatCompletionRequest, ChatCompletionResponse, ImageGenerationRequest, ImageGenerationResponse } from '../types/api'
 
-async function fetchJSON<T>(url: string, body: unknown): Promise<T> {
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  })
-  if (!res.ok) {
-    const text = await res.text().catch(() => '')
-    throw new Error(`Lemonade API error ${res.status}: ${text}`)
+async function fetchJSON<T>(url: string, body: unknown, timeoutMs = 60000): Promise<T> {
+  console.log(`[Lemonade] POST ${url}`)
+  
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => {
+    console.error(`[Lemonade] Request timeout after ${timeoutMs}ms`)
+    controller.abort()
+  }, timeoutMs)
+  
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    })
+    
+    clearTimeout(timeoutId)
+    
+    if (!res.ok) {
+      const text = await res.text().catch(() => '')
+      console.error(`[Lemonade] API error ${res.status}:`, text.substring(0, 200))
+      throw new Error(`Lemonade API error ${res.status}: ${text}`)
+    }
+    
+    const data = await res.json()
+    console.log(`[Lemonade] Response received from ${url}`)
+    return data
+  } catch (e) {
+    clearTimeout(timeoutId)
+    if (e instanceof Error && e.name === 'AbortError') {
+      throw new Error(`Request timeout after ${timeoutMs}ms. Lemonade server may be overloaded.`)
+    }
+    throw e
   }
-  return res.json()
 }
 
 export async function chatCompletion(req: ChatCompletionRequest): Promise<ChatCompletionResponse> {
