@@ -13,6 +13,7 @@ function createWindow() {
       preload: path.join(__dirname, '../preload/preload.js'),
       contextIsolation: true,
       nodeIntegration: false,
+      webSecurity: false, // Allow localhost API calls
     },
     title: "Akinator's Canvas",
     backgroundColor: '#0a0a0f',

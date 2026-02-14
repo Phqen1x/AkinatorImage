@@ -19,6 +19,34 @@ const STOP_WORDS = new Set([
   'primarily', 'mainly', 'mostly', 'based', 'known', 'typically', 'often', 'usually',
 ])
 
+// Semantic equivalents - questions about these are considered duplicates
+const SEMANTIC_GROUPS = [
+  new Set(['fictional', 'real', 'reality', 'imaginary', 'fantasy']),
+  new Set(['male', 'female', 'gender', 'man', 'woman', 'boy', 'girl']),
+  new Set(['human', 'person', 'people', 'humanoid', 'mortal']),
+  new Set(['anime', 'manga', 'cartoon', 'animated']),
+  new Set(['game', 'gaming', 'videogame', 'video']),
+  new Set(['movie', 'film', 'cinema', 'theatrical']),
+  new Set(['show', 'television', 'series', 'episode']),
+  new Set(['comic', 'comics', 'book', 'graphic']),
+  new Set(['power', 'powers', 'ability', 'abilities', 'supernatural', 'magic', 'magical']),
+  new Set(['hero', 'superhero', 'villain', 'supervillain', 'protagonist', 'antagonist']),
+  new Set(['weapon', 'weapons', 'sword', 'gun', 'blade', 'armed']),
+  new Set(['team', 'group', 'crew', 'squad', 'organization']),
+  new Set(['hair', 'hairstyle', 'haircolor']),
+  new Set(['costume', 'outfit', 'clothing', 'attire', 'uniform', 'armor']),
+]
+
+// Maps trait keys to their related question keywords
+// Used to detect when a question would ask about an already-confirmed trait
+const TRAIT_KEY_TO_KEYWORDS: Record<string, Set<string>> = {
+  'origin_medium': new Set(['originate', 'originated', 'anime', 'manga', 'game', 'videogame', 'video', 'movie', 'film', 'show', 'television', 'series', 'comic', 'comics', 'book', 'graphic', 'novel']),
+  'fictional': new Set(['fictional', 'real', 'reality', 'imaginary', 'fantasy', 'exist']),
+  'gender': new Set(['male', 'female', 'gender', 'man', 'woman', 'boy', 'girl']),
+  'species': new Set(['human', 'person', 'people', 'humanoid', 'mortal', 'alien', 'robot', 'animal', 'creature']),
+  'has_powers': new Set(['power', 'powers', 'ability', 'abilities', 'supernatural', 'magic', 'magical', 'superpower']),
+}
+
 // Extract the topical keywords from a question
 function topicWords(question: string): Set<string> {
   return new Set(
@@ -29,17 +57,58 @@ function topicWords(question: string): Set<string> {
   )
 }
 
+// Check if two words are semantically related
+function areSemanticallyRelated(word1: string, word2: string): boolean {
+  // Direct match
+  if (word1 === word2) return true
+  // Check if both words are in the same semantic group
+  for (const group of SEMANTIC_GROUPS) {
+    if (group.has(word1) && group.has(word2)) return true
+  }
+  // Check substring relationships (e.g., "power" and "powers", "super" and "superhero")
+  if (word1.includes(word2) || word2.includes(word1)) return true
+  return false
+}
+
+// Check if a question is about an already-confirmed trait key
+function isAboutConfirmedTrait(question: string, confirmedTraitKeys: Set<string>): boolean {
+  const words = topicWords(question)
+  
+  for (const traitKey of confirmedTraitKeys) {
+    const keywords = TRAIT_KEY_TO_KEYWORDS[traitKey]
+    if (!keywords) continue
+    
+    // Check if any word in the question matches keywords for this trait
+    for (const word of words) {
+      if (keywords.has(word)) {
+        console.info(`[Detective] Question "${question}" is about already-confirmed trait: ${traitKey}`)
+        return true
+      }
+    }
+  }
+  
+  return false
+}
+
 // Returns true if newQ is topically too similar to an already-asked question
 function isDuplicateTopic(newQ: string, prevQuestions: string[]): boolean {
   const newWords = topicWords(newQ)
   if (newWords.size === 0) return false
+  
   for (const prev of prevQuestions) {
     const prevWords = topicWords(prev)
-    // Count overlapping topic words
+    
+    // Count overlapping or semantically related topic words
     let overlap = 0
-    for (const w of newWords) {
-      if (prevWords.has(w)) overlap++
+    for (const newWord of newWords) {
+      for (const prevWord of prevWords) {
+        if (areSemanticallyRelated(newWord, prevWord)) {
+          overlap++
+          break
+        }
+      }
     }
+    
     // If 2+ topic words overlap, or the entire new question is covered, it's a repeat
     if (overlap >= 2 || (newWords.size <= 2 && overlap >= 1)) return true
   }
@@ -65,9 +134,11 @@ const FALLBACK_QUESTIONS = [
   'Is your character associated with a specific color or symbol?',
 ]
 
-function pickFallback(prevQuestions: string[]): string {
+function pickFallback(prevQuestions: string[], confirmedTraitKeys: Set<string>): string {
   for (const q of FALLBACK_QUESTIONS) {
-    if (!isDuplicateTopic(q, prevQuestions)) return q
+    if (!isDuplicateTopic(q, prevQuestions) && !isAboutConfirmedTrait(q, confirmedTraitKeys)) {
+      return q
+    }
   }
   return 'Does your character have any distinctive accessories?'
 }
@@ -111,9 +182,27 @@ async function extractTrait(
   const badValues = ['unknown', 'unclear', 'n/a', 'none', 'not_applicable', '{}', '']
   if (badValues.includes(value) || value.startsWith('not_') || value.startsWith('non_')) return null
 
+  let key = String(json.key)
+  let finalValue = String(json.value)
+
+  // Client-side fix: Validate real/fictional logic
+  // "Is your character real?" + "no" should give fictional=true (not fictional=false)
+  if (key === 'fictional' && question.toLowerCase().includes('real')) {
+    const isNegativeAnswer = answer === 'no' || answer === 'probably_not'
+    const isPositiveAnswer = answer === 'yes' || answer === 'probably'
+    
+    if (isNegativeAnswer && finalValue.toLowerCase() === 'false') {
+      console.warn('[Detective] Correcting fictional extraction: real=no means fictional=true')
+      finalValue = 'true'
+    } else if (isPositiveAnswer && finalValue.toLowerCase() === 'true') {
+      console.warn('[Detective] Correcting fictional extraction: real=yes means fictional=false')
+      finalValue = 'false'
+    }
+  }
+
   return {
-    key: String(json.key),
-    value: String(json.value),
+    key,
+    value: finalValue,
     confidence: Math.min(Math.max(Number(json.confidence) || 0.7, 0.1), 0.99),
     turnAdded: 0,
   }
@@ -129,22 +218,41 @@ async function askNextQuestion(
   const parts: string[] = []
 
   if (traits.length > 0) {
-    const confirmedKeys = traits.map(t => t.key).join(', ')
+    const confirmedKeys = Array.from(new Set(traits.map(t => t.key))).join(', ')
     const traitLines = traits.map(t => `  ${t.key} = ${t.value} (${Math.round(t.confidence * 100)}%)`).join('\n')
-    parts.push(`Confirmed traits (DO NOT ask about these keys: ${confirmedKeys}):\n${traitLines}`)
+    
+    // Add explicit warnings for single-value traits
+    const warnings: string[] = []
+    const traitKeySet = new Set(traits.map(t => t.key))
+    if (traitKeySet.has('origin_medium')) {
+      warnings.push('  ⚠️ origin_medium is confirmed - DO NOT ask about anime, manga, games, movies, TV shows, or comics')
+    }
+    if (traitKeySet.has('gender')) {
+      warnings.push('  ⚠️ gender is confirmed - DO NOT ask about male/female')
+    }
+    if (traitKeySet.has('species')) {
+      warnings.push('  ⚠️ species is confirmed - DO NOT ask about human/non-human')
+    }
+    if (traitKeySet.has('fictional')) {
+      warnings.push('  ⚠️ fictional status is confirmed - DO NOT ask about real/fictional')
+    }
+    
+    const warningText = warnings.length > 0 ? '\n' + warnings.join('\n') : ''
+    parts.push(`Confirmed traits (NEVER ask about these trait keys again: ${confirmedKeys}):\n${traitLines}${warningText}`)
   } else {
     parts.push('Confirmed traits: none yet')
   }
 
   if (prevQuestions.length > 0) {
-    parts.push(`Questions already asked (DO NOT repeat or rephrase these):\n${prevQuestions.map((q, i) => `  ${i + 1}. ${q}`).join('\n')}`)
+    const qaHistory = turns.map((t, i) => `  ${i + 1}. Q: "${t.question}" A: ${ANSWER_LABELS[t.answer]}`).join('\n')
+    parts.push(`Questions already asked with answers (STRICTLY FORBIDDEN to repeat any of these topics):\n${qaHistory}`)
   }
 
   if (rejectedGuesses.length > 0) {
     parts.push(`Rejected guesses (never guess these): ${rejectedGuesses.join(', ')}`)
   }
 
-  parts.push(`Turn: ${turns.length + 1}. Ask a NEW yes/no question about an unexplored topic. JSON only.`)
+  parts.push(`Turn: ${turns.length + 1}. Ask ONE NEW yes/no question exploring a completely different topic. Return JSON only, no explanation.`)
 
   const response = await chatCompletion({
     model: DETECTIVE_MODEL,
@@ -152,7 +260,7 @@ async function askNextQuestion(
       { role: 'system', content: DETECTIVE_SYSTEM_PROMPT },
       { role: 'user', content: parts.join('\n\n') },
     ],
-    temperature: 0.6,
+    temperature: 0.4,
     max_tokens: 150,
   })
 
@@ -169,9 +277,10 @@ async function askNextQuestion(
   }
 
   // Client-side duplicate check — fall back to a structured question if the model repeated
-  if (!question || isDuplicateTopic(question, prevQuestions)) {
-    const fallback = pickFallback(prevQuestions)
-    console.warn('[Detective] Duplicate/empty question detected, using fallback:', fallback)
+  const confirmedTraitKeys = new Set(traits.map(t => t.key))
+  if (!question || isDuplicateTopic(question, prevQuestions) || isAboutConfirmedTrait(question, confirmedTraitKeys)) {
+    const fallback = pickFallback(prevQuestions, confirmedTraitKeys)
+    console.warn('[Detective] Duplicate/empty/redundant question detected, using fallback:', fallback)
     question = fallback
   }
 

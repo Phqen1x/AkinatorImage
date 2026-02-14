@@ -24,9 +24,21 @@ export async function generateImage(req: ImageGenerationRequest): Promise<ImageG
 
 export async function checkHealth(): Promise<boolean> {
   try {
-    const res = await fetch(HEALTH_ENDPOINT, { signal: AbortSignal.timeout(8000) })
-    return res.ok
-  } catch {
+    console.log('[Lemonade] Checking health at:', HEALTH_ENDPOINT)
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 15000) // Increase to 15s
+    
+    const res = await fetch(HEALTH_ENDPOINT, { 
+      signal: controller.signal,
+      method: 'GET',
+    })
+    clearTimeout(timeoutId)
+    
+    const isHealthy = res.ok
+    console.log('[Lemonade] Health check result:', isHealthy, 'Status:', res.status)
+    return isHealthy
+  } catch (e) {
+    console.error('[Lemonade] Health check failed:', e)
     return false
   }
 }

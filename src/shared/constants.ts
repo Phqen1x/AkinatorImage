@@ -1,7 +1,7 @@
 export const LEMONADE_BASE_URL = 'http://localhost:8000'
 export const CHAT_ENDPOINT = `${LEMONADE_BASE_URL}/v1/chat/completions`
 export const IMAGE_ENDPOINT = `${LEMONADE_BASE_URL}/v1/images/generations`
-export const HEALTH_ENDPOINT = `${LEMONADE_BASE_URL}/health`
+export const HEALTH_ENDPOINT = `${LEMONADE_BASE_URL}/v1/models`
 
 export const DETECTIVE_MODEL = 'Phi-4-mini-instruct-GGUF'
 export const VISUALIST_MODEL = 'Phi-4-mini-instruct-GGUF'
