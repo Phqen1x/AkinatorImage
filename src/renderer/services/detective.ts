@@ -518,13 +518,76 @@ function isAboutConfirmedTrait(question: string, confirmedTraitKeys: Set<string>
 
 // Check if a question is logically incompatible with confirmed traits
 // E.g., asking about wings when character is confirmed human
-function isLogicallyIncompatible(question: string, traits: Trait[]): boolean {
+function isLogicallyIncompatible(question: string, traits: Trait[], turns: Array<{ question: string; answer: AnswerValue }>): boolean {
   const lowerQ = question.toLowerCase()
   
   // Find relevant trait values
   const species = traits.find(t => t.key === 'species')?.value?.toLowerCase()
   const hasPowers = traits.find(t => t.key === 'has_powers')?.value?.toLowerCase()
   const fictional = traits.find(t => t.key === 'fictional')?.value?.toLowerCase()
+  const originMedium = traits.find(t => t.key === 'origin_medium')?.value?.toLowerCase()
+  
+  // Check if "Is your character an athlete or sports figure?" was answered "no"
+  const athleteQuestionAnsweredNo = turns.some(t => 
+    t.question.toLowerCase().includes('athlete') && 
+    t.question.toLowerCase().includes('sports') &&
+    (t.answer === 'no' || t.answer === 'probably_not')
+  )
+  
+  // Check if "Is your character known for entertainment (actor, musician, etc.)?" was answered "no"
+  const entertainmentQuestionAnsweredNo = turns.some(t => 
+    t.question.toLowerCase().includes('entertainment') && 
+    (t.question.toLowerCase().includes('actor') || t.question.toLowerCase().includes('musician')) &&
+    (t.answer === 'no' || t.answer === 'probably_not')
+  )
+  
+  // If character is NOT an athlete (answered "no" to athlete question), don't ask sport-specific questions
+  if (athleteQuestionAnsweredNo) {
+    const sportQuestions = [
+      'basketball player', 'football player', 'baseball player', 'soccer player',
+      'tennis player', 'golfer', 'boxer', 'fighter', 'track and field',
+      'olympic athlete', 'championships', 'greatest in their sport', 'retired from their sport',
+      'american team', 'nba', 'nfl', 'mlb', 'mls', 'ufc', 'pga'
+    ]
+    if (sportQuestions.some(sport => lowerQ.includes(sport))) {
+      console.info(`[Detective] Question "${question}" asks about sports but character answered NO to athlete question`)
+      return true
+    }
+  }
+  
+  // If character is NOT an entertainer (answered "no" to entertainment question), don't ask movie/TV-specific questions  
+  if (entertainmentQuestionAnsweredNo) {
+    const entertainmentQuestions = [
+      'movie star', 'tv actor', 'oscar', 'emmy', 'academy award',
+      'marvel movies', 'dc movies', 'star wars movies', 'harry potter movies',
+      'titanic', 'godfather', 'avengers', 'breaking bad', 'game of thrones',
+      'friends', 'the office', 'james bond', 'jurassic park', 'pirates of caribbean',
+      'dark knight', 'late night talk show', 'hollywood legend', 'superhero movies',
+      'action movies', 'comedy movies', 'drama series'
+    ]
+    if (entertainmentQuestions.some(ent => lowerQ.includes(ent))) {
+      console.info(`[Detective] Question "${question}" asks about entertainment but character answered NO to entertainment question`)
+      return true
+    }
+  }
+  
+  // If origin_medium is anime, don't ask about other media origins
+  if (originMedium === 'anime' || originMedium === 'manga') {
+    const nonAnimeOrigins = ['comic book', 'video game', 'from a movie', 'from a tv show']
+    if (nonAnimeOrigins.some(origin => lowerQ.includes(origin))) {
+      console.info(`[Detective] Question "${question}" asks about non-anime origin but character is from anime`)
+      return true
+    }
+  }
+  
+  // If origin_medium is comic book, don't ask about other media origins
+  if (originMedium === 'comic book' || originMedium === 'comic') {
+    const nonComicOrigins = ['anime', 'manga', 'video game', 'from a movie', 'from a tv show']
+    if (nonComicOrigins.some(origin => lowerQ.includes(origin))) {
+      console.info(`[Detective] Question "${question}" asks about non-comic origin but character is from comic book`)
+      return true
+    }
+  }
   
   // If character is human, don't ask about non-human physical traits
   if (species === 'human' || species === 'person' || species === 'mortal') {
@@ -575,6 +638,19 @@ function isLogicallyIncompatible(question: string, traits: Trait[]): boolean {
     ]
     if (fictionalOriginQuestions.some(elem => lowerQ.includes(elem))) {
       console.info(`[Detective] Question "${question}" asks about fictional origin but character is real`)
+      return true
+    }
+    
+    // Real people don't have anime-specific attributes
+    const animeSpecificQuestions = [
+      'ninja', 'jutsu', 'sharingan', 'byakugan', 'chakra', 'sensei',
+      'spiky hair', 'transformation', 'power up', 'eye ability',
+      'specific team or squad', 'specific village or organization',
+      'naruto series', 'dragon ball series', 'one piece series', 'bleach series',
+      'attack on titan series', 'my hero academia series', 'death note series'
+    ]
+    if (animeSpecificQuestions.some(elem => lowerQ.includes(elem))) {
+      console.info(`[Detective] Question "${question}" asks about anime-specific element but character is real`)
       return true
     }
   }
@@ -1446,7 +1522,7 @@ const FALLBACK_QUESTIONS = [
   'Is your character part of a family dynasty?',
 ]
 
-function pickFallback(prevQuestions: string[], confirmedTraitKeys: Set<string>, traits: Trait[]): string {
+function pickFallback(prevQuestions: string[], confirmedTraitKeys: Set<string>, traits: Trait[], turns: Array<{ question: string; answer: AnswerValue }>): string {
   console.info('[Detective] Picking fallback. Already asked:', prevQuestions.length, 'questions')
   
   // PRIORITY: If we have rejected a character from a known series, ask about that series first!
@@ -1489,7 +1565,7 @@ function pickFallback(prevQuestions: string[], confirmedTraitKeys: Set<string>, 
     
     const isDup = isDuplicateTopic(q, prevQuestions)
     const isRedundant = isAboutConfirmedTrait(q, confirmedTraitKeys)
-    const isIncompatible = isLogicallyIncompatible(q, traits)
+    const isIncompatible = isLogicallyIncompatible(q, traits, turns)
 
     if (!isDup && !isRedundant && !isIncompatible) {
       console.info(`[Detective] Selected fallback #${i + 1}/${FALLBACK_QUESTIONS.length}:`, q)
@@ -1631,7 +1707,7 @@ async function extractTrait(
 
   // Client-side fix: "no" to specific-category questions should not create traits
   // These keys can have many possible values, so "no" to one doesn't tell us what it IS
-  const specificCategoryKeys = ['origin_medium', 'hair_color', 'eye_color', 'clothing', 'accessories', 'skin_color', 'nationality', 'occupation_category', 'historical_era', 'anime_series']
+  const specificCategoryKeys = ['origin_medium', 'hair_color', 'eye_color', 'clothing', 'accessories', 'skin_color', 'nationality', 'occupation_category', 'historical_era', 'anime_series', 'anime_ability', 'anime_role']
   if (specificCategoryKeys.includes(key) && isNegativeAnswer) {
     console.warn(`[Detective] Rejecting ${key} extraction from "no" answer to specific question`)
     return null
@@ -1893,7 +1969,7 @@ async function askNextQuestion(
   if (hasForbiddenPattern) {
     console.warn(`[Detective] FORBIDDEN PATTERN detected in question: "${question}"`)
     console.warn('[Detective] This question is too specific (background/history/experience/career), forcing fallback')
-    const fallback = pickFallback(prevQuestions, new Set(traits.map(t => t.key)), traits)
+    const fallback = pickFallback(prevQuestions, new Set(traits.map(t => t.key)), traits, turns)
     console.info('[Detective] Selected fallback after pattern rejection:', fallback)
     question = fallback
   }
@@ -1904,7 +1980,7 @@ async function askNextQuestion(
   const isEmpty = !question
   const isDupe = question && isDuplicateTopic(question, prevQuestions)
   const isRedundant = question && isAboutConfirmedTrait(question, confirmedTraitKeys)
-  const isIncompatible = question && isLogicallyIncompatible(question, traits)
+  const isIncompatible = question && isLogicallyIncompatible(question, traits, turns)
   const isInExploredRealm = question && isInAlreadyExploredRealm(question, prevQuestions)
   
   if (isEmpty || isDupe || isRedundant || isIncompatible || isInExploredRealm) {
@@ -1915,7 +1991,7 @@ async function askNextQuestion(
       : 'already explored realm'
     console.warn(`[Detective] ${reason} question detected: "${question}", using fallback`)
     
-    const fallback = pickFallback(prevQuestions, confirmedTraitKeys, traits)
+    const fallback = pickFallback(prevQuestions, confirmedTraitKeys, traits, turns)
     console.info('[Detective] Selected fallback:', fallback)
     question = fallback
   }
