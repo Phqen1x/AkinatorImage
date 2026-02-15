@@ -1818,6 +1818,56 @@ function inferSecondaryTrait(
   return null
 }
 
+// Pick a differentiating question based on top guesses
+// Returns null if no strategic question needed
+async function pickDifferentiatingQuestion(
+  topGuesses: Guess[],
+  prevQuestions: string[],
+  traits: Trait[]
+): Promise<string | null> {
+  // Only use strategic questions if we have 2+ candidates with decent confidence
+  if (topGuesses.length < 2) return null
+  
+  const [topGuess, secondGuess] = topGuesses
+  
+  // Only intervene when we have multiple strong candidates (0.30-0.75 range)
+  if (topGuess.confidence < 0.30 || topGuess.confidence > 0.75) return null
+  if (secondGuess.confidence < 0.25) return null // Second must also be viable
+  
+  console.info(`[Detective] Multiple strong candidates detected:`, topGuesses.map(g => `${g.name} (${Math.round(g.confidence * 100)}%)`).join(', '))
+  
+  // Get character data from the database by searching through isGuessCompatible
+  // We'll check basic differentiators that we know about
+  const candidate1Name = topGuess.name
+  const candidate2Name = secondGuess.name
+  
+  // Try common differentiating questions that might not have been asked yet
+  const potentialQuestions = [
+    { q: 'Is your character male?', keywords: ['male', 'female', 'gender'] },
+    { q: 'Does your character have supernatural powers?', keywords: ['power', 'supernatural', 'abilities'] },
+    { q: 'Is your character a hero?', keywords: ['hero', 'villain', 'good guy', 'bad guy'] },
+    { q: 'Is your character human?', keywords: ['human', 'alien', 'species'] },
+    { q: 'Did your character originate in a comic book?', keywords: ['comic book', 'originate'] },
+    { q: 'Did your character originate in an anime?', keywords: ['anime', 'manga', 'originate'] },
+    { q: 'Did your character originate in a movie?', keywords: ['movie', 'film', 'originate'] },
+    { q: 'Did your character originate in a video game?', keywords: ['video game', 'game', 'originate'] },
+  ]
+  
+  // Pick the first question that hasn't been asked yet
+  for (const {q, keywords} of potentialQuestions) {
+    const alreadyAsked = prevQuestions.some(pq => 
+      keywords.some(kw => pq.toLowerCase().includes(kw))
+    )
+    if (!alreadyAsked) {
+      console.info(`[Detective] Using differentiating question: "${q}"`)
+      return q
+    }
+  }
+  
+  console.info(`[Detective] All basic differentiating questions already asked`)
+  return null
+}
+
 // Call 2: Ask the next question given all confirmed traits and history
 async function askNextQuestion(
   traits: Trait[],
@@ -2017,6 +2067,15 @@ async function askNextQuestion(
         name: String(result.guess.name),
         confidence: Math.min(Math.max(Number(result.guess.confidence), 0.01), 0.99),
       }))
+  }
+
+  // CLIENT-SIDE STRATEGIC OVERRIDE: If we have multiple strong candidates, 
+  // force a differentiating question instead of letting AI pick generic ones
+  const strategicQuestion = await pickDifferentiatingQuestion(topGuesses, prevQuestions, traits)
+  if (strategicQuestion) {
+    console.info(`[Detective] STRATEGIC OVERRIDE: Using differentiating question instead of "${question}"`)
+    console.info(`[Detective] Strategic question:`, strategicQuestion)
+    question = strategicQuestion
   }
 
   return { question, topGuesses }

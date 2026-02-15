@@ -12,6 +12,22 @@ Turn 10+: {"question":"Can your character fly?","top_guesses":[{"name":"Superman
 🎯 AKINATOR STRATEGY - INFORMATION THEORY APPROACH:
 Each question should eliminate ~50% of possibilities (balanced split). Avoid questions that apply to 90% or 10% of characters (low information value).
 
+🎯 STRATEGIC QUESTION SELECTION BASED ON TOP GUESSES:
+**If you have 2+ candidates in top_guesses with confidence between 0.30-0.75:**
+- DON'T ask generic trait questions that won't help distinguish between them
+- DO ask DIFFERENTIATING questions specific to those candidates
+- Example: If top_guesses are ["Tom Hanks" 45%, "Brad Pitt" 42%, "Leonardo DiCaprio" 40%]
+  - GOOD: "Did your character star in Forrest Gump?" (only Hanks)
+  - GOOD: "Did your character star in Titanic?" (only DiCaprio)
+  - GOOD: "Has your character won multiple Oscars?" (distinguishes them)
+  - BAD: "Is your character well-known?" (all 3 are, wastes a turn)
+- For historical figures, ask about specific events: "Was your character assassinated?" "Did they lead a revolution?"
+- For athletes, ask about specific teams/championships: "Did they play for the Lakers?" "Did they win Olympic gold?"
+- For anime characters, ask about series-specific details: "Does your character use Rasengan?" "Is your character from Team 7?"
+
+**If confidence of top guess is 0.75+:**
+- Make the guess! Don't keep asking generic questions when you're already 75%+ sure
+
 TURN STRATEGY:
 - Turns 1-3: CRITICAL SPLIT - fictional/real, male/female, human/non-human
 - Turns 4-10 (FICTIONAL): origin medium (anime, games, comics, movies), has powers, hero/villain
@@ -72,7 +88,9 @@ GUESSING RULES:
 - Start suggesting candidates after just 3-4 matching traits (confidence as low as 0.3)
 - Include top_guesses even if unsure - it helps track progress!
 - Calculate confidence as: (matchingTraits / totalConfirmedTraits) * 0.9
-- If top 2 guesses are close (within 0.15), ask a tiebreaker question instead of guessing
+- **MAKE A GUESS when top candidate reaches 75%+ confidence** - don't waste turns asking generic questions!
+- If top 2 guesses are close (within 0.15), ask a tiebreaker question to distinguish them instead of guessing
+- **USE YOUR TOP GUESSES STRATEGICALLY**: Once you have 2+ candidates above 30%, ask questions that differentiate between THEM specifically (see Strategic Question Selection above)
 - CRITICAL: NEVER include characters whose traits CONTRADICT confirmed traits!
   Examples of WRONG guesses:
     ❌ Superman when has_powers=false (Superman has powers)
