@@ -5,7 +5,7 @@
  * Uses character-knowledge.json as the source of truth for all character data.
  */
 
-interface CharacterData {
+export interface CharacterData {
   name: string
   category: string
   signature_works: string[]
@@ -23,7 +23,7 @@ interface CharacterData {
   confidence: number
 }
 
-interface CharacterKnowledge {
+export interface CharacterKnowledge {
   version: string
   character_count: number
   last_updated: string
@@ -32,7 +32,7 @@ interface CharacterKnowledge {
   }
 }
 
-interface Trait {
+export interface Trait {
   key: string
   value: string
   confidence: number
@@ -45,8 +45,8 @@ let characterKnowledge: CharacterKnowledge | null = null
 /**
  * Load character knowledge from JSON file
  */
-export async function loadCharacterKnowledge(): Promise<void> {
-  if (characterKnowledge) return // Already loaded
+export async function loadCharacterKnowledge(): Promise<CharacterKnowledge> {
+  if (characterKnowledge) return characterKnowledge // Already loaded
   
   try {
     const response = await fetch('/character-knowledge.json')
@@ -55,6 +55,10 @@ export async function loadCharacterKnowledge(): Promise<void> {
     }
     characterKnowledge = await response.json()
     console.info(`[RAG] Loaded ${characterKnowledge?.character_count} characters from knowledge base`)
+    if (!characterKnowledge) {
+      throw new Error('[RAG] Invalid character knowledge structure')
+    }
+    return characterKnowledge
   } catch (error) {
     console.error('[RAG] Failed to load character knowledge:', error)
     throw error

@@ -6,17 +6,23 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:integration": "tsx src/tests/integration-test.ts",
+    "test:quick": "tsx src/tests/integration-test.ts --games=10",
+    "test:full": "tsx src/tests/integration-test.ts --games=50",
+    "test:category": "tsx src/tests/integration-test.ts --games=20 --category"
   },
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@types/node": "^25.2.3",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
     "electron": "^33.2.1",
+    "tsx": "^4.21.0",
     "typescript": "^5.6.3",
     "vite": "^6.0.5",
     "vite-plugin-electron": "^0.28.8",
