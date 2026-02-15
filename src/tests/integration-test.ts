@@ -5,11 +5,22 @@
  * Usage: npm run test:integration -- --games=50 --category=actors
  */
 
-import { loadCharacterKnowledge } from '../renderer/services/character-rag'
+import { type CharacterKnowledge } from '../renderer/services/character-rag'
 import { askDetective } from '../renderer/services/detective-rag'
 import { simulateAnswer, calculateMetrics, formatMetrics, type GameResult } from './automated-gameplay'
 import type { Trait } from '../renderer/services/character-rag'
 import type { AnswerValue } from '../renderer/types/game'
+import * as fs from 'fs'
+import * as path from 'path'
+
+/**
+ * Load character knowledge from filesystem (Node.js compatible)
+ */
+async function loadCharacterKnowledgeNode(): Promise<CharacterKnowledge> {
+  const jsonPath = path.join(__dirname, '../../public/character-knowledge.json')
+  const data = fs.readFileSync(jsonPath, 'utf-8')
+  return JSON.parse(data)
+}
 
 interface TestOptions {
   numGames?: number
@@ -25,7 +36,7 @@ async function runGame(
   characterName: string,
   options: { maxTurns: number; verbose: boolean }
 ): Promise<GameResult> {
-  const knowledge = await loadCharacterKnowledge()
+  const knowledge = await loadCharacterKnowledgeNode()
   const character = knowledge.characters[characterName]
   
   if (!character) {
@@ -47,12 +58,19 @@ async function runGame(
   for (let turn = 0; turn < options.maxTurns; turn++) {
     const turnHistory = questionHistory.map(qh => ({ question: qh.question, answer: qh.answer as AnswerValue }))
     
+    // Get previous question and answer for this turn (if exists)
+    const lastTurn = turnHistory[turnHistory.length - 1]
+    const previousQuestion = lastTurn?.question
+    const previousAnswer = lastTurn?.answer
+    
     // Ask detective for next question
     const result = await askDetective(
       traits,
-      turnHistory,
+      turnHistory.slice(0, -1), // All except last (since last is passed separately)
       turn + 1,
-      [] // no rejected guesses in automated testing
+      [], // no rejected guesses in automated testing
+      previousQuestion,
+      previousAnswer
     )
     
     if (options.verbose) {
@@ -157,7 +175,7 @@ export async function runIntegrationTests(options: TestOptions = {}) {
   console.log('='.repeat(60))
   
   // Load character knowledge
-  const knowledge = await loadCharacterKnowledge()
+  const knowledge = await loadCharacterKnowledgeNode()
   let characters = Object.keys(knowledge.characters)
   
   // Filter by category if specified

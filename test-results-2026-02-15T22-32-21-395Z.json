@@ -1,0 +1,358 @@
+{
+  "timestamp": "2026-02-15T22:32:21.396Z",
+  "options": {
+    "numGames": 2,
+    "maxTurns": 25
+  },
+  "metrics": {
+    "totalGames": 2,
+    "successRate": 0,
+    "averageTurns": 25,
+    "guessDistribution": {
+      "firstGuess": 0,
+      "secondGuess": 0,
+      "thirdGuess": 0,
+      "notInTop3": 2
+    },
+    "categoryPerformance": {
+      "historical": {
+        "games": 1,
+        "success": 0,
+        "avgTurns": 25
+      },
+      "athletes": {
+        "games": 1,
+        "success": 0,
+        "avgTurns": 25
+      }
+    },
+    "hardestCharacters": [
+      {
+        "name": "Thomas Edison",
+        "turns": 25
+      },
+      {
+        "name": "Rafael Nadal",
+        "turns": 25
+      }
+    ]
+  },
+  "results": [
+    {
+      "characterName": "Thomas Edison",
+      "category": "historical",
+      "success": false,
+      "turnsToGuess": 25,
+      "totalTurns": 25,
+      "finalGuesses": [],
+      "correctGuessRank": null,
+      "traits": [
+        {
+          "key": "gender",
+          "value": "male",
+          "confidence": 0.75,
+          "turnAdded": 4
+        },
+        {
+          "key": "category",
+          "value": "NOT_actors",
+          "confidence": 0.9,
+          "turnAdded": 5
+        },
+        {
+          "key": "fictional",
+          "value": "false",
+          "confidence": 0.95,
+          "turnAdded": 6
+        },
+        {
+          "key": "category",
+          "value": "NOT_politicians",
+          "confidence": 0.9,
+          "turnAdded": 7
+        },
+        {
+          "key": "origin_medium",
+          "value": "NOT_tv",
+          "confidence": 0.9,
+          "turnAdded": 10
+        },
+        {
+          "key": "category",
+          "value": "NOT_musicians",
+          "confidence": 0.9,
+          "turnAdded": 11
+        },
+        {
+          "key": "category",
+          "value": "NOT_athletes",
+          "confidence": 0.9,
+          "turnAdded": 12
+        },
+        {
+          "key": "category",
+          "value": "historical",
+          "confidence": 0.95,
+          "turnAdded": 13
+        }
+      ],
+      "questionHistory": [
+        {
+          "question": "Is your character American?",
+          "answer": "yes"
+        },
+        {
+          "question": "Is your character American?",
+          "answer": "yes"
+        },
+        {
+          "question": "Is your character male?",
+          "answer": "probably"
+        },
+        {
+          "question": "Is your character an actor?",
+          "answer": "no"
+        },
+        {
+          "question": "Is your character fictional?",
+          "answer": "no"
+        },
+        {
+          "question": "Is your character a politician?",
+          "answer": "no"
+        },
+        {
+          "question": "Is your character still alive today?",
+          "answer": "no"
+        },
+        {
+          "question": "Is your character still alive today?",
+          "answer": "no"
+        },
+        {
+          "question": "Is your character from a TV show?",
+          "answer": "no"
+        },
+        {
+          "question": "Is your character a musician or singer?",
+          "answer": "no"
+        },
+        {
+          "question": "Is your character an athlete?",
+          "answer": "no"
+        },
+        {
+          "question": "Is your character a historical figure (died before 1950)?",
+          "answer": "yes"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        }
+      ]
+    },
+    {
+      "characterName": "Rafael Nadal",
+      "category": "athletes",
+      "success": false,
+      "turnsToGuess": 25,
+      "totalTurns": 25,
+      "finalGuesses": [],
+      "correctGuessRank": null,
+      "traits": [
+        {
+          "key": "gender",
+          "value": "male",
+          "confidence": 0.75,
+          "turnAdded": 4
+        },
+        {
+          "key": "category",
+          "value": "NOT_actors",
+          "confidence": 0.9,
+          "turnAdded": 5
+        },
+        {
+          "key": "fictional",
+          "value": "false",
+          "confidence": 0.95,
+          "turnAdded": 6
+        },
+        {
+          "key": "category",
+          "value": "NOT_politicians",
+          "confidence": 0.9,
+          "turnAdded": 7
+        },
+        {
+          "key": "origin_medium",
+          "value": "NOT_tv",
+          "confidence": 0.9,
+          "turnAdded": 10
+        },
+        {
+          "key": "category",
+          "value": "NOT_musicians",
+          "confidence": 0.9,
+          "turnAdded": 11
+        },
+        {
+          "key": "category",
+          "value": "athletes",
+          "confidence": 0.95,
+          "turnAdded": 12
+        }
+      ],
+      "questionHistory": [
+        {
+          "question": "Is your character American?",
+          "answer": "no"
+        },
+        {
+          "question": "Is your character American?",
+          "answer": "no"
+        },
+        {
+          "question": "Is your character male?",
+          "answer": "probably"
+        },
+        {
+          "question": "Is your character an actor?",
+          "answer": "no"
+        },
+        {
+          "question": "Is your character fictional?",
+          "answer": "no"
+        },
+        {
+          "question": "Is your character a politician?",
+          "answer": "no"
+        },
+        {
+          "question": "Is your character still alive today?",
+          "answer": "yes"
+        },
+        {
+          "question": "Is your character still alive today?",
+          "answer": "yes"
+        },
+        {
+          "question": "Is your character from a TV show?",
+          "answer": "no"
+        },
+        {
+          "question": "Is your character a musician or singer?",
+          "answer": "no"
+        },
+        {
+          "question": "Is your character an athlete?",
+          "answer": "yes"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no"
+        }
+      ]
+    }
+  ]
+}
