@@ -443,6 +443,18 @@ async function askNextQuestion(
         'Is your character part of a famous duo or group?',
         'Is your character known for a catchphrase or signature move?',
         'Is your character based on a real person?',
+        'Is your character associated with a specific country or region?',
+        'Does your character have a unique physical feature?',
+        'Is your character known for their intelligence or wisdom?',
+        'Is your character associated with a particular profession?',
+        'Does your character wear distinctive clothing or accessories?',
+        'Is your character known for being heroic or villainous?',
+        'Is your character associated with a specific genre (action, comedy, drama)?',
+        'Does your character have a family or significant relationships?',
+        'Is your character known for their physical strength?',
+        'Does your character use technology or weapons?',
+        'Is your character associated with nature or animals?',
+        'Does your character have magical or mystical abilities?',
       ]
       
       // Pick a broad question not yet asked
@@ -457,6 +469,40 @@ async function askNextQuestion(
           question: nextBroadQuestion,
           topGuesses: []
         }
+      }
+      
+      // If all broad questions exhausted but still under 30 turns, ask generic questions
+      console.info('[Detective-RAG] All broad questions exhausted. Asking generic follow-up.')
+      const genericQuestions = [
+        'Does your character have any special talents or skills?',
+        'Is your character associated with any specific achievements?',
+        'Does your character have a memorable quote or saying?',
+        'Is your character known for overcoming challenges or obstacles?',
+        'Does your character have a distinctive voice or accent?',
+        'Is your character associated with a particular color or symbol?',
+        'Does your character work alone or with others?',
+        'Is your character known for their appearance in a specific work (movie, book, show)?',
+        'Does your character transform or change in some significant way?',
+        'Is your character associated with a particular emotion (happiness, anger, etc.)?',
+      ]
+      
+      const nextGenericQuestion = genericQuestions.find(q => 
+        !askedQuestions.some(asked => asked.includes(q.toLowerCase().slice(0, 15)))
+      )
+      
+      if (nextGenericQuestion) {
+        console.info('[Detective-RAG] Asking generic question:', nextGenericQuestion)
+        return {
+          question: nextGenericQuestion,
+          topGuesses: []
+        }
+      }
+      
+      // If STILL no questions and under 30 turns, just ask a very generic one
+      console.info('[Detective-RAG] All questions exhausted. Asking very generic question.')
+      return {
+        question: 'Is there anything else distinctive or notable about your character?',
+        topGuesses: []
       }
     }
     
