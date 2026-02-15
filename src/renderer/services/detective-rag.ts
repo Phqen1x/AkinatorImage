@@ -414,14 +414,14 @@ async function askNextQuestion(
     try {
       const guesses = await guessCharacterBeyondDatabase(traits, turns)
       return {
-        question: `I don't have this character in my database, but based on your answers, is it one of these?`,
+        question: `Based on your answers, I think your character is one of these. Am I close?`,
         topGuesses: guesses
       }
     } catch (error) {
       console.error('[Detective-RAG] Failed to guess beyond database:', error)
       // Even on error, make a final attempt
       return {
-        question: 'Is your character one of these based on your answers?',
+        question: 'Based on everything you told me, is your character one of these?',
         topGuesses: []
       }
     }
