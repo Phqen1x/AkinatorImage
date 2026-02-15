@@ -81,16 +81,25 @@ export function simulateAnswer(
   
   // Categories
   if (q.includes('actor')) {
-    return character.category === 'actors' ? 'yes' : 'no'
+    // Check category first, but also check facts for "other" category
+    if (character.category === 'actors') return 'yes'
+    if (character.category === 'other' && (facts.includes('actor') || facts.includes('actress'))) return 'yes'
+    return 'no'
   }
   if (q.includes('athlete')) {
-    return character.category === 'athletes' ? 'yes' : 'no'
+    if (character.category === 'athletes') return 'yes'
+    if (character.category === 'other' && facts.includes('athlete')) return 'yes'
+    return 'no'
   }
   if (q.includes('musician') || q.includes('singer')) {
-    return character.category === 'musicians' ? 'yes' : 'no'
+    if (character.category === 'musicians') return 'yes'
+    if (character.category === 'other' && (facts.includes('musician') || facts.includes('singer'))) return 'yes'
+    return 'no'
   }
   if (q.includes('politician')) {
-    return character.category === 'politicians' ? 'yes' : 'no'
+    if (character.category === 'politicians') return 'yes'
+    if (character.category === 'other' && facts.includes('politician')) return 'yes'
+    return 'no'
   }
   if (q.includes('superhero')) {
     return character.category === 'superheroes' ? 'yes' : 'no'
