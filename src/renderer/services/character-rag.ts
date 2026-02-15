@@ -352,16 +352,39 @@ export function getTopGuesses(
   
   if (candidates.length === 0) return []
   
-  // Calculate confidence based on number of matching traits
-  const totalTraits = traits.length
-  const baseConfidence = totalTraits > 0 ? 0.3 + (totalTraits * 0.08) : 0.1
-  
-  // Sort candidates by confidence (characters with more specific data rank higher)
-  const guesses = candidates.map(char => ({
-    name: char.name,
-    confidence: Math.min(baseConfidence + (char.distinctive_facts.length * 0.02), 0.95),
-    character: char
-  }))
+  // Score each candidate based on how well they match the traits
+  const guesses = candidates.map(char => {
+    let matchScore = 0
+    let totalWeight = 0
+    
+    for (const trait of traits) {
+      const weight = trait.confidence || 0.9
+      totalWeight += weight
+      
+      // Check if character matches this specific trait
+      if (characterMatchesTrait(char, trait)) {
+        matchScore += weight
+      }
+    }
+    
+    // Calculate match percentage
+    const matchPercentage = totalWeight > 0 ? matchScore / totalWeight : 0
+    
+    // Base confidence on match quality and trait count
+    const traitBonus = Math.min(traits.length * 0.05, 0.3) // More traits = more confidence
+    const factsBonus = Math.min(char.distinctive_facts.length * 0.01, 0.1) // More facts = slight boost
+    
+    const confidence = Math.min(
+      0.5 + (matchPercentage * 0.3) + traitBonus + factsBonus,
+      0.95
+    )
+    
+    return {
+      name: char.name,
+      confidence,
+      character: char
+    }
+  })
   
   // Sort by confidence descending
   guesses.sort((a, b) => b.confidence - a.confidence)
