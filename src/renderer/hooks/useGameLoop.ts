@@ -1,6 +1,6 @@
 import { useCallback, useRef } from 'react'
 import { useGameState, useGameDispatch } from '../context/GameContext'
-import { askDetective, recordRejectedGuess, recordAmbiguousQuestion, resetSessionLearning } from '../services/detective'
+import { askDetective, recordRejectedGuess, recordAmbiguousQuestion, resetSessionLearning } from '../services/detective-rag'
 import { buildImagePrompt } from '../services/visualist'
 import { renderImage, renderHeroImage } from '../services/artist'
 import { CONFIDENCE_THRESHOLD, ENABLE_IMAGE_GENERATION } from '../../shared/constants'

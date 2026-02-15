@@ -3,12 +3,15 @@ export const CHAT_ENDPOINT = `${LEMONADE_BASE_URL}/v1/chat/completions`
 export const IMAGE_ENDPOINT = `${LEMONADE_BASE_URL}/v1/images/generations`
 export const HEALTH_ENDPOINT = `${LEMONADE_BASE_URL}/v1/models`
 
-export const DETECTIVE_MODEL = 'Llama-3.2-3B-Instruct-GGUF'
+// Model selection for RAG-enhanced detective
+// Qwen3-4B: Best balance of speed (fast NPU) and reasoning for RAG
+// Phi-4: Good at creative visualization
+export const DETECTIVE_MODEL = 'Qwen3-4B-Instruct-2507-GGUF'
 export const VISUALIST_MODEL = 'Phi-4-mini-instruct-GGUF'
 export const IMAGE_MODEL = 'SDXL-Turbo'
 
-export const CONFIDENCE_THRESHOLD = 0.85
-export const MAX_TURNS = 25
+export const CONFIDENCE_THRESHOLD = 0.75  // Lower for RAG (10 guess target)
+export const MAX_TURNS = 20  // Reduced with RAG assistance
 
 // Set to false to disable image generation during detective testing
 export const ENABLE_IMAGE_GENERATION = false
