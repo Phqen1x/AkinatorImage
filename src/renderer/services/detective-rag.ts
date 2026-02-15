@@ -608,7 +608,7 @@ async function askNextQuestion(
     traits  // Pass traits for logical inference
   )
 
-  if (strategicQuestion && remainingCandidates.length > 15) {
+  if (strategicQuestion && remainingCandidates.length > 10) {
     console.info('[Detective-RAG] Using strategic question from RAG:', strategicQuestion)
     
     return {
@@ -617,13 +617,23 @@ async function askNextQuestion(
     }
   }
   
-  // If we have ≤15 candidates and plenty of questions asked, just make guesses
-  if (remainingCandidates.length <= 15 && turns.length >= 8) {
-    console.info('[Detective-RAG] Small candidate pool (≤15), making direct guesses')
+  // If we have ≤10 candidates and enough discriminating traits, make guesses
+  // CRITICAL: Don't guess with only 2-3 broad traits (e.g., "American + Male")
+  // Need at least 5 traits OR category confirmed for good discrimination
+  const hasEnoughTraits = traits.length >= 5 || traits.some(t => t.key === 'category' && !t.value.startsWith('NOT_'))
+  
+  if (remainingCandidates.length <= 10 && turns.length >= 10 && hasEnoughTraits) {
+    console.info('[Detective-RAG] Small candidate pool (≤10) with sufficient traits, making direct guesses')
+    console.info(`[Detective-RAG] Traits: ${traits.length}, Has category: ${hasEnoughTraits}`)
     return {
       question: 'Based on your answers, I think your character is one of these. Am I close?',
       topGuesses: ragGuesses.slice(0, 5).map(g => ({ name: g.name, confidence: g.confidence }))
     }
+  }
+  
+  // If small pool but insufficient traits, keep asking strategic questions
+  if (remainingCandidates.length <= 10 && !hasEnoughTraits) {
+    console.info('[Detective-RAG] Small pool but only', traits.length, 'traits - need more discrimination')
   }
 
   // Build context for AI
