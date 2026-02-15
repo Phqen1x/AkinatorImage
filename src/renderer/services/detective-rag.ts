@@ -11,6 +11,7 @@ import type { Trait, Guess, AnswerValue } from '../types/game'
 import {
   loadCharacterKnowledge,
   filterCharactersByTraits,
+  getAllCharacters,
   getTopGuesses as getRagTopGuesses,
   getCandidateContext,
   getMostInformativeQuestion,
@@ -144,10 +145,14 @@ const TRAIT_EXTRACTOR_PROMPT = `Extract a structured trait from this Q&A.
    - Question about powers? → Extract has_powers trait
    - DON'T infer unrelated traits!
 
-5. Important distinctions:
-   - "fictional" means made-up character (Spider-Man, Harry Potter)
-   - "actors" are REAL people who act in movies (Tom Hanks, Meryl Streep)
-   - Movie characters are fictional, actors are NOT fictional
+5. IMPORTANT: Characters can have overlapping traits
+   - A character like "Iron Man" could be:
+     * fictional=true (Tony Stark is a made-up character)
+     * origin_medium=movie (from Marvel movies)
+     * category=superheroes (a superhero character)
+   - Someone thinking of the character (not the actor) would say "yes" to fictional
+   - Someone thinking of Robert Downey Jr. (the actor) would say "no" to fictional
+   - Both interpretations are valid!
    
 6. Return null if question doesn't clearly map to any available trait
 
@@ -156,7 +161,7 @@ Q: "Is your character an actor?" A: "No" → {"key": "category", "value": "NOT_a
 Q: "Is your character fictional?" A: "Yes" → {"key": "fictional", "value": "true", "confidence": 0.95}
 Q: "Is your character male?" A: "Probably" → {"key": "gender", "value": "male", "confidence": 0.75}
 Q: "Does your character have superpowers?" A: "Yes" → {"key": "has_powers", "value": "true", "confidence": 0.95}
-Q: "Is your character known for football?" A: "No" → {"key": "sport", "value": "NOT_football", "confidence": 0.8} OR null (sport not in available keys)`
+Q: "Is your character known for football?" A: "No" → null (sport trait not available)`
 
 /**
  * Extract trait from question + answer
@@ -234,21 +239,43 @@ async function askNextQuestion(
   console.info('[Detective-RAG] Turn:', turns.length + 1)
 
   // Use RAG to filter candidates based on confirmed traits
+  // NOTE: This does strict AND filtering - all traits must match
+  // Database limitation: characters are in single categories, but real-world
+  // entities can be ambiguous (e.g., "Iron Man" could be superhero OR movie character)
   const remainingCandidates = filterCharactersByTraits(traits)
   console.info(`[Detective-RAG] ${remainingCandidates.length} candidates match confirmed traits`)
 
-  // CRITICAL: Detect contradictory traits (0 candidates)
+  // CRITICAL: Handle 0 candidates - character not in database
   if (remainingCandidates.length === 0 && traits.length > 0) {
-    console.error('[Detective-RAG] ERROR: No candidates match all confirmed traits!')
-    console.error('[Detective-RAG] This usually means contradictory answers or database mismatch')
-    console.error('[Detective-RAG] Confirmed traits:', JSON.stringify(traits, null, 2))
+    console.warn('[Detective-RAG] WARNING: No exact matches in database')
+    console.warn('[Detective-RAG] Character may not be in knowledge base')
+    console.warn('[Detective-RAG] Confirmed traits:', JSON.stringify(traits, null, 2))
     
-    // Try to identify the contradiction
+    // Try partial matching - relax the last trait added
     const traitSummary = traits.map(t => `${t.key}=${t.value}`).join(', ')
-    console.error(`[Detective-RAG] Looking for character with: ${traitSummary}`)
+    console.warn(`[Detective-RAG] Looking for character with: ${traitSummary}`)
     
+    // Try filtering with fewer traits (relax most recent trait)
+    if (traits.length > 1) {
+      const relaxedTraits = traits.slice(0, -1)
+      const relaxedCandidates = filterCharactersByTraits(relaxedTraits)
+      console.info(`[Detective-RAG] Relaxed filtering: ${relaxedCandidates.length} candidates with ${relaxedTraits.length} traits`)
+      
+      if (relaxedCandidates.length > 0) {
+        // Continue with relaxed filtering
+        const relaxedGuesses = getRagTopGuesses(relaxedTraits, 3)
+        console.info('[Detective-RAG] Using relaxed filtering to continue game')
+        
+        return {
+          question: 'Your character might not be in my database yet. Let me try to guess based on what I know so far. Can you tell me more specific details?',
+          topGuesses: relaxedGuesses.map(g => ({ name: g.name, confidence: g.confidence * 0.5 }))
+        }
+      }
+    }
+    
+    // If still 0, admit we don't have this character
     return {
-      question: `I couldn't find any characters matching your answers (${traitSummary}). Did you answer all questions correctly? Should we start over?`,
+      question: `I don't have a character matching "${traitSummary}" in my database yet. This is a limitation of my current knowledge base (${getAllCharacters().length} characters). Would you like to tell me who it was so I can learn?`,
       topGuesses: []
     }
   }
