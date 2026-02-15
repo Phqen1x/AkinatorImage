@@ -312,6 +312,95 @@ export function getMostInformativeQuestion(
       const facts = c.distinctive_facts.join(' ').toLowerCase()
       return facts.includes('action') || facts.includes('martial arts') || facts.includes('fighter')
     }, fictionOnly: false },
+    
+    // Category-specific discriminating questions
+    // Politicians
+    { q: 'Is your character from Europe?', test: (c: CharacterData) => {
+      if (c.category !== 'politicians') return false
+      const facts = c.distinctive_facts.join(' ').toLowerCase()
+      return facts.includes('russia') || facts.includes('britain') || facts.includes('france') || 
+             facts.includes('germany') || facts.includes('italy') || facts.includes('europe')
+    }, fictionOnly: false },
+    { q: 'Was your character a U.S. President?', test: (c: CharacterData) => {
+      if (c.category !== 'politicians') return false
+      const facts = c.distinctive_facts.join(' ').toLowerCase()
+      return facts.includes('president of the united states') || facts.includes('44th president') || facts.includes('45th president')
+    }, fictionOnly: false },
+    
+    // Athletes
+    { q: 'Is your character a basketball player?', test: (c: CharacterData) => {
+      if (c.category !== 'athletes') return false
+      const facts = c.distinctive_facts.join(' ').toLowerCase()
+      return facts.includes('basketball') || facts.includes('nba')
+    }, fictionOnly: false },
+    { q: 'Is your character a soccer/football player?', test: (c: CharacterData) => {
+      if (c.category !== 'athletes') return false
+      const facts = c.distinctive_facts.join(' ').toLowerCase()
+      return facts.includes('soccer') || facts.includes('football') || facts.includes('fifa')
+    }, fictionOnly: false },
+    { q: 'Is your character a baseball player?', test: (c: CharacterData) => {
+      if (c.category !== 'athletes') return false
+      const facts = c.distinctive_facts.join(' ').toLowerCase()
+      return facts.includes('baseball') || facts.includes('mlb')
+    }, fictionOnly: false },
+    
+    // Actors
+    { q: 'Is your character from the United Kingdom?', test: (c: CharacterData) => {
+      if (c.category !== 'actors') return false
+      const facts = c.distinctive_facts.join(' ').toLowerCase()
+      return facts.includes('british') || facts.includes('english') || facts.includes('uk')
+    }, fictionOnly: false },
+    { q: 'Did your character act in the Marvel Cinematic Universe?', test: (c: CharacterData) => {
+      if (c.category !== 'actors') return false
+      const facts = c.distinctive_facts.join(' ').toLowerCase()
+      return facts.includes('marvel') || facts.includes('iron man') || facts.includes('avengers') || facts.includes('mcu')
+    }, fictionOnly: false },
+    
+    // Superheroes
+    { q: 'Is your character from DC Comics?', test: (c: CharacterData) => {
+      if (c.category !== 'superheroes') return false
+      const facts = c.distinctive_facts.join(' ').toLowerCase()
+      return facts.includes('dc comics') || facts.includes('batman') || facts.includes('justice league')
+    }, fictionOnly: false },
+    { q: 'Is your character from Marvel Comics?', test: (c: CharacterData) => {
+      if (c.category !== 'superheroes') return false
+      const facts = c.distinctive_facts.join(' ').toLowerCase()
+      return facts.includes('marvel') || facts.includes('spider-man') || facts.includes('x-men')
+    }, fictionOnly: false },
+    { q: 'Does your character have superpowers?', test: (c: CharacterData) => {
+      if (c.category !== 'superheroes') return false
+      const facts = c.distinctive_facts.join(' ').toLowerCase()
+      return facts.includes('power') || facts.includes('ability') || facts.includes('superhuman')
+    }, fictionOnly: false },
+    
+    // Anime
+    { q: 'Is your character from Dragon Ball?', test: (c: CharacterData) => {
+      if (c.category !== 'anime') return false
+      const facts = c.distinctive_facts.join(' ').toLowerCase()
+      return facts.includes('dragon ball')
+    }, fictionOnly: true },
+    { q: 'Is your character from Naruto?', test: (c: CharacterData) => {
+      if (c.category !== 'anime') return false
+      const facts = c.distinctive_facts.join(' ').toLowerCase()
+      return facts.includes('naruto')
+    }, fictionOnly: true },
+    { q: 'Is your character from One Piece?', test: (c: CharacterData) => {
+      if (c.category !== 'anime') return false
+      const facts = c.distinctive_facts.join(' ').toLowerCase()
+      return facts.includes('one piece')
+    }, fictionOnly: true },
+    
+    // Musicians
+    { q: 'Is your character a rapper or hip-hop artist?', test: (c: CharacterData) => {
+      if (c.category !== 'musicians') return false
+      const facts = c.distinctive_facts.join(' ').toLowerCase()
+      return facts.includes('rapper') || facts.includes('hip hop') || facts.includes('hip-hop')
+    }, fictionOnly: false },
+    { q: 'Is your character in a band?', test: (c: CharacterData) => {
+      if (c.category !== 'musicians') return false
+      const facts = c.distinctive_facts.join(' ').toLowerCase()
+      return facts.includes('band') || facts.includes('beatles') || facts.includes('led zeppelin')
+    }, fictionOnly: false }
   ]
   
   // Find question that splits candidates closest to 50/50
