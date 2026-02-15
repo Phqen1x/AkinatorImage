@@ -116,21 +116,26 @@ function characterMatchesTrait(char: CharacterData, trait: Trait): boolean {
   const { key, value } = trait
   const lowerValue = value.toLowerCase()
   
+  // Handle negative traits (NOT_xxx)
+  const isNegative = lowerValue.startsWith('not_')
+  const actualValue = isNegative ? lowerValue.substring(4) : lowerValue
+  
   // fictional trait
   if (key === 'fictional') {
-    const isFictional = lowerValue === 'true' || lowerValue === 'yes'
-    const matches = char.traits.fictional === isFictional
+    const isFictional = actualValue === 'true' || actualValue === 'yes'
+    const matches = isNegative ? char.traits.fictional !== isFictional : char.traits.fictional === isFictional
     if (!matches) {
-      console.log(`[RAG] ${char.name} REJECTED: fictional mismatch (has: ${char.traits.fictional}, need: ${isFictional})`)
+      console.log(`[RAG] ${char.name} REJECTED: fictional mismatch (has: ${char.traits.fictional}, need: ${isNegative ? 'NOT ' : ''}${isFictional})`)
     }
     return matches
   }
   
   // category-based traits
   if (key === 'category' || key === 'occupation_category') {
-    const matches = char.category.toLowerCase().includes(lowerValue)
+    const categoryMatches = char.category.toLowerCase().includes(actualValue)
+    const matches = isNegative ? !categoryMatches : categoryMatches
     if (!matches) {
-      console.log(`[RAG] ${char.name} REJECTED: category mismatch (has: ${char.category}, need: ${lowerValue})`)
+      console.log(`[RAG] ${char.name} REJECTED: category mismatch (has: ${char.category}, need: ${isNegative ? 'NOT ' : ''}${actualValue})`)
     }
     return matches
   }
