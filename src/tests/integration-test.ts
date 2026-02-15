@@ -9,7 +9,7 @@ import { type CharacterKnowledge } from '../renderer/services/character-rag'
 import { askDetective } from '../renderer/services/detective-rag'
 import { simulateAnswer, calculateMetrics, formatMetrics, type GameResult } from './automated-gameplay'
 import type { Trait } from '../renderer/services/character-rag'
-import type { AnswerValue } from '../renderer/types/game'
+import type { AnswerValue, Guess } from '../renderer/types/game'
 import * as fs from 'fs'
 import * as path from 'path'
 
@@ -50,10 +50,11 @@ async function runGame(
   }
   
   const traits: Trait[] = []
-  const questionHistory: Array<{ question: string; answer: string }> = []
+  const questionHistory: Array<{ question: string; answer: string; topGuesses?: Guess[] }> = []
   let success = false
   let correctGuessRank: number | null = null
   let turnsToGuess = options.maxTurns
+  let lastGuesses: Guess[] = []
   
   for (let turn = 0; turn < options.maxTurns; turn++) {
     const turnHistory = questionHistory.map(qh => ({ question: qh.question, answer: qh.answer as AnswerValue }))
@@ -109,7 +110,16 @@ async function runGame(
     
     // Simulate answer
     const answer = simulateAnswer(result.question, character)
-    questionHistory.push({ question: result.question, answer })
+    questionHistory.push({ 
+      question: result.question, 
+      answer,
+      topGuesses: result.topGuesses 
+    })
+    
+    // Track last guesses
+    if (result.topGuesses && result.topGuesses.length > 0) {
+      lastGuesses = result.topGuesses
+    }
     
     if (options.verbose) {
       console.log(`  Answer: ${answer}`)
@@ -146,7 +156,7 @@ async function runGame(
     success,
     turnsToGuess,
     totalTurns: questionHistory.length,
-    finalGuesses: [],
+    finalGuesses: lastGuesses.map(g => g.name),
     correctGuessRank,
     traits,
     questionHistory
