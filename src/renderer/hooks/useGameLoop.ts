@@ -64,6 +64,8 @@ export function useGameLoop() {
         turnHistory,
         s.turn + 1,
         s.rejectedGuesses,
+        s.currentQuestion || undefined,  // ✅ ADD: previous question (convert null to undefined)
+        answer                            // ✅ ADD: user's answer
       )
 
       const topGuess = topGuesses[0]
