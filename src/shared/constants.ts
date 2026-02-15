@@ -11,7 +11,7 @@ export const VISUALIST_MODEL = 'Phi-4-mini-instruct-GGUF'
 export const IMAGE_MODEL = 'SDXL-Turbo'
 
 export const CONFIDENCE_THRESHOLD = 0.75  // Lower for RAG (10 guess target)
-export const MAX_TURNS = 20  // Reduced with RAG assistance
+export const MAX_TURNS = 100  // Allow extensive questioning to narrow down
 
 // Set to false to disable image generation during detective testing
 export const ENABLE_IMAGE_GENERATION = false

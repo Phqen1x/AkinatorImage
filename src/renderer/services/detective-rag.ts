@@ -295,28 +295,46 @@ IMPORTANT: Base guesses ONLY on the given traits. Don't make random guesses.`
     const response = await chatCompletion({
       model: DETECTIVE_MODEL,
       messages: [
-        { role: 'system', content: 'You are an expert at identifying characters and people based on traits. Return only valid JSON.' },
+        { role: 'system', content: 'You are an expert at identifying characters and people based on traits. You MUST return ONLY a valid JSON array, nothing else.' },
         { role: 'user', content: prompt }
       ],
-      temperature: 0.3,
-      max_tokens: 300,
+      temperature: 0.5,  // Higher for more creative guessing
+      max_tokens: 400,   // Allow more tokens for better responses
     })
 
     const raw = response.choices[0]?.message?.content || ''
     console.info('[Detective-Beyond] LLM response:', raw)
     
-    const json = extractJSON(raw)
-    if (Array.isArray(json)) {
-      const guesses: Guess[] = json.slice(0, 3).map((item: any) => ({
+    // Try to extract JSON array even if wrapped in markdown or text
+    let json = extractJSON(raw)
+    
+    // If extractJSON failed, try manual extraction
+    if (!json || !Array.isArray(json)) {
+      const arrayMatch = raw.match(/\[[\s\S]*\]/)
+      if (arrayMatch) {
+        try {
+          json = JSON.parse(arrayMatch[0])
+        } catch (e) {
+          console.warn('[Detective-Beyond] Manual JSON extraction failed')
+        }
+      }
+    }
+    
+    if (Array.isArray(json) && json.length > 0) {
+      const guesses: Guess[] = json.slice(0, 5).map((item: any) => ({
         name: String(item.name || item.character || 'Unknown'),
         confidence: Math.min(Math.max(Number(item.confidence || 0.5), 0.1), 0.8) // Cap at 0.8 since not in database
       }))
       
       console.info('[Detective-Beyond] Generated guesses:', guesses)
-      return guesses.filter(g => g.name !== 'Unknown')
+      const validGuesses = guesses.filter(g => g.name !== 'Unknown' && g.name.length > 0)
+      
+      if (validGuesses.length > 0) {
+        return validGuesses.slice(0, 3)  // Return top 3
+      }
     }
     
-    console.warn('[Detective-Beyond] Invalid JSON response')
+    console.warn('[Detective-Beyond] Invalid JSON response:', raw)
     return []
   } catch (error) {
     console.error('[Detective-Beyond] Error making guesses:', error)
@@ -346,6 +364,7 @@ async function askNextQuestion(
   console.info(`[Detective-RAG] ${remainingCandidates.length} candidates match confirmed traits`)
 
   // CRITICAL: Handle 0 candidates - character not in database
+  // Only fall back to LLM guessing if we've asked MANY questions (30+)
   if (remainingCandidates.length === 0 && traits.length > 0) {
     console.warn('[Detective-RAG] WARNING: No exact matches in database')
     console.warn('[Detective-RAG] Character may not be in knowledge base')
@@ -354,6 +373,9 @@ async function askNextQuestion(
     // Try partial matching - relax the last trait added
     const traitSummary = traits.map(t => `${t.key}=${t.value}`).join(', ')
     console.warn(`[Detective-RAG] Looking for character with: ${traitSummary}`)
+    
+    // STRATEGY: Only use LLM guessing as LAST RESORT after extensive questioning
+    const shouldUseLLMGuessing = turns.length >= 30
     
     // Try filtering with fewer traits (relax most recent trait)
     if (traits.length > 1) {
@@ -407,21 +429,62 @@ async function askNextQuestion(
       }
     }
     
-    // If still 0, use LLM to make educated guesses beyond the database
+    // If still 0 and haven't asked enough questions yet, continue with broad questions
+    if (!shouldUseLLMGuessing) {
+      console.info('[Detective-RAG] Only', turns.length, 'questions asked. Continuing with broad questions.')
+      
+      // Ask broad informative questions even without candidates
+      const broadQuestions = [
+        'Is your character known internationally?',
+        'Is your character still alive (or active in recent stories)?',
+        'Is your character primarily known for their physical appearance?',
+        'Is your character associated with a specific time period in history?',
+        'Does your character have a distinctive personality trait?',
+        'Is your character part of a famous duo or group?',
+        'Is your character known for a catchphrase or signature move?',
+        'Is your character based on a real person?',
+      ]
+      
+      // Pick a broad question not yet asked
+      const askedQuestions = turns.map(t => t.question.toLowerCase())
+      const nextBroadQuestion = broadQuestions.find(q => 
+        !askedQuestions.some(asked => asked.includes(q.toLowerCase().slice(0, 20)))
+      )
+      
+      if (nextBroadQuestion) {
+        console.info('[Detective-RAG] Asking broad question:', nextBroadQuestion)
+        return {
+          question: nextBroadQuestion,
+          topGuesses: []
+        }
+      }
+    }
+    
+    // If still 0 and asked 30+ questions, NOW use LLM to make educated guesses
     console.warn('[Detective-RAG] Character not in database - using LLM to make guesses')
     console.warn('[Detective-RAG] Traits:', traitSummary)
     
     try {
       const guesses = await guessCharacterBeyondDatabase(traits, turns)
+      
+      // If LLM returned no guesses or invalid JSON, keep asking questions
+      if (!guesses || guesses.length === 0) {
+        console.warn('[Detective-RAG] LLM returned no guesses, asking another question')
+        return {
+          question: 'Let me ask one more thing - does your character have any unique abilities or talents?',
+          topGuesses: []
+        }
+      }
+      
       return {
         question: `Based on your answers, I think your character is one of these. Am I close?`,
         topGuesses: guesses
       }
     } catch (error) {
       console.error('[Detective-RAG] Failed to guess beyond database:', error)
-      // Even on error, make a final attempt
+      // Even on error, keep asking questions
       return {
-        question: 'Based on everything you told me, is your character one of these?',
+        question: 'Tell me more - is your character known for a specific achievement?',
         topGuesses: []
       }
     }
