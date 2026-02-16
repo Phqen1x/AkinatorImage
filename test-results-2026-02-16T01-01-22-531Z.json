@@ -1,0 +1,3479 @@
+{
+  "timestamp": "2026-02-16T01:01:22.532Z",
+  "options": {
+    "numGames": 5,
+    "maxTurns": 25
+  },
+  "metrics": {
+    "totalGames": 5,
+    "successRate": 0,
+    "averageTurns": 25,
+    "guessDistribution": {
+      "firstGuess": 0,
+      "secondGuess": 0,
+      "thirdGuess": 0,
+      "notInTop3": 5
+    },
+    "categoryPerformance": {
+      "politicians": {
+        "games": 2,
+        "success": 0,
+        "avgTurns": 25
+      },
+      "athletes": {
+        "games": 1,
+        "success": 0,
+        "avgTurns": 25
+      },
+      "actors": {
+        "games": 2,
+        "success": 0,
+        "avgTurns": 25
+      }
+    },
+    "hardestCharacters": [
+      {
+        "name": "Gerald Ford",
+        "turns": 25
+      },
+      {
+        "name": "Jacinda Ardern",
+        "turns": 25
+      },
+      {
+        "name": "Manny Pacquiao",
+        "turns": 25
+      },
+      {
+        "name": "Nicole Kidman",
+        "turns": 25
+      },
+      {
+        "name": "Rami Malek",
+        "turns": 25
+      }
+    ]
+  },
+  "results": [
+    {
+      "characterName": "Gerald Ford",
+      "category": "politicians",
+      "success": false,
+      "turnsToGuess": 25,
+      "totalTurns": 25,
+      "finalGuesses": [
+        "Barack Obama",
+        "Bill Clinton",
+        "Donald Trump",
+        "Joe Biden",
+        "Margaret Thatcher"
+      ],
+      "correctGuessRank": null,
+      "traits": [
+        {
+          "key": "gender",
+          "value": "male",
+          "confidence": 0.95,
+          "turnAdded": 4
+        },
+        {
+          "key": "category",
+          "value": "NOT_actors",
+          "confidence": 0.9,
+          "turnAdded": 5
+        },
+        {
+          "key": "fictional",
+          "value": "false",
+          "confidence": 0.95,
+          "turnAdded": 6
+        },
+        {
+          "key": "category",
+          "value": "politicians",
+          "confidence": 0.95,
+          "turnAdded": 7
+        },
+        {
+          "key": "category",
+          "value": "NOT_politicians",
+          "confidence": 0.9,
+          "turnAdded": 8
+        },
+        {
+          "key": "category",
+          "value": "NOT_historical",
+          "confidence": 0.9,
+          "turnAdded": 10
+        },
+        {
+          "key": "origin_medium",
+          "value": "NOT_tv",
+          "confidence": 0.9,
+          "turnAdded": 14
+        },
+        {
+          "key": "category",
+          "value": "NOT_athletes",
+          "confidence": 0.9,
+          "turnAdded": 16
+        },
+        {
+          "key": "category",
+          "value": "NOT_musicians",
+          "confidence": 0.9,
+          "turnAdded": 18
+        }
+      ],
+      "questionHistory": [
+        {
+          "question": "Is your character American?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.2979959907386869
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.2958073218987507
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2945756881361842
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.2939469919711432
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2908677547911577
+            }
+          ]
+        },
+        {
+          "question": "Is your character American?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.29925208868241654
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.29766475137175225
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.2961729606978808
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.29458914721267926
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.2936753285930243
+            }
+          ]
+        },
+        {
+          "question": "Is your character male?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.2999066790908548
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.29846312155416116
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.29637584371634396
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.29164649252944047
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.29110580551319937
+            }
+          ]
+        },
+        {
+          "question": "Is your character an actor?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Richard Nixon",
+              "confidence": 0.5889525613204833
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.586858390607494
+            },
+            {
+              "name": "John F. Kennedy",
+              "confidence": 0.5846959234978185
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.584591979468592
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.5838779505828181
+            }
+          ]
+        },
+        {
+          "question": "Is your character fictional?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.5979285197314146
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5972180840968143
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5901290419250882
+            },
+            {
+              "name": "John F. Kennedy",
+              "confidence": 0.586765060872968
+            },
+            {
+              "name": "Lyndon B. Johnson",
+              "confidence": 0.5862230144087444
+            }
+          ]
+        },
+        {
+          "question": "Is your character a politician?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5897832536691661
+            },
+            {
+              "name": "Franklin D. Roosevelt",
+              "confidence": 0.5895513815463596
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.5892205959634639
+            },
+            {
+              "name": "Gerald Ford",
+              "confidence": 0.5868123261075717
+            },
+            {
+              "name": "Ronald Reagan",
+              "confidence": 0.5855615449161816
+            }
+          ]
+        },
+        {
+          "question": "Was your character a U.S. President?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.799968245593946
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.7974016321353637
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.7832967527519573
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.7831151280903412
+            },
+            {
+              "name": "Gerald Ford",
+              "confidence": 0.7825626652587463
+            }
+          ]
+        },
+        {
+          "question": "Was your character a U.S. President?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Joe Biden",
+              "confidence": 0.7370015472818535
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.7362216354181862
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.7357873091144573
+            },
+            {
+              "name": "John F. Kennedy",
+              "confidence": 0.7297896090157308
+            },
+            {
+              "name": "Richard Nixon",
+              "confidence": 0.7296008790316161
+            }
+          ]
+        },
+        {
+          "question": "Is your character a historical figure (died before 1950)?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Joe Biden",
+              "confidence": 0.8019782530573185
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.8009397664316946
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.7982705485954383
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.7922625565625767
+            },
+            {
+              "name": "George H. W. Bush",
+              "confidence": 0.7869519027022168
+            }
+          ]
+        },
+        {
+          "question": "Is your character a historical figure (died before 1950)?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.8417611702060414
+            },
+            {
+              "name": "Gerald Ford",
+              "confidence": 0.839582414407035
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.8392036079379586
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.8357042904735188
+            },
+            {
+              "name": "John F. Kennedy",
+              "confidence": 0.83263639211989
+            }
+          ]
+        },
+        {
+          "question": "Is your character still alive today?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Jimmy Carter",
+              "confidence": 0.84790813132484
+            },
+            {
+              "name": "George H. W. Bush",
+              "confidence": 0.847512294635539
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.8471055404596463
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.8401218834046866
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.8387217180846314
+            }
+          ]
+        },
+        {
+          "question": "Is your character still alive today?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Donald Trump",
+              "confidence": 0.8508410503313515
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.8488768652413563
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.8426370445980218
+            },
+            {
+              "name": "Richard Nixon",
+              "confidence": 0.8402963897205282
+            },
+            {
+              "name": "George H. W. Bush",
+              "confidence": 0.8349701150718488
+            }
+          ]
+        },
+        {
+          "question": "Is your character from a TV show?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Ronald Reagan",
+              "confidence": 0.8411412383130137
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.8388420942843637
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.8382303240960857
+            },
+            {
+              "name": "Jimmy Carter",
+              "confidence": 0.8381114609243794
+            },
+            {
+              "name": "Richard Nixon",
+              "confidence": 0.8367369623923313
+            }
+          ]
+        },
+        {
+          "question": "Is your character from a TV show?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Donald Trump",
+              "confidence": 0.8548460042436173
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.8524547326982198
+            },
+            {
+              "name": "Jimmy Carter",
+              "confidence": 0.8461904967576288
+            },
+            {
+              "name": "Gerald Ford",
+              "confidence": 0.8452831828166493
+            },
+            {
+              "name": "George H. W. Bush",
+              "confidence": 0.8449684399193054
+            }
+          ]
+        },
+        {
+          "question": "Is your character an athlete?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.9
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.9
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.9
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.9
+            },
+            {
+              "name": "Margaret Thatcher",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character an athlete?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.9
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.9
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.9
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.9
+            },
+            {
+              "name": "Margaret Thatcher",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character a musician or singer?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.9
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.9
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.9
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.9
+            },
+            {
+              "name": "Margaret Thatcher",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character a musician or singer?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.9
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.9
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.9
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.9
+            },
+            {
+              "name": "Margaret Thatcher",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character known primarily for comedy?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.9
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.9
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.9
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.9
+            },
+            {
+              "name": "Margaret Thatcher",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character known primarily for comedy?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.9
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.9
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.9
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.9
+            },
+            {
+              "name": "Margaret Thatcher",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character known for action or physical roles?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.9
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.9
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.9
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.9
+            },
+            {
+              "name": "Margaret Thatcher",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character known for action or physical roles?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.9
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.9
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.9
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.9
+            },
+            {
+              "name": "Margaret Thatcher",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character from Europe?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.9
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.9
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.9
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.9
+            },
+            {
+              "name": "Margaret Thatcher",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character from Europe?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.9
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.9
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.9
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.9
+            },
+            {
+              "name": "Margaret Thatcher",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character a basketball player?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.9
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.9
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.9
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.9
+            },
+            {
+              "name": "Margaret Thatcher",
+              "confidence": 0.9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "characterName": "Jacinda Ardern",
+      "category": "politicians",
+      "success": false,
+      "turnsToGuess": 25,
+      "totalTurns": 25,
+      "finalGuesses": [
+        "Barack Obama",
+        "Bill Clinton",
+        "Donald Trump",
+        "Joe Biden",
+        "Margaret Thatcher"
+      ],
+      "correctGuessRank": null,
+      "traits": [
+        {
+          "key": "gender",
+          "value": "male",
+          "confidence": 0.75,
+          "turnAdded": 4
+        },
+        {
+          "key": "category",
+          "value": "NOT_actors",
+          "confidence": 0.9,
+          "turnAdded": 5
+        },
+        {
+          "key": "fictional",
+          "value": "false",
+          "confidence": 0.95,
+          "turnAdded": 6
+        },
+        {
+          "key": "category",
+          "value": "politicians",
+          "confidence": 0.95,
+          "turnAdded": 7
+        },
+        {
+          "key": "category",
+          "value": "NOT_politicians",
+          "confidence": 0.9,
+          "turnAdded": 8
+        },
+        {
+          "key": "category",
+          "value": "NOT_historical",
+          "confidence": 0.9,
+          "turnAdded": 10
+        },
+        {
+          "key": "origin_medium",
+          "value": "NOT_tv",
+          "confidence": 0.9,
+          "turnAdded": 14
+        },
+        {
+          "key": "category",
+          "value": "NOT_athletes",
+          "confidence": 0.9,
+          "turnAdded": 16
+        },
+        {
+          "key": "category",
+          "value": "NOT_musicians",
+          "confidence": 0.9,
+          "turnAdded": 18
+        }
+      ],
+      "questionHistory": [
+        {
+          "question": "Is your character American?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.2998169887514063
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.2974656060145034
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.29686721404633604
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.29630348502138953
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.29569399693712545
+            }
+          ]
+        },
+        {
+          "question": "Is your character American?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Joe Biden",
+              "confidence": 0.29882361884586983
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.29445450707810555
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.2934250823123315
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2930847558768678
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.2918772690203512
+            }
+          ]
+        },
+        {
+          "question": "Is your character male?",
+          "answer": "probably",
+          "topGuesses": [
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.29969617812097915
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2977440489579639
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.2976677746923806
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.2965967343512292
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.2929429009322294
+            }
+          ]
+        },
+        {
+          "question": "Is your character an actor?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5898796682196278
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.5892923923662877
+            },
+            {
+              "name": "Gerald Ford",
+              "confidence": 0.5878951280725312
+            },
+            {
+              "name": "Abraham Lincoln",
+              "confidence": 0.5874212757125276
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5867734992252809
+            }
+          ]
+        },
+        {
+          "question": "Is your character fictional?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5956283730249141
+            },
+            {
+              "name": "Gerald Ford",
+              "confidence": 0.5892514377480955
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5872494291343181
+            },
+            {
+              "name": "John F. Kennedy",
+              "confidence": 0.5864924933141796
+            },
+            {
+              "name": "Harry S. Truman",
+              "confidence": 0.5861126444630939
+            }
+          ]
+        },
+        {
+          "question": "Is your character a politician?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5995485341758836
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5986599166576007
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.5975562870193054
+            },
+            {
+              "name": "Abraham Lincoln",
+              "confidence": 0.5877874266153938
+            },
+            {
+              "name": "Jimmy Carter",
+              "confidence": 0.5877034477157017
+            }
+          ]
+        },
+        {
+          "question": "Was your character a U.S. President?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.7998771680773564
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.7955942620312044
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.7938225048895186
+            },
+            {
+              "name": "Gerald Ford",
+              "confidence": 0.7899710920746431
+            },
+            {
+              "name": "Theodore Roosevelt",
+              "confidence": 0.788831196046408
+            }
+          ]
+        },
+        {
+          "question": "Was your character a U.S. President?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Joe Biden",
+              "confidence": 0.7336837515151312
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.7324951759597573
+            },
+            {
+              "name": "Gerald Ford",
+              "confidence": 0.7282696483565698
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.7281132216436873
+            },
+            {
+              "name": "Jimmy Carter",
+              "confidence": 0.7278207176823693
+            }
+          ]
+        },
+        {
+          "question": "Is your character a historical figure (died before 1950)?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Joe Biden",
+              "confidence": 0.793330908544283
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.785334005227706
+            },
+            {
+              "name": "John F. Kennedy",
+              "confidence": 0.7852651644465689
+            },
+            {
+              "name": "Theodore Roosevelt",
+              "confidence": 0.7852142436172417
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.7830013729912675
+            }
+          ]
+        },
+        {
+          "question": "Is your character a historical figure (died before 1950)?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.8485808098838707
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.8448251064600336
+            },
+            {
+              "name": "Ronald Reagan",
+              "confidence": 0.8384674696591591
+            },
+            {
+              "name": "John F. Kennedy",
+              "confidence": 0.8344245390362949
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.8320883235823646
+            }
+          ]
+        },
+        {
+          "question": "Is your character still alive today?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Donald Trump",
+              "confidence": 0.8490927188407829
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.8485875050330758
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.8476298704726104
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.845606520290278
+            },
+            {
+              "name": "George H. W. Bush",
+              "confidence": 0.8422290862858461
+            }
+          ]
+        },
+        {
+          "question": "Is your character still alive today?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.8421607304291713
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.8401734080535131
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.8377742393661943
+            },
+            {
+              "name": "Ronald Reagan",
+              "confidence": 0.8372579199026212
+            },
+            {
+              "name": "Gerald Ford",
+              "confidence": 0.835190179286486
+            }
+          ]
+        },
+        {
+          "question": "Is your character from a TV show?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Joe Biden",
+              "confidence": 0.8457764620489349
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.8435802969174062
+            },
+            {
+              "name": "George H. W. Bush",
+              "confidence": 0.8386270301295982
+            },
+            {
+              "name": "Jimmy Carter",
+              "confidence": 0.8382869573758458
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.8373019168456507
+            }
+          ]
+        },
+        {
+          "question": "Is your character from a TV show?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Joe Biden",
+              "confidence": 0.8534581154583349
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.8459275348594159
+            },
+            {
+              "name": "Richard Nixon",
+              "confidence": 0.8449917496137183
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.8426044117458866
+            },
+            {
+              "name": "John F. Kennedy",
+              "confidence": 0.8420575693306167
+            }
+          ]
+        },
+        {
+          "question": "Is your character an athlete?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.9
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.9
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.9
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.9
+            },
+            {
+              "name": "Margaret Thatcher",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character an athlete?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.9
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.9
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.9
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.9
+            },
+            {
+              "name": "Margaret Thatcher",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character a musician or singer?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.9
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.9
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.9
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.9
+            },
+            {
+              "name": "Margaret Thatcher",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character a musician or singer?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.9
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.9
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.9
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.9
+            },
+            {
+              "name": "Margaret Thatcher",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character known primarily for comedy?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.9
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.9
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.9
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.9
+            },
+            {
+              "name": "Margaret Thatcher",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character known primarily for comedy?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.9
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.9
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.9
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.9
+            },
+            {
+              "name": "Margaret Thatcher",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character known for action or physical roles?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.9
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.9
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.9
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.9
+            },
+            {
+              "name": "Margaret Thatcher",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character known for action or physical roles?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.9
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.9
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.9
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.9
+            },
+            {
+              "name": "Margaret Thatcher",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character from Europe?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.9
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.9
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.9
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.9
+            },
+            {
+              "name": "Margaret Thatcher",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character from Europe?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.9
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.9
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.9
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.9
+            },
+            {
+              "name": "Margaret Thatcher",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character a basketball player?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.9
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.9
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.9
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.9
+            },
+            {
+              "name": "Margaret Thatcher",
+              "confidence": 0.9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "characterName": "Manny Pacquiao",
+      "category": "athletes",
+      "success": false,
+      "turnsToGuess": 25,
+      "totalTurns": 25,
+      "finalGuesses": [
+        "Michael Jordan",
+        "Serena Williams",
+        "Muhammad Ali",
+        "Lionel Messi"
+      ],
+      "correctGuessRank": null,
+      "traits": [
+        {
+          "key": "gender",
+          "value": "male",
+          "confidence": 0.75,
+          "turnAdded": 4
+        },
+        {
+          "key": "category",
+          "value": "NOT_actors",
+          "confidence": 0.9,
+          "turnAdded": 5
+        },
+        {
+          "key": "fictional",
+          "value": "false",
+          "confidence": 0.95,
+          "turnAdded": 6
+        },
+        {
+          "key": "category",
+          "value": "NOT_politicians",
+          "confidence": 0.9,
+          "turnAdded": 7
+        },
+        {
+          "key": "origin_medium",
+          "value": "NOT_tv",
+          "confidence": 0.9,
+          "turnAdded": 10
+        },
+        {
+          "key": "category",
+          "value": "NOT_musicians",
+          "confidence": 0.9,
+          "turnAdded": 11
+        },
+        {
+          "key": "category",
+          "value": "athletes",
+          "confidence": 0.95,
+          "turnAdded": 12
+        },
+        {
+          "key": "category",
+          "value": "NOT_athletes",
+          "confidence": 0.9,
+          "turnAdded": 13
+        }
+      ],
+      "questionHistory": [
+        {
+          "question": "Is your character American?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.29835512949609333
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.29642670051650327
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.2892400112538382
+            },
+            {
+              "name": "Harry S. Truman",
+              "confidence": 0.28838399648589375
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2881191990891493
+            }
+          ]
+        },
+        {
+          "question": "Is your character American?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.29786047426299445
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2975556356203337
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.2941682878287322
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.29312447660248236
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.2912259450417573
+            }
+          ]
+        },
+        {
+          "question": "Is your character male?",
+          "answer": "probably",
+          "topGuesses": [
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.29950082370448716
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.2978599894154382
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.2965050154483644
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.296045390476039
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.2895739159765223
+            }
+          ]
+        },
+        {
+          "question": "Is your character an actor?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.5975637813510297
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.5877576168016765
+            },
+            {
+              "name": "Franklin D. Roosevelt",
+              "confidence": 0.5874915891719774
+            },
+            {
+              "name": "Lyndon B. Johnson",
+              "confidence": 0.5869083547054519
+            },
+            {
+              "name": "Harry S. Truman",
+              "confidence": 0.5867579187285252
+            }
+          ]
+        },
+        {
+          "question": "Is your character fictional?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5918893553252944
+            },
+            {
+              "name": "Franklin D. Roosevelt",
+              "confidence": 0.5881193779120876
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5878601701445355
+            },
+            {
+              "name": "George H. W. Bush",
+              "confidence": 0.5863910933575042
+            },
+            {
+              "name": "George W. Bush",
+              "confidence": 0.585617956027532
+            }
+          ]
+        },
+        {
+          "question": "Is your character a politician?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5908701680543461
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.5896937549739194
+            },
+            {
+              "name": "George H. W. Bush",
+              "confidence": 0.5876594188983802
+            },
+            {
+              "name": "Richard Nixon",
+              "confidence": 0.5875209195037936
+            },
+            {
+              "name": "Ronald Reagan",
+              "confidence": 0.5848111546513168
+            }
+          ]
+        },
+        {
+          "question": "Is your character still alive today?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Harry S. Truman",
+              "confidence": 0.6870489285184489
+            },
+            {
+              "name": "George W. Bush",
+              "confidence": 0.6827999647457714
+            },
+            {
+              "name": "Abraham Lincoln",
+              "confidence": 0.6796159883797865
+            },
+            {
+              "name": "Franklin D. Roosevelt",
+              "confidence": 0.6780554413777653
+            },
+            {
+              "name": "Lyndon B. Johnson",
+              "confidence": 0.6776988933967788
+            }
+          ]
+        },
+        {
+          "question": "Is your character still alive today?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Harry S. Truman",
+              "confidence": 0.6892148343734502
+            },
+            {
+              "name": "Abraham Lincoln",
+              "confidence": 0.6879863705723308
+            },
+            {
+              "name": "Lyndon B. Johnson",
+              "confidence": 0.6806389637696469
+            },
+            {
+              "name": "Franklin D. Roosevelt",
+              "confidence": 0.6800235286586207
+            },
+            {
+              "name": "David Bowie",
+              "confidence": 0.6776549155575494
+            }
+          ]
+        },
+        {
+          "question": "Is your character from a TV show?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Lyndon B. Johnson",
+              "confidence": 0.6853927856759723
+            },
+            {
+              "name": "Harry S. Truman",
+              "confidence": 0.680896691647088
+            },
+            {
+              "name": "George W. Bush",
+              "confidence": 0.6807856039236773
+            },
+            {
+              "name": "Abraham Lincoln",
+              "confidence": 0.6779950346560031
+            },
+            {
+              "name": "Franklin D. Roosevelt",
+              "confidence": 0.6723425674942475
+            }
+          ]
+        },
+        {
+          "question": "Is your character a musician or singer?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Abraham Lincoln",
+              "confidence": 0.6875278864506361
+            },
+            {
+              "name": "George W. Bush",
+              "confidence": 0.6834473162619337
+            },
+            {
+              "name": "Franklin D. Roosevelt",
+              "confidence": 0.6810080832098004
+            },
+            {
+              "name": "David Bowie",
+              "confidence": 0.6792234991305813
+            },
+            {
+              "name": "Lyndon B. Johnson",
+              "confidence": 0.6787292840400431
+            }
+          ]
+        },
+        {
+          "question": "Is your character an athlete?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "George W. Bush",
+              "confidence": 0.7841247764459542
+            },
+            {
+              "name": "Franklin D. Roosevelt",
+              "confidence": 0.7798238324501082
+            },
+            {
+              "name": "Harry S. Truman",
+              "confidence": 0.7782339661444809
+            },
+            {
+              "name": "Lyndon B. Johnson",
+              "confidence": 0.7751021928199104
+            },
+            {
+              "name": "Abraham Lincoln",
+              "confidence": 0.7733344625995205
+            }
+          ]
+        },
+        {
+          "question": "Is your character known for playing a sport?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Michael Jordan",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character known for playing a sport in which they are a professional athlete?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Michael Jordan",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Michael Jordan",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Michael Jordan",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Michael Jordan",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Michael Jordan",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Michael Jordan",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Michael Jordan",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Michael Jordan",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Michael Jordan",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Michael Jordan",
+              "confidence": 0.9
+            },
+            {
+              "name": "Muhammad Ali",
+              "confidence": 0.8
+            },
+            {
+              "name": "Lionel Messi",
+              "confidence": 0.7
+            },
+            {
+              "name": "Serena Williams",
+              "confidence": 0.6
+            }
+          ]
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Michael Jordan",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Michael Jordan",
+              "confidence": 0.9
+            },
+            {
+              "name": "Serena Williams",
+              "confidence": 0.8
+            },
+            {
+              "name": "Tiger Woods",
+              "confidence": 0.7
+            },
+            {
+              "name": "Pelé",
+              "confidence": 0.6
+            }
+          ]
+        },
+        {
+          "question": "Based on your answers, I think your character is one of these. Am I close?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Michael Jordan",
+              "confidence": 0.9
+            },
+            {
+              "name": "Serena Williams",
+              "confidence": 0.8
+            },
+            {
+              "name": "Muhammad Ali",
+              "confidence": 0.7
+            },
+            {
+              "name": "Lionel Messi",
+              "confidence": 0.6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "characterName": "Nicole Kidman",
+      "category": "actors",
+      "success": false,
+      "turnsToGuess": 25,
+      "totalTurns": 25,
+      "finalGuesses": [
+        "Angelina Jolie",
+        "Emma Watson",
+        "Meryl Streep",
+        "Scarlett Johansson",
+        "Anne Hathaway"
+      ],
+      "correctGuessRank": null,
+      "traits": [
+        {
+          "key": "gender",
+          "value": "female",
+          "confidence": 0.9,
+          "turnAdded": 4
+        },
+        {
+          "key": "category",
+          "value": "actors",
+          "confidence": 0.95,
+          "turnAdded": 5
+        },
+        {
+          "key": "fictional",
+          "value": "false",
+          "confidence": 0.95,
+          "turnAdded": 8
+        },
+        {
+          "key": "origin_medium",
+          "value": "NOT_tv",
+          "confidence": 0.9,
+          "turnAdded": 10
+        },
+        {
+          "key": "category",
+          "value": "NOT_athletes",
+          "confidence": 0.9,
+          "turnAdded": 12
+        },
+        {
+          "key": "category",
+          "value": "NOT_politicians",
+          "confidence": 0.9,
+          "turnAdded": 14
+        },
+        {
+          "key": "category",
+          "value": "NOT_musicians",
+          "confidence": 0.9,
+          "turnAdded": 16
+        },
+        {
+          "key": "category",
+          "value": "NOT_historical",
+          "confidence": 0.9,
+          "turnAdded": 18
+        },
+        {
+          "key": "category",
+          "value": "NOT_actors",
+          "confidence": 0.9,
+          "turnAdded": 24
+        }
+      ],
+      "questionHistory": [
+        {
+          "question": "Is your character American?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.29991754839263496
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.29791132736753123
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.2944576068505104
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.2903606772380571
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.29022220059643894
+            }
+          ]
+        },
+        {
+          "question": "Is your character American?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "François Hollande",
+              "confidence": 0.29504155689597816
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.2936888129245325
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.2933657069077423
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2881626885562588
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.28784800310430014
+            }
+          ]
+        },
+        {
+          "question": "Is your character male?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.29474176417090053
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.2946691094816651
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.2926973545313066
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.29195897507010043
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2908147831019735
+            }
+          ]
+        },
+        {
+          "question": "Is your character an actor?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Whitney Houston",
+              "confidence": 0.5703953462443426
+            },
+            {
+              "name": "Emma Stone",
+              "confidence": 0.5688282046782902
+            },
+            {
+              "name": "Tina Turner",
+              "confidence": 0.5663845037004541
+            },
+            {
+              "name": "Gal Gadot",
+              "confidence": 0.565584148332233
+            },
+            {
+              "name": "Zendaya",
+              "confidence": 0.5648673604752241
+            }
+          ]
+        },
+        {
+          "question": "Is your character from the United Kingdom?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Jennifer Lawrence",
+              "confidence": 0.6687801542336066
+            },
+            {
+              "name": "Kate Winslet",
+              "confidence": 0.6680388926001207
+            },
+            {
+              "name": "Emma Watson",
+              "confidence": 0.6667351843323254
+            },
+            {
+              "name": "Natalie Portman",
+              "confidence": 0.6661106764339696
+            },
+            {
+              "name": "Angelina Jolie",
+              "confidence": 0.6647249759123304
+            }
+          ]
+        },
+        {
+          "question": "Is your character from the United Kingdom?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Zendaya",
+              "confidence": 0.6698371350170912
+            },
+            {
+              "name": "Anne Hathaway",
+              "confidence": 0.6696348794181511
+            },
+            {
+              "name": "Scarlett Johansson",
+              "confidence": 0.6678881065507277
+            },
+            {
+              "name": "Charlize Theron",
+              "confidence": 0.6653787943300667
+            },
+            {
+              "name": "Gal Gadot",
+              "confidence": 0.6650751365618249
+            }
+          ]
+        },
+        {
+          "question": "Is your character fictional?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Viola Davis",
+              "confidence": 0.6694695204836795
+            },
+            {
+              "name": "Anne Hathaway",
+              "confidence": 0.6680647278824112
+            },
+            {
+              "name": "Margot Robbie",
+              "confidence": 0.6663586787758082
+            },
+            {
+              "name": "Natalie Portman",
+              "confidence": 0.6652609715273436
+            },
+            {
+              "name": "Emma Stone",
+              "confidence": 0.664113272287313
+            }
+          ]
+        },
+        {
+          "question": "Is your character fictional?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Zendaya",
+              "confidence": 0.6692890486888151
+            },
+            {
+              "name": "Angelina Jolie",
+              "confidence": 0.66854216723987
+            },
+            {
+              "name": "Charlize Theron",
+              "confidence": 0.6668598985754097
+            },
+            {
+              "name": "Jennifer Aniston",
+              "confidence": 0.666585193954239
+            },
+            {
+              "name": "Kate Winslet",
+              "confidence": 0.6658025243302127
+            }
+          ]
+        },
+        {
+          "question": "Is your character from a TV show?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Gal Gadot",
+              "confidence": 0.7697313834049762
+            },
+            {
+              "name": "Meryl Streep",
+              "confidence": 0.7694856560861255
+            },
+            {
+              "name": "Anne Hathaway",
+              "confidence": 0.7683514961899343
+            },
+            {
+              "name": "Julia Roberts",
+              "confidence": 0.7670757164446196
+            },
+            {
+              "name": "Zendaya",
+              "confidence": 0.7663070247504046
+            }
+          ]
+        },
+        {
+          "question": "Is your character from a TV show?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Jennifer Lawrence",
+              "confidence": 0.7697907798712054
+            },
+            {
+              "name": "Natalie Portman",
+              "confidence": 0.767054138115827
+            },
+            {
+              "name": "Emma Stone",
+              "confidence": 0.7662322366939163
+            },
+            {
+              "name": "Emma Watson",
+              "confidence": 0.7660347431356057
+            },
+            {
+              "name": "Kate Winslet",
+              "confidence": 0.7634450948368888
+            }
+          ]
+        },
+        {
+          "question": "Is your character an athlete?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Viola Davis",
+              "confidence": 0.7692671940856941
+            },
+            {
+              "name": "Sandra Bullock",
+              "confidence": 0.7678646541063417
+            },
+            {
+              "name": "Margot Robbie",
+              "confidence": 0.7678506495713449
+            },
+            {
+              "name": "Scarlett Johansson",
+              "confidence": 0.7661864922147633
+            },
+            {
+              "name": "Nicole Kidman",
+              "confidence": 0.7661167717381993
+            }
+          ]
+        },
+        {
+          "question": "Is your character an athlete?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Charlize Theron",
+              "confidence": 0.769322997008839
+            },
+            {
+              "name": "Lupita Nyong'o",
+              "confidence": 0.7691494422881838
+            },
+            {
+              "name": "Zendaya",
+              "confidence": 0.7679705344117297
+            },
+            {
+              "name": "Kate Winslet",
+              "confidence": 0.7659246563208565
+            },
+            {
+              "name": "Meryl Streep",
+              "confidence": 0.7658710336209746
+            }
+          ]
+        },
+        {
+          "question": "Is your character a politician?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Kate Winslet",
+              "confidence": 0.8699827630500754
+            },
+            {
+              "name": "Angelina Jolie",
+              "confidence": 0.8698180797389135
+            },
+            {
+              "name": "Scarlett Johansson",
+              "confidence": 0.8674374425350482
+            },
+            {
+              "name": "Charlize Theron",
+              "confidence": 0.8672109359116484
+            },
+            {
+              "name": "Zendaya",
+              "confidence": 0.8658713880617548
+            }
+          ]
+        },
+        {
+          "question": "Is your character a politician?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Julia Roberts",
+              "confidence": 0.8687810315073976
+            },
+            {
+              "name": "Zendaya",
+              "confidence": 0.8682574496364482
+            },
+            {
+              "name": "Meryl Streep",
+              "confidence": 0.8664914967531948
+            },
+            {
+              "name": "Jennifer Aniston",
+              "confidence": 0.8662937746818665
+            },
+            {
+              "name": "Natalie Portman",
+              "confidence": 0.8648568415108975
+            }
+          ]
+        },
+        {
+          "question": "Is your character a musician or singer?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Kate Winslet",
+              "confidence": 0.8698654214541224
+            },
+            {
+              "name": "Viola Davis",
+              "confidence": 0.8688239207913239
+            },
+            {
+              "name": "Anne Hathaway",
+              "confidence": 0.8661914798093294
+            },
+            {
+              "name": "Lupita Nyong'o",
+              "confidence": 0.8659716367479524
+            },
+            {
+              "name": "Julia Roberts",
+              "confidence": 0.8658455672702489
+            }
+          ]
+        },
+        {
+          "question": "Is your character a musician or singer?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Emma Stone",
+              "confidence": 0.8697086480175206
+            },
+            {
+              "name": "Lupita Nyong'o",
+              "confidence": 0.869593127772212
+            },
+            {
+              "name": "Natalie Portman",
+              "confidence": 0.8688101678895784
+            },
+            {
+              "name": "Viola Davis",
+              "confidence": 0.8687910636779757
+            },
+            {
+              "name": "Margot Robbie",
+              "confidence": 0.8670766085325052
+            }
+          ]
+        },
+        {
+          "question": "Is your character a historical figure (died before 1950)?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Angelina Jolie",
+              "confidence": 0.9
+            },
+            {
+              "name": "Emma Watson",
+              "confidence": 0.9
+            },
+            {
+              "name": "Jennifer Lawrence",
+              "confidence": 0.9
+            },
+            {
+              "name": "Meryl Streep",
+              "confidence": 0.9
+            },
+            {
+              "name": "Scarlett Johansson",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character a historical figure (died before 1950)?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Angelina Jolie",
+              "confidence": 0.9
+            },
+            {
+              "name": "Emma Watson",
+              "confidence": 0.9
+            },
+            {
+              "name": "Jennifer Lawrence",
+              "confidence": 0.9
+            },
+            {
+              "name": "Meryl Streep",
+              "confidence": 0.9
+            },
+            {
+              "name": "Scarlett Johansson",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character still alive today?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Angelina Jolie",
+              "confidence": 0.9
+            },
+            {
+              "name": "Emma Watson",
+              "confidence": 0.9
+            },
+            {
+              "name": "Jennifer Lawrence",
+              "confidence": 0.9
+            },
+            {
+              "name": "Meryl Streep",
+              "confidence": 0.9
+            },
+            {
+              "name": "Scarlett Johansson",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character still alive today?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Angelina Jolie",
+              "confidence": 0.9
+            },
+            {
+              "name": "Emma Watson",
+              "confidence": 0.9
+            },
+            {
+              "name": "Jennifer Lawrence",
+              "confidence": 0.9
+            },
+            {
+              "name": "Meryl Streep",
+              "confidence": 0.9
+            },
+            {
+              "name": "Scarlett Johansson",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character known primarily for comedy?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Angelina Jolie",
+              "confidence": 0.9
+            },
+            {
+              "name": "Emma Watson",
+              "confidence": 0.9
+            },
+            {
+              "name": "Jennifer Lawrence",
+              "confidence": 0.9
+            },
+            {
+              "name": "Meryl Streep",
+              "confidence": 0.9
+            },
+            {
+              "name": "Scarlett Johansson",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character known primarily for comedy?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Angelina Jolie",
+              "confidence": 0.9
+            },
+            {
+              "name": "Emma Watson",
+              "confidence": 0.9
+            },
+            {
+              "name": "Jennifer Lawrence",
+              "confidence": 0.9
+            },
+            {
+              "name": "Meryl Streep",
+              "confidence": 0.9
+            },
+            {
+              "name": "Scarlett Johansson",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character known for action or physical roles?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Angelina Jolie",
+              "confidence": 0.9
+            },
+            {
+              "name": "Emma Watson",
+              "confidence": 0.9
+            },
+            {
+              "name": "Jennifer Lawrence",
+              "confidence": 0.9
+            },
+            {
+              "name": "Meryl Streep",
+              "confidence": 0.9
+            },
+            {
+              "name": "Scarlett Johansson",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character known for action or physical roles?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Angelina Jolie",
+              "confidence": 0.9
+            },
+            {
+              "name": "Emma Watson",
+              "confidence": 0.9
+            },
+            {
+              "name": "Jennifer Lawrence",
+              "confidence": 0.9
+            },
+            {
+              "name": "Meryl Streep",
+              "confidence": 0.9
+            },
+            {
+              "name": "Scarlett Johansson",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character from Europe?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Angelina Jolie",
+              "confidence": 0.9
+            },
+            {
+              "name": "Emma Watson",
+              "confidence": 0.9
+            },
+            {
+              "name": "Meryl Streep",
+              "confidence": 0.9
+            },
+            {
+              "name": "Scarlett Johansson",
+              "confidence": 0.9
+            },
+            {
+              "name": "Anne Hathaway",
+              "confidence": 0.9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "characterName": "Rami Malek",
+      "category": "actors",
+      "success": false,
+      "turnsToGuess": 25,
+      "totalTurns": 25,
+      "finalGuesses": [
+        "Jack Nicholson",
+        "Keanu Reeves",
+        "Leonardo DiCaprio",
+        "Robert De Niro",
+        "Tom Hanks"
+      ],
+      "correctGuessRank": null,
+      "traits": [
+        {
+          "key": "gender",
+          "value": "male",
+          "confidence": 0.95,
+          "turnAdded": 4
+        },
+        {
+          "key": "category",
+          "value": "actors",
+          "confidence": 0.95,
+          "turnAdded": 5
+        },
+        {
+          "key": "fictional",
+          "value": "false",
+          "confidence": 0.95,
+          "turnAdded": 10
+        },
+        {
+          "key": "origin_medium",
+          "value": "NOT_tv",
+          "confidence": 0.9,
+          "turnAdded": 12
+        },
+        {
+          "key": "category",
+          "value": "NOT_athletes",
+          "confidence": 0.9,
+          "turnAdded": 14
+        },
+        {
+          "key": "category",
+          "value": "NOT_politicians",
+          "confidence": 0.9,
+          "turnAdded": 16
+        },
+        {
+          "key": "category",
+          "value": "NOT_musicians",
+          "confidence": 0.9,
+          "turnAdded": 18
+        },
+        {
+          "key": "category",
+          "value": "NOT_historical",
+          "confidence": 0.9,
+          "turnAdded": 20
+        },
+        {
+          "key": "category",
+          "value": "NOT_actors",
+          "confidence": 0.9,
+          "turnAdded": 24
+        }
+      ],
+      "questionHistory": [
+        {
+          "question": "Is your character American?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "François Hollande",
+              "confidence": 0.2995639238539198
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2968896676498059
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.29682544620433476
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.29418644433856894
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.2909517696919048
+            }
+          ]
+        },
+        {
+          "question": "Is your character American?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.29966664536508447
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.297349255849355
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.2965556102899647
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.29461249803028156
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.2939541020781789
+            }
+          ]
+        },
+        {
+          "question": "Is your character male?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "François Hollande",
+              "confidence": 0.29913206839467865
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2972639936136602
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.2955987155460196
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.29525182074740736
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.2948440203483082
+            }
+          ]
+        },
+        {
+          "question": "Is your character an actor?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.5968087846467135
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5952053527625971
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5939138957927889
+            },
+            {
+              "name": "Franklin D. Roosevelt",
+              "confidence": 0.5898905073021854
+            },
+            {
+              "name": "George W. Bush",
+              "confidence": 0.5895798092708648
+            }
+          ]
+        },
+        {
+          "question": "Is your character from the United Kingdom?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Ben Affleck",
+              "confidence": 0.6696115582864834
+            },
+            {
+              "name": "Ryan Reynolds",
+              "confidence": 0.6689420803445342
+            },
+            {
+              "name": "Dwayne Johnson",
+              "confidence": 0.6688585094679265
+            },
+            {
+              "name": "Chris Pratt",
+              "confidence": 0.6687353833436694
+            },
+            {
+              "name": "Ryan Gosling",
+              "confidence": 0.6679063812308698
+            }
+          ]
+        },
+        {
+          "question": "Is your character from the United Kingdom?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Tom Holland",
+              "confidence": 0.6694645935252174
+            },
+            {
+              "name": "Jack Nicholson",
+              "confidence": 0.6692161156227258
+            },
+            {
+              "name": "Ben Affleck",
+              "confidence": 0.6683397108621687
+            },
+            {
+              "name": "Hugh Jackman",
+              "confidence": 0.6675083247369409
+            },
+            {
+              "name": "George Clooney",
+              "confidence": 0.6673505255881184
+            }
+          ]
+        },
+        {
+          "question": "Is your character known primarily for comedy?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Leonardo DiCaprio",
+              "confidence": 0.6699541355193311
+            },
+            {
+              "name": "Johnny Depp",
+              "confidence": 0.668802412412594
+            },
+            {
+              "name": "Brad Pitt",
+              "confidence": 0.6681534490194313
+            },
+            {
+              "name": "Christian Bale",
+              "confidence": 0.6672589438948041
+            },
+            {
+              "name": "George Clooney",
+              "confidence": 0.6669264493756424
+            }
+          ]
+        },
+        {
+          "question": "Is your character known primarily for comedy?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Christian Bale",
+              "confidence": 0.6698477241988835
+            },
+            {
+              "name": "Cate Blanchett",
+              "confidence": 0.6690793585518596
+            },
+            {
+              "name": "Jamie Foxx",
+              "confidence": 0.6687926334284073
+            },
+            {
+              "name": "Michael B. Jordan",
+              "confidence": 0.6678807627433757
+            },
+            {
+              "name": "Leonardo DiCaprio",
+              "confidence": 0.6669734307722277
+            }
+          ]
+        },
+        {
+          "question": "Is your character fictional?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Morgan Freeman",
+              "confidence": 0.6696084804407497
+            },
+            {
+              "name": "Johnny Depp",
+              "confidence": 0.6688273258573644
+            },
+            {
+              "name": "Will Smith",
+              "confidence": 0.6680293353439156
+            },
+            {
+              "name": "Mark Ruffalo",
+              "confidence": 0.6675887946166232
+            },
+            {
+              "name": "Tom Hanks",
+              "confidence": 0.6662224241120653
+            }
+          ]
+        },
+        {
+          "question": "Is your character fictional?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Matt Damon",
+              "confidence": 0.6693524870982277
+            },
+            {
+              "name": "Ryan Gosling",
+              "confidence": 0.6693353156788898
+            },
+            {
+              "name": "Leonardo DiCaprio",
+              "confidence": 0.6690201320713851
+            },
+            {
+              "name": "Christopher Evans",
+              "confidence": 0.6687971228340484
+            },
+            {
+              "name": "Mahershala Ali",
+              "confidence": 0.6683601121011519
+            }
+          ]
+        },
+        {
+          "question": "Is your character from a TV show?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Johnny Depp",
+              "confidence": 0.7690269490621925
+            },
+            {
+              "name": "Tom Hanks",
+              "confidence": 0.7685848357697059
+            },
+            {
+              "name": "Christian Bale",
+              "confidence": 0.7678359759187083
+            },
+            {
+              "name": "Chris Pratt",
+              "confidence": 0.766701157406239
+            },
+            {
+              "name": "Ryan Reynolds",
+              "confidence": 0.7663648055444783
+            }
+          ]
+        },
+        {
+          "question": "Is your character from a TV show?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Christian Bale",
+              "confidence": 0.7699603605601364
+            },
+            {
+              "name": "Tom Cruise",
+              "confidence": 0.7685774554054088
+            },
+            {
+              "name": "Morgan Freeman",
+              "confidence": 0.766834144847902
+            },
+            {
+              "name": "Keanu Reeves",
+              "confidence": 0.7656690055641815
+            },
+            {
+              "name": "Jamie Foxx",
+              "confidence": 0.7649758308278256
+            }
+          ]
+        },
+        {
+          "question": "Is your character an athlete?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Christopher Evans",
+              "confidence": 0.7694995889263802
+            },
+            {
+              "name": "Jamie Foxx",
+              "confidence": 0.7689379688081077
+            },
+            {
+              "name": "Michael B. Jordan",
+              "confidence": 0.767851692283794
+            },
+            {
+              "name": "Mahershala Ali",
+              "confidence": 0.7626894681578893
+            },
+            {
+              "name": "Cate Blanchett",
+              "confidence": 0.7616173239684063
+            }
+          ]
+        },
+        {
+          "question": "Is your character an athlete?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Rami Malek",
+              "confidence": 0.7688192648771167
+            },
+            {
+              "name": "Jack Nicholson",
+              "confidence": 0.7666453402263932
+            },
+            {
+              "name": "Johnny Depp",
+              "confidence": 0.7665115867064829
+            },
+            {
+              "name": "Tom Cruise",
+              "confidence": 0.7661423260304642
+            },
+            {
+              "name": "George Clooney",
+              "confidence": 0.7656130068700521
+            }
+          ]
+        },
+        {
+          "question": "Is your character a politician?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Tom Holland",
+              "confidence": 0.8697284600886093
+            },
+            {
+              "name": "Cate Blanchett",
+              "confidence": 0.86972621012496
+            },
+            {
+              "name": "George Clooney",
+              "confidence": 0.8683630211083925
+            },
+            {
+              "name": "Rami Malek",
+              "confidence": 0.8673831300650038
+            },
+            {
+              "name": "Jack Nicholson",
+              "confidence": 0.8667322212122578
+            }
+          ]
+        },
+        {
+          "question": "Is your character a politician?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Ryan Reynolds",
+              "confidence": 0.8698949311537527
+            },
+            {
+              "name": "Rami Malek",
+              "confidence": 0.869779436144965
+            },
+            {
+              "name": "Tom Hanks",
+              "confidence": 0.8686836453080313
+            },
+            {
+              "name": "Robert De Niro",
+              "confidence": 0.8679397590886765
+            },
+            {
+              "name": "Jamie Foxx",
+              "confidence": 0.8676521471389561
+            }
+          ]
+        },
+        {
+          "question": "Is your character a musician or singer?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Chris Pratt",
+              "confidence": 0.8695847879529828
+            },
+            {
+              "name": "Morgan Freeman",
+              "confidence": 0.8695688756871787
+            },
+            {
+              "name": "Rami Malek",
+              "confidence": 0.8669410767663791
+            },
+            {
+              "name": "Harrison Ford",
+              "confidence": 0.8665213429858382
+            },
+            {
+              "name": "Christian Bale",
+              "confidence": 0.8659453809741857
+            }
+          ]
+        },
+        {
+          "question": "Is your character a musician or singer?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Tom Hanks",
+              "confidence": 0.8692553795679872
+            },
+            {
+              "name": "Morgan Freeman",
+              "confidence": 0.8676609213445337
+            },
+            {
+              "name": "Brad Pitt",
+              "confidence": 0.8671047140753295
+            },
+            {
+              "name": "Mark Ruffalo",
+              "confidence": 0.8669718760862134
+            },
+            {
+              "name": "Hugh Jackman",
+              "confidence": 0.8662650848490578
+            }
+          ]
+        },
+        {
+          "question": "Is your character a historical figure (died before 1950)?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Al Pacino",
+              "confidence": 0.9
+            },
+            {
+              "name": "Brad Pitt",
+              "confidence": 0.9
+            },
+            {
+              "name": "Denzel Washington",
+              "confidence": 0.9
+            },
+            {
+              "name": "Harrison Ford",
+              "confidence": 0.9
+            },
+            {
+              "name": "Jack Nicholson",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character a historical figure (died before 1950)?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Al Pacino",
+              "confidence": 0.9
+            },
+            {
+              "name": "Brad Pitt",
+              "confidence": 0.9
+            },
+            {
+              "name": "Denzel Washington",
+              "confidence": 0.9
+            },
+            {
+              "name": "Harrison Ford",
+              "confidence": 0.9
+            },
+            {
+              "name": "Jack Nicholson",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character still alive today?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Al Pacino",
+              "confidence": 0.9
+            },
+            {
+              "name": "Brad Pitt",
+              "confidence": 0.9
+            },
+            {
+              "name": "Denzel Washington",
+              "confidence": 0.9
+            },
+            {
+              "name": "Harrison Ford",
+              "confidence": 0.9
+            },
+            {
+              "name": "Jack Nicholson",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character still alive today?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Al Pacino",
+              "confidence": 0.9
+            },
+            {
+              "name": "Brad Pitt",
+              "confidence": 0.9
+            },
+            {
+              "name": "Denzel Washington",
+              "confidence": 0.9
+            },
+            {
+              "name": "Harrison Ford",
+              "confidence": 0.9
+            },
+            {
+              "name": "Jack Nicholson",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character known for action or physical roles?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Al Pacino",
+              "confidence": 0.9
+            },
+            {
+              "name": "Brad Pitt",
+              "confidence": 0.9
+            },
+            {
+              "name": "Denzel Washington",
+              "confidence": 0.9
+            },
+            {
+              "name": "Harrison Ford",
+              "confidence": 0.9
+            },
+            {
+              "name": "Jack Nicholson",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character known for action or physical roles?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Al Pacino",
+              "confidence": 0.9
+            },
+            {
+              "name": "Brad Pitt",
+              "confidence": 0.9
+            },
+            {
+              "name": "Denzel Washington",
+              "confidence": 0.9
+            },
+            {
+              "name": "Harrison Ford",
+              "confidence": 0.9
+            },
+            {
+              "name": "Jack Nicholson",
+              "confidence": 0.9
+            }
+          ]
+        },
+        {
+          "question": "Is your character from Europe?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Jack Nicholson",
+              "confidence": 0.9
+            },
+            {
+              "name": "Keanu Reeves",
+              "confidence": 0.9
+            },
+            {
+              "name": "Leonardo DiCaprio",
+              "confidence": 0.9
+            },
+            {
+              "name": "Robert De Niro",
+              "confidence": 0.9
+            },
+            {
+              "name": "Tom Hanks",
+              "confidence": 0.9
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

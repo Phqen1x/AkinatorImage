@@ -111,6 +111,9 @@ export function simulateAnswer(
     if (character.category === 'other' && facts.includes('politician')) return 'yes'
     return 'no'
   }
+  if (q.includes('u.s. president') || q.includes('us president') || (q.includes('president') && (q.includes('u.s') || q.includes('united states')))) {
+    return facts.includes('president of the united states') ? 'yes' : 'no'
+  }
   if (q.includes('superhero')) {
     return character.category === 'superheroes' ? 'yes' : 'no'
   }
