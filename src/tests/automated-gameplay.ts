@@ -57,7 +57,14 @@ export function simulateAnswer(
   }
   
   // Gender (check name and facts)
-  const femaleNames = ['taylor', 'scarlett', 'nicole', 'jennifer', 'emma', 'natalie', 'angelina', 'madonna', 'rihanna', 'beyonce', 'adele', 'gaga', 'ariana']
+  const femaleNames = [
+    'taylor', 'scarlett', 'nicole', 'jennifer', 'emma', 'natalie', 'angelina', 
+    'madonna', 'rihanna', 'beyonce', 'adele', 'gaga', 'ariana', 'rosa', 'ruth', 
+    'harriet', 'eleanor', 'margaret', 'marie', 'frida', 'malala', 'amelia', 
+    'florence', 'helen', 'ada', 'grace', 'rosa', 'betty', 'susan', 'dorothy',
+    'elizabeth', 'mary', 'anne', 'catherine', 'diana', 'victoria', 'isabella',
+    'sophia', 'olivia', 'ava', 'charlotte', 'emily', 'madison', 'ella'
+  ]
   const isFemaleByName = femaleNames.some(name => character.name.toLowerCase().includes(name))
   
   if (q.includes('male') && !q.includes('female')) {

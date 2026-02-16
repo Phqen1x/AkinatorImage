@@ -599,12 +599,21 @@ async function askNextQuestion(
   
   console.info('[Detective-RAG] RAG top guesses:', ragGuesses.map(g => `${g.name} (${Math.round(g.confidence * 100)}%)`))
 
-  // HYBRID APPROACH: If we have enough traits, also get LLM guesses
-  // Don't prioritize database - mix both sources
+  // HYBRID APPROACH: Mix database and LLM guesses for better coverage
+  // But be conservative - only use LLM when database has limited options
   let hybridGuesses = ragGuesses
   
-  if (turns.length >= 15 && traits.length >= 6) {
-    console.info('[Detective-RAG] Sufficient information for LLM augmentation')
+  // Only augment with LLM if:
+  // 1. We have sufficient turns/traits (20+/7+)
+  // 2. Database has few candidates (≤3) OR we've rejected many guesses
+  const shouldAugmentWithLLM = (
+    turns.length >= 20 && 
+    traits.length >= 7 && 
+    (ragGuesses.length <= 3 || rejectedGuesses.length >= 3)
+  )
+  
+  if (shouldAugmentWithLLM) {
+    console.info('[Detective-RAG] Limited database guesses, augmenting with LLM')
     try {
       const llmGuesses = await guessCharacterBeyondDatabase(traits, turns)
       if (llmGuesses && llmGuesses.length > 0) {
