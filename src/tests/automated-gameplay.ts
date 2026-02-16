@@ -137,6 +137,14 @@ export function simulateAnswer(
     return (character.category === 'actors' || facts.includes('movie') || facts.includes('film')) ? 'yes' : 'no'
   }
   
+  // Comic universes
+  if (q.includes('dc comics') || q.includes('dc universe')) {
+    return facts.includes('dc comics') ? 'yes' : 'no'
+  }
+  if (q.includes('marvel')) {
+    return facts.includes('marvel') ? 'yes' : 'no'
+  }
+  
   // Geographic
   if (q.includes('american')) {
     return (facts.includes('american') || facts.includes('united states') || facts.includes('u.s.')) ? 'yes' : 'no'

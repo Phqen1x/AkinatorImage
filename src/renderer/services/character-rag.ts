@@ -471,8 +471,18 @@ export function getMostInformativeQuestion(
       continue
     }
     
-    // Skip if already asked
-    if (askedQuestions.some(aq => aq.toLowerCase() === q.toLowerCase())) continue
+    // Skip if already asked (check for similar questions, not just exact)
+    const normalizedQ = q.toLowerCase().replace(/[()]/g, '').replace(/\s+/g, ' ').trim()
+    const isAlreadyAsked = askedQuestions.some(aq => {
+      const normalizedAq = aq.toLowerCase().replace(/[()]/g, '').replace(/\s+/g, ' ').trim()
+      // Check if questions are very similar (share most key words)
+      if (normalizedAq === normalizedQ) return true
+      // Check if questions start the same way (e.g., "Is your character still alive...")
+      if (normalizedQ.length > 20 && normalizedAq.startsWith(normalizedQ.slice(0, 25))) return true
+      if (normalizedAq.length > 20 && normalizedQ.startsWith(normalizedAq.slice(0, 25))) return true
+      return false
+    })
+    if (isAlreadyAsked) continue
     
     const yesCount = remainingCandidates.filter(test).length
     const noCount = remainingCandidates.length - yesCount

@@ -4850,10 +4850,12 @@
       "category": "anime",
       "signature_works": [],
       "traits": {
-        "fictional": false
+        "fictional": true
       },
       "distinctive_facts": [
-        "Japanese rock singer and musician (born 1972)"
+        "Protagonist of Sword Art Online anime series",
+        "Skilled swordsman in virtual reality MMORPG",
+        "Real name: Kazuto Kirigaya"
       ],
       "aliases": null,
       "appearance": null,
