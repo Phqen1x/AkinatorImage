@@ -1,7 +1,26 @@
 import { useGameState } from '../context/GameContext'
+import { useEffect } from 'react'
 
 export default function QuestionBubble() {
-  const { currentQuestion, phase } = useGameState()
+  const { currentQuestion, phase, turn } = useGameState()
+
+  // Log questions as they're displayed
+  useEffect(() => {
+    if (currentQuestion && (phase === 'asking' || phase === 'waiting_for_answer')) {
+      // Check if it's a character guess question
+      const isCharacterGuess = /^Is your character .+\?$/i.test(currentQuestion) && 
+                               !currentQuestion.toLowerCase().includes('from') &&
+                               !currentQuestion.toLowerCase().includes('known for') &&
+                               !currentQuestion.toLowerCase().includes('an actor') &&
+                               !currentQuestion.toLowerCase().includes('an athlete')
+      
+      if (isCharacterGuess) {
+        console.log(`[UI] 🎲 Turn ${turn}: GUESSING - ${currentQuestion}`)
+      } else {
+        console.log(`[UI] ❓ Turn ${turn}: ASKING - ${currentQuestion}`)
+      }
+    }
+  }, [currentQuestion, phase, turn])
 
   // Show question during asking and waiting phases
   if ((phase !== 'asking' && phase !== 'waiting_for_answer') || !currentQuestion) {

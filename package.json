@@ -11,7 +11,8 @@
     "test:quick": "tsx src/tests/integration-test.ts --games=5",
     "test:medium": "tsx src/tests/integration-test.ts --games=10",
     "test:full": "tsx src/tests/integration-test.ts --games=50",
-    "test:category": "tsx src/tests/integration-test.ts --games=20 --category"
+    "test:category": "tsx src/tests/integration-test.ts --games=20 --category",
+    "test:visualist": "tsx src/tests/visualist-test.ts"
   },
   "dependencies": {
     "react": "^18.3.1",

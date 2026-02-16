@@ -1,7 +1,18 @@
 import { useGameState } from '../context/GameContext'
+import { useEffect } from 'react'
 
 export default function DetectiveBrain() {
   const { topGuesses, traits, turn } = useGameState()
+
+  // Log when guesses change for better tracking
+  useEffect(() => {
+    if (topGuesses.length > 0) {
+      console.log(`[UI] 🎯 Turn ${turn}: Displaying ${topGuesses.length} top guesses:`)
+      topGuesses.slice(0, 5).forEach((g, i) => {
+        console.log(`[UI]   ${i + 1}. ${g.name} (${Math.round(g.confidence * 100)}% confidence)`)
+      })
+    }
+  }, [topGuesses, turn])
 
   return (
     <div className="detective-brain">

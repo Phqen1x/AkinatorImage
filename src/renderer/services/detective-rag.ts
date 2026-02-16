@@ -93,6 +93,13 @@ const RAG_DETECTIVE_SYSTEM_PROMPT = `You are an expert detective in a character-
 6. **DO NOT ask about:** Geography/nationality, specific dates, specific awards, specific physical features (too specific, can't be tracked)
 7. **ONLY ask about:** Category, fictional status, gender, powers, alignment, era (broad), origin medium, team membership
 
+**CATEGORY LOGIC (CRITICAL):**
+Once a character's primary category is confirmed (e.g., actor, athlete, musician, politician):
+- **DO NOT ask about other categories** unless narrowing down is stuck
+- Example: If confirmed "actor" → don't ask "athlete?", "musician?", "politician?"
+- Exception: Some characters have overlapping roles (actor/musician) - only ask if top candidates suggest this
+- Focus on traits within that category: era, specific works, characteristics, teams
+
 **OUTPUT FORMAT:**
 Return ONLY valid JSON:
 {
@@ -106,6 +113,7 @@ Return ONLY valid JSON:
 - Turns 1-3: Broad binaries (fictional, gender, category)
 - Turns 4-7: Medium refinement (specific category, era, origin)  
 - Turns 8+: Distinctive features (specific works, achievements, characteristics)
+- Once category is known: Focus on discriminating within that category
 
 **WHEN TO GUESS:**
 - Confidence ≥ 0.75: Make the guess!
@@ -790,11 +798,24 @@ async function askNextQuestion(
   const traitsList = traits.map(t => `- ${t.key}: ${t.value} (${Math.round(t.confidence * 100)}%)`).join('\n')
   const turnsList = turns.map((t, i) => `${i + 1}. Q: "${t.question}" A: ${t.answer}`).join('\n')
 
+  // Check if category is confirmed (positive category trait exists)
+  const confirmedCategory = traits.find(t => 
+    t.key === 'category' && 
+    !t.value.startsWith('NOT_') &&
+    t.confidence >= 0.85
+  )
+  
+  const categoryGuidance = confirmedCategory 
+    ? `\n\n**IMPORTANT:** Category is confirmed as "${confirmedCategory.value}". 
+DO NOT ask about other categories (actor/athlete/musician/politician/etc.) unless absolutely necessary.
+Focus on discriminating questions within this category (era, specific works, characteristics, teams).`
+    : ''
+
   const contextPrompt = `
 **Current Game State:**
 Turn: ${turns.length + 1}
 Confirmed traits:
-${traitsList || '(none yet)'}
+${traitsList || '(none yet)'}${categoryGuidance}
 
 **Previous Q&A:**
 ${turnsList || '(no questions yet)'}
@@ -841,7 +862,7 @@ Return your response as JSON.`
     if (!json || !json.question) {
       console.warn('[Detective-RAG] Invalid response, using fallback question')
       return {
-        question: getFallbackQuestion(turns.map(t => t.question)),
+        question: getFallbackQuestion(turns.map(t => t.question), traits),
         topGuesses: ragGuesses.map(g => ({ name: g.name, confidence: g.confidence }))
       }
     }
@@ -852,7 +873,7 @@ Return your response as JSON.`
     if (wordCount > 20) {
       console.warn(`[Detective-RAG] Question too long (${wordCount} words), using fallback`)
       return {
-        question: getFallbackQuestion(turns.map(t => t.question)),
+        question: getFallbackQuestion(turns.map(t => t.question), traits),
         topGuesses: ragGuesses.map(g => ({ name: g.name, confidence: g.confidence }))
       }
     }
@@ -865,7 +886,7 @@ Return your response as JSON.`
       console.warn(`[Detective-RAG] Duplicate question detected: "${questionText}"`)
       console.warn('[Detective-RAG] Using fallback to avoid repeat')
       return {
-        question: getFallbackQuestion(turns.map(t => t.question)),
+        question: getFallbackQuestion(turns.map(t => t.question), traits),
         topGuesses: ragGuesses.map(g => ({ name: g.name, confidence: g.confidence }))
       }
     }
@@ -877,7 +898,7 @@ Return your response as JSON.`
   } catch (error) {
     console.error('[Detective-RAG] askNextQuestion error:', error)
     return {
-      question: getFallbackQuestion(turns.map(t => t.question)),
+      question: getFallbackQuestion(turns.map(t => t.question), traits),
       topGuesses: ragGuesses.map(g => ({ name: g.name, confidence: g.confidence }))
     }
   }
@@ -927,15 +948,43 @@ const FALLBACK_QUESTIONS = [
   'Has your character won major awards?'
 ]
 
-function getFallbackQuestion(askedQuestions: string[]): string {
+function getFallbackQuestion(askedQuestions: string[], traits: Trait[] = []): string {
   const askedLower = askedQuestions.map(q => q.toLowerCase().trim())
+  
+  // Check if category is confirmed
+  const confirmedCategory = traits.find(t => 
+    t.key === 'category' && 
+    !t.value.startsWith('NOT_') &&
+    t.confidence >= 0.85
+  )
+  
+  // Category questions to skip if category is already confirmed
+  const categoryQuestions = [
+    'is your character from an anime or manga?',
+    'is your character a superhero?',
+    'is your character an athlete?',
+    'is your character a musician?',
+    'is your character an actor?',
+    'is your character a politician?',
+    'is your character from a tv show?',
+    'is your character from a video game?'
+  ]
   
   for (const q of FALLBACK_QUESTIONS) {
     const qLower = q.toLowerCase().trim()
-    // Exact match check - prevents duplicates
-    if (!askedLower.includes(qLower)) {
-      return q
+    
+    // Skip if already asked
+    if (askedLower.includes(qLower)) {
+      continue
     }
+    
+    // Skip category questions if category is already confirmed
+    if (confirmedCategory && categoryQuestions.includes(qLower)) {
+      console.log(`[Detective-RAG] Skipping category question "${q}" - category already confirmed as ${confirmedCategory.value}`)
+      continue
+    }
+    
+    return q
   }
   
   // All fallback questions exhausted - return a generic one

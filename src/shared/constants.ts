@@ -7,14 +7,19 @@ export const HEALTH_ENDPOINT = `${LEMONADE_BASE_URL}/v1/models`
 // Qwen3-4B: Best balance of speed (fast NPU) and reasoning for RAG
 // Phi-4: Good at creative visualization
 export const DETECTIVE_MODEL = 'Qwen3-4B-Instruct-2507-GGUF'
+//export const DETECTIVE_MODEL = 'Qwen2.5-Coder-32B-Instruct-GGUF' // Not available on this system
 export const VISUALIST_MODEL = 'Phi-4-mini-instruct-GGUF'
 export const IMAGE_MODEL = 'SDXL-Turbo'
 
-export const CONFIDENCE_THRESHOLD = 0.75  // Lower for RAG (10 guess target)
+export const CONFIDENCE_THRESHOLD = 0.95  // Lower for RAG (10 guess target)
 export const MAX_TURNS = 100  // Allow extensive questioning to narrow down
 
 // Set to false to disable image generation during detective testing
-export const ENABLE_IMAGE_GENERATION = false
+export const ENABLE_IMAGE_GENERATION = true
+
+// Set to true to use LLM-based visualist (Phi-4-mini) instead of pure function
+// When false, falls back to buildImagePrompt() for A/B testing
+export const ENABLE_VISUALIST_LLM = false // Disabled - visualist-llm module not implemented
 
 // SDXL-Turbo progressive quality: low cfg_scale (turbo models work best near 1.0)
 // Steps ramp from 2 (fast/blurry) to 6 (sharp) over turns

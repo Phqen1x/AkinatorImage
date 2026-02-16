@@ -49,7 +49,10 @@ function traitToDescriptor(trait: Trait): string | null {
       if (v.includes('game') || v.includes('video')) return 'video game character'
       return null
     case 'fictional':
-      return null // doesn't affect visuals
+    case 'category':
+    case 'era':
+    case 'alignment':
+      return null // non-visual traits
     default:
       // For any other visual descriptors the LLM adds
       if (v && v !== 'unknown' && v !== 'unclear') return v
@@ -69,8 +72,9 @@ export function buildImagePrompt(traits: Trait[], turn: number): string {
   else base = BASE_LATE
 
   // Convert confirmed traits to visual descriptors
+  // Filter out NOT_ exclusion traits and non-visual traits first
   const descriptors = traits
-    .filter(t => t.confidence >= 0.5)
+    .filter(t => t.confidence >= 0.5 && !t.value.startsWith('NOT_'))
     .sort((a, b) => b.confidence - a.confidence)
     .map(traitToDescriptor)
     .filter((d): d is string => d !== null)

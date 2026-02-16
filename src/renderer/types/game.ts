@@ -21,6 +21,12 @@ export interface Guess {
   confidence: number
 }
 
+export interface GuessAttempt {
+  guess: string
+  correct: boolean
+  turnNumber: number
+}
+
 export interface TurnRecord {
   turnNumber: number
   question: string
@@ -38,6 +44,7 @@ export interface GameState {
   currentQuestion: string | null
   topGuesses: Guess[]
   rejectedGuesses: string[]
+  guessAttempts: GuessAttempt[]
   currentImageUrl: string | null
   seed: number
   finalGuess: string | null

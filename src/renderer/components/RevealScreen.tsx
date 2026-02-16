@@ -6,7 +6,7 @@ interface Props {
 }
 
 export default function RevealScreen({ onConfirm, onReset }: Props) {
-  const { phase, finalGuess, currentImageUrl, isProcessing } = useGameState()
+  const { phase, finalGuess, currentImageUrl, isProcessing, turns } = useGameState()
 
   if (phase === 'guessing') {
     return (
@@ -44,6 +44,7 @@ export default function RevealScreen({ onConfirm, onReset }: Props) {
               {currentImageUrl && (
                 <img src={currentImageUrl} alt="Hero render" className="reveal-image hero-image" />
               )}
+              <p className="turn-count">Guessed in {turns.length} turn{turns.length !== 1 ? 's' : ''}</p>
               <button className="start-button" onClick={onReset}>
                 Play Again
               </button>

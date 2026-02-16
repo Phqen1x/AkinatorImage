@@ -9,6 +9,7 @@ const initialState: GameState = {
   currentQuestion: null,
   topGuesses: [],
   rejectedGuesses: [],
+  guessAttempts: [],
   currentImageUrl: null,
   seed: Math.floor(Math.random() * 2147483647),
   finalGuess: null,
@@ -98,8 +99,22 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       }
 
     case 'CONFIRM_GUESS':
+      // Guess is associated with the last completed turn
+      const lastTurn = state.turns.length > 0 ? state.turns[state.turns.length - 1].turnNumber : state.turn
       if (action.correct) {
-        return { ...state, phase: 'revealed', isProcessing: true }
+        return { 
+          ...state, 
+          phase: 'revealed', 
+          isProcessing: true,
+          guessAttempts: [
+            ...state.guessAttempts,
+            {
+              guess: state.finalGuess || '',
+              correct: true,
+              turnNumber: lastTurn,
+            },
+          ],
+        }
       }
       return {
         ...state,
@@ -108,6 +123,14 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         rejectedGuesses: state.finalGuess
           ? [...state.rejectedGuesses, state.finalGuess]
           : state.rejectedGuesses,
+        guessAttempts: [
+          ...state.guessAttempts,
+          {
+            guess: state.finalGuess || '',
+            correct: false,
+            turnNumber: lastTurn,
+          },
+        ],
       }
 
     case 'HERO_RENDER_COMPLETE':

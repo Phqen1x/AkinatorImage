@@ -2,8 +2,9 @@ import { useCallback, useRef } from 'react'
 import { useGameState, useGameDispatch } from '../context/GameContext'
 import { askDetective, recordRejectedGuess, recordAmbiguousQuestion, resetSessionLearning } from '../services/detective-rag'
 import { buildImagePrompt } from '../services/visualist'
+// import { generateVisualistPrompt } from '../services/visualist-llm' // Not implemented yet
 import { renderImage, renderHeroImage } from '../services/artist'
-import { CONFIDENCE_THRESHOLD, ENABLE_IMAGE_GENERATION } from '../../shared/constants'
+import { CONFIDENCE_THRESHOLD, ENABLE_IMAGE_GENERATION, ENABLE_VISUALIST_LLM } from '../../shared/constants'
 import type { AnswerValue, Trait } from '../types/game'
 
 export function useGameLoop() {
@@ -12,6 +13,8 @@ export function useGameLoop() {
   const stateRef = useRef(state)
   stateRef.current = state
 
+  // Turn-by-turn images use the pure function (fast, no model switching).
+  // The LLM Visualist is only used for hero images after the game ends.
   const generateImageInBackground = useCallback((traits: Trait[], turn: number, seed: number) => {
     if (!ENABLE_IMAGE_GENERATION) {
       console.info('[GameLoop] Image generation disabled')
@@ -68,8 +71,17 @@ export function useGameLoop() {
         answer                            // ✅ ADD: user's answer
       )
 
+      // Log UI state updates
+      if (newTraits.length > 0) {
+        console.log(`[UI] ✅ Turn ${s.turn + 1}: Added ${newTraits.length} new trait(s):`)
+        newTraits.forEach(t => {
+          console.log(`[UI]   - ${t.key} = ${t.value} (confidence: ${Math.round(t.confidence * 100)}%)`)
+        })
+      }
+
       const topGuess = topGuesses[0]
       if (topGuess && topGuess.confidence >= CONFIDENCE_THRESHOLD) {
+        console.log(`[UI] 🎯 Turn ${s.turn + 1}: HIGH CONFIDENCE GUESS - ${topGuess.name} (${Math.round(topGuess.confidence * 100)}%)`)
         dispatch({ type: 'SET_QUESTION', question, guesses: topGuesses, traits: newTraits })
         dispatch({ type: 'MAKE_GUESS', guess: topGuess.name })
         return
@@ -94,7 +106,31 @@ export function useGameLoop() {
         dispatch({ type: 'HERO_RENDER_COMPLETE', imageUrl: '' })
       } else {
         try {
-          const prompt = buildImagePrompt(s.traits, 20)
+          let prompt: string
+
+          if (ENABLE_VISUALIST_LLM) {
+            console.warn('[GameLoop] ENABLE_VISUALIST_LLM is true but visualist-llm module not implemented')
+            prompt = buildImagePrompt(s.traits, 20)
+            /* 
+            // Future implementation:
+            try {
+              const result = await generateVisualistPrompt({
+                traits: s.traits,
+                turn: s.turn,
+                phase: 'HERO',
+                topGuesses: s.topGuesses,
+                characterName: s.finalGuess || undefined,
+              })
+              prompt = result.prompt
+            } catch (e) {
+              console.warn('[GameLoop] Visualist LLM failed for hero, falling back:', e)
+              prompt = buildImagePrompt(s.traits, 20)
+            }
+            */
+          } else {
+            prompt = buildImagePrompt(s.traits, 20)
+          }
+
           const heroUrl = await renderHeroImage(prompt, s.seed)
           dispatch({ type: 'HERO_RENDER_COMPLETE', imageUrl: heroUrl })
         } catch {
@@ -106,7 +142,7 @@ export function useGameLoop() {
       if (s.finalGuess) {
         recordRejectedGuess(s.finalGuess, s.traits, s.turn)
       }
-      
+
       // After rejection, rejectedGuesses is updated in reducer
       const rejected = s.finalGuess
         ? [...s.rejectedGuesses, s.finalGuess]
