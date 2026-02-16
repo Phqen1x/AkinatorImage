@@ -178,6 +178,7 @@ const TRAIT_EXTRACTOR_PROMPT = `Extract a structured trait from this Q&A.
    - If question is overly complex or compound, return null
 
 **EXAMPLES:**
+Q: "Is your character American?" A: "Yes" → null (no nationality trait available)
 Q: "Is your character an actor?" A: "Yes" → {"key": "category", "value": "actors", "confidence": 0.95}
 Q: "Is your character an actor?" A: "No" → {"key": "category", "value": "NOT_actors", "confidence": 0.9}
 Q: "Is your character an athlete?" A: "Yes" → {"key": "category", "value": "athletes", "confidence": 0.95}
@@ -188,10 +189,21 @@ Q: "Is your character fictional?" A: "No" → {"key": "fictional", "value": "fal
 Q: "Is your character male?" A: "Yes" → {"key": "gender", "value": "male", "confidence": 0.95}
 Q: "Is your character male?" A: "No" → {"key": "gender", "value": "female", "confidence": 0.9}
 Q: "Is your character male?" A: "Probably" → {"key": "gender", "value": "male", "confidence": 0.75}
+Q: "Is your character still alive today?" A: "Yes" → null (no alive/dead trait available)
+Q: "Is your character still alive today?" A: "No" → null (no alive/dead trait available)
+Q: "Was your character active before 2000?" A: "Yes" → {"key": "era", "value": "modern", "confidence": 0.75}
+Q: "Was your character active before 2000?" A: "No" → {"key": "era", "value": "contemporary", "confidence": 0.75}
 Q: "Does your character have superpowers?" A: "Yes" → {"key": "has_powers", "value": "true", "confidence": 0.95}
 Q: "Is your character known for football?" A: "No" → null (sport trait not available)
 Q: "Does your character originate from a country other than the United States?" A: "Yes" → null (too specific, no geography trait)
-Q: "Is your character American?" A: "No" → null (no nationality trait available)`
+Q: "Is your character American?" A: "No" → null (no nationality trait available)
+Q: "Did your character originate in an anime or manga?" A: "Yes" → {"key": "category", "value": "anime", "confidence": 0.95}
+Q: "Is your character from an anime?" A: "Yes" → {"key": "category", "value": "anime", "confidence": 0.95}
+Q: "Is your character from a TV show?" A: "Yes" → {"key": "category", "value": "tv-characters", "confidence": 0.95}
+Q: "Is your character from a sitcom?" A: "Yes" → {"key": "category", "value": "tv-characters", "confidence": 0.9}
+Q: "Is your character from an animated show?" A: "Yes" → {"key": "category", "value": "tv-characters", "confidence": 0.9}
+Q: "Is your character from a drama series?" A: "Yes" → {"key": "category", "value": "tv-characters", "confidence": 0.9}
+Q: "Is your character from a video game?" A: "Yes" → {"key": "category", "value": "video-games", "confidence": 0.95}`
 
 /**
  * Extract trait from question + answer
@@ -239,9 +251,36 @@ Extract the trait.`
       return null
     }
 
-    // CRITICAL: Validate that extracted value is related to the question
-    // This prevents hallucinations like extracting "actors" when question is about "athletes"
-    if (String(json.key) === 'category') {
+    // CRITICAL: Validate that extracted key is related to the question
+    // This prevents hallucinations like extracting "fictional" when question is about "American"
+    const questionLower = question.toLowerCase()
+    const extractedKey = String(json.key)
+    
+    // Map each trait key to keywords that must appear in the question
+    const keywordMap: Record<string, string[]> = {
+      'fictional': ['fictional', 'real person', 'made up', 'exist'],
+      'gender': ['male', 'female', 'man', 'woman', 'boy', 'girl'],
+      'category': ['actor', 'athlete', 'musician', 'singer', 'politician', 'historical', 'superhero'],
+      'origin_medium': ['tv', 'television', 'movie', 'film', 'anime', 'manga', 'video game', 'comic'],
+      'has_powers': ['power', 'superpower', 'abilities', 'magic', 'supernatural'],
+      'alignment': ['hero', 'villain', 'good', 'evil', 'bad guy'],
+      'species': ['human', 'alien', 'robot', 'animal', 'god'],
+      'age_group': ['child', 'kid', 'teenager', 'teen', 'adult', 'young', 'old'],
+      'era': ['ancient', 'medieval', 'modern', 'contemporary', 'century', 'before', 'after', 'active']
+    }
+    
+    // Check if any relevant keyword appears in the question
+    const requiredKeywords = keywordMap[extractedKey]
+    if (requiredKeywords) {
+      const hasKeyword = requiredKeywords.some(kw => questionLower.includes(kw))
+      if (!hasKeyword) {
+        console.warn(`[Detective-RAG] FAILED extraction - key "${extractedKey}" not related to question: "${question}"`)
+        return null
+      }
+    }
+
+    // Additional validation for category values
+    if (extractedKey === 'category') {
       const questionLower = question.toLowerCase()
       const extractedValue = value.replace(/^not_/, '') // Strip NOT_ prefix for validation
 
@@ -409,8 +448,10 @@ async function askNextQuestion(
         console.info('[Detective-RAG] Top guesses with relaxed traits:', relaxedGuesses.map(g => g.name))
         
         // If we have very few candidates, make a direct guess
-        if (relaxedCandidates.length <= 10 && turns.length >= 12) {
-          console.info('[Detective-RAG] Few candidates remaining, making direct guess')
+        // CRITICAL: Be conservative - need MANY turns before guessing from relaxed filtering
+        // Relaxed filtering means we dropped a trait, so we have LESS information
+        if (relaxedCandidates.length <= 3 && turns.length >= 18) {
+          console.info('[Detective-RAG] Very few candidates with relaxed filtering, making direct guess')
           const topGuess = relaxedGuesses[0]
           if (topGuess) {
             return {
@@ -441,15 +482,20 @@ async function askNextQuestion(
           }
         }
         
-        // Fallback: make a direct guess
-        const topGuess = relaxedGuesses[0]
-        if (topGuess) {
-          return {
-            question: `Is your character ${topGuess.name}?`,
-            topGuesses: [{ 
-              name: topGuess.name, 
-              confidence: topGuess.confidence * 0.6 
-            }]
+        // Fallback: make a direct guess only after MANY questions
+        // This path means we have 0 exact matches and no strategic question available
+        // Should only guess as absolute last resort
+        if (turns.length >= 22) {
+          const topGuess = relaxedGuesses[0]
+          if (topGuess) {
+            console.info('[Detective-RAG] No strategic question available, making last-resort guess')
+            return {
+              question: `Is your character ${topGuess.name}?`,
+              topGuesses: [{ 
+                name: topGuess.name, 
+                confidence: topGuess.confidence * 0.5  // Very low confidence - desperate guess
+              }]
+            }
           }
         }
       }
@@ -672,9 +718,17 @@ async function askNextQuestion(
   if (strategicQuestion && remainingCandidates.length > 10) {
     console.info('[Detective-RAG] Using strategic question from RAG:', strategicQuestion)
     
-    return {
-      question: strategicQuestion,
-      topGuesses: hybridGuesses.map(g => ({ name: g.name, confidence: g.confidence }))
+    // Check if this question was already asked
+    const askedQuestions = turns.map(t => t.question.toLowerCase())
+    const isDuplicate = askedQuestions.includes(strategicQuestion.toLowerCase())
+    if (isDuplicate) {
+      console.warn(`[Detective-RAG] Strategic question already asked: "${strategicQuestion}"`)
+      console.warn('[Detective-RAG] Falling through to LLM question generation')
+    } else {
+      return {
+        question: strategicQuestion,
+        topGuesses: hybridGuesses.map(g => ({ name: g.name, confidence: g.confidence }))
+      }
     }
   }
   
@@ -686,10 +740,12 @@ async function askNextQuestion(
                           (traits.length >= 6 && traits.some(t => t.key === 'category' && !t.value.startsWith('NOT_')))
   
   // CRITICAL: Don't guess if we just rejected guesses recently
-  // After rejection, ask at least 3-5 more questions before trying again
+  // After rejection, ask at least 4-5 more questions before trying again
   const turnsSinceLastRejection = rejectedGuesses.length > 0 ? 
-    Math.max(...rejectedGuesses.map(r => turns.length - (turns.findIndex(t => t.question.includes('Is your character')) || 0))) : 999
-  const enoughTurnsSinceRejection = turnsSinceLastRejection >= 4 || rejectedGuesses.length === 0
+    Math.max(0, turns.length - turns.slice().reverse().findIndex(t => 
+      rejectedGuesses.some(rg => t.question.toLowerCase().includes(rg.toLowerCase()))
+    )) : 999
+  const enoughTurnsSinceRejection = turnsSinceLastRejection >= 5 || rejectedGuesses.length === 0
   
   // IMPROVED STRATEGY: Only make direct guesses when highly confident or down to very few candidates
   // Otherwise, ask discriminating questions to narrow down similar candidates
@@ -801,6 +857,19 @@ Return your response as JSON.`
       }
     }
 
+    // CRITICAL: Check if this question was already asked
+    // This prevents duplicate questions when trait extraction fails
+    const askedQuestions = turns.map(t => t.question.toLowerCase())
+    const isDuplicate = askedQuestions.includes(questionText.toLowerCase())
+    if (isDuplicate) {
+      console.warn(`[Detective-RAG] Duplicate question detected: "${questionText}"`)
+      console.warn('[Detective-RAG] Using fallback to avoid repeat')
+      return {
+        question: getFallbackQuestion(turns.map(t => t.question)),
+        topGuesses: ragGuesses.map(g => ({ name: g.name, confidence: g.confidence }))
+      }
+    }
+
     return {
       question: questionText,
       topGuesses: ragGuesses.map(g => ({ name: g.name, confidence: g.confidence }))
@@ -859,11 +928,17 @@ const FALLBACK_QUESTIONS = [
 ]
 
 function getFallbackQuestion(askedQuestions: string[]): string {
+  const askedLower = askedQuestions.map(q => q.toLowerCase().trim())
+  
   for (const q of FALLBACK_QUESTIONS) {
-    if (!askedQuestions.some(aq => aq.toLowerCase().includes(q.toLowerCase().split(' ').slice(3).join(' ')))) {
+    const qLower = q.toLowerCase().trim()
+    // Exact match check - prevents duplicates
+    if (!askedLower.includes(qLower)) {
       return q
     }
   }
+  
+  // All fallback questions exhausted - return a generic one
   return 'Is your character well-known internationally?'
 }
 
@@ -896,14 +971,32 @@ export async function askDetective(
 
   // Step 1: Check if previous question was a character guess
   if (previousQuestion && answer) {
+    // Match "Is your character X?" pattern
     const guessMatch = previousQuestion.match(/^Is your character (.+)\?$/i)
-    if (guessMatch) {
-      const guessedName = guessMatch[1]
+    const capturedText = guessMatch?.[1]?.trim()
+    
+    // List of common trait keywords/patterns (NOT character names)
+    const traitKeywords = [
+      'american', 'male', 'female', 'fictional', 'real', 
+      'an actor', 'an athlete', 'a musician', 'a politician', 'a superhero',
+      'from', 'known for', 'alive', 'dead', 'still alive'
+    ]
+    
+    // Only treat as character guess if it doesn't match trait keywords
+    const isTraitQuestion = traitKeywords.some(kw => capturedText?.toLowerCase().includes(kw))
+    const isCharacterGuess = capturedText && !isTraitQuestion
+    
+    console.info(`[Detective-RAG] Question analysis: "${previousQuestion}"`)
+    console.info(`[Detective-RAG]   Captured: "${capturedText}"`)
+    console.info(`[Detective-RAG]   Is trait question: ${isTraitQuestion}`)
+    console.info(`[Detective-RAG]   Is character guess: ${isCharacterGuess}`)
+    
+    if (isCharacterGuess && capturedText) {
       if (answer === 'no' || answer === 'probably_not') {
-        console.info(`[Detective-RAG] ✗ User rejected guess: ${guessedName}`)
-        updatedRejectedGuesses.push(guessedName)
+        console.info(`[Detective-RAG] ✗ User rejected guess: ${capturedText}`)
+        updatedRejectedGuesses.push(capturedText)
       } else if (answer === 'yes') {
-        console.info(`[Detective-RAG] ✓ User confirmed guess: ${guessedName}!`)
+        console.info(`[Detective-RAG] ✓ User confirmed guess: ${capturedText}!`)
         // This is handled by useGameLoop with CONFIRM_GUESS
       }
     } else {

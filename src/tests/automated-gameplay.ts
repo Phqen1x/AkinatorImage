@@ -61,11 +61,17 @@ export function simulateAnswer(
     'taylor', 'scarlett', 'nicole', 'jennifer', 'emma', 'natalie', 'angelina', 
     'madonna', 'rihanna', 'beyonce', 'adele', 'gaga', 'ariana', 'rosa', 'ruth', 
     'harriet', 'eleanor', 'margaret', 'marie', 'frida', 'malala', 'amelia', 
-    'florence', 'helen', 'ada', 'grace', 'rosa', 'betty', 'susan', 'dorothy',
+    'florence', 'helen', 'ada', 'grace', 'betty', 'susan', 'dorothy',
     'elizabeth', 'mary', 'anne', 'catherine', 'diana', 'victoria', 'isabella',
-    'sophia', 'olivia', 'ava', 'charlotte', 'emily', 'madison', 'ella'
+    'sophia', 'olivia', 'ava', 'charlotte', 'emily', 'madison', 'ella',
+    // Athletes
+    'maria', 'serena', 'simone', 'venus', 'sharapova', 'williams', 'biles',
+    // TV/Movies
+    'wonder woman', 'gamora', 'harley', 'natasha', 'wanda', 'pepper', 'scarlet witch',
+    // Anime
+    'bulma', 'android 18', 'sakura', 'hinata', 'nami', 'nico robin', 'misty'
   ]
-  const isFemaleByName = femaleNames.some(name => character.name.toLowerCase().includes(name))
+  const isFemaleByName = femaleNames.some(fname => character.name.toLowerCase().includes(fname))
   
   if (q.includes('male') && !q.includes('female')) {
     if (facts.includes('he ') || facts.includes('his ') || 
