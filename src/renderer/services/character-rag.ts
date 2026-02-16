@@ -127,6 +127,9 @@ export function getCharacterByName(name: string): CharacterData | null {
 /**
  * Filter characters by confirmed traits
  * Returns characters that match ALL confirmed traits
+ * 
+ * IMPORTANT: If a positive category exists, negative categories are ignored
+ * (e.g., if category=actors, then NOT_musicians is redundant)
  */
 export function filterCharactersByTraits(traits: Trait[]): CharacterData[] {
   const allChars = getAllCharacters()
@@ -138,9 +141,27 @@ export function filterCharactersByTraits(traits: Trait[]): CharacterData[] {
     return allChars
   }
   
+  // Check if we have a positive category trait
+  const positiveCategory = traits.find(t => 
+    t.key === 'category' && !t.value.startsWith('NOT_') && !t.value.startsWith('not_')
+  )
+  
+  // If we have a positive category, filter out negative category traits (they're redundant)
+  const effectiveTraits = positiveCategory 
+    ? traits.filter(t => {
+        if (t.key !== 'category') return true
+        return !t.value.startsWith('NOT_') && !t.value.startsWith('not_')
+      })
+    : traits
+  
+  if (positiveCategory) {
+    console.info(`[RAG] Positive category found: ${positiveCategory.value}, ignoring negative categories`)
+    console.info(`[RAG] Effective traits after filtering: ${effectiveTraits.length} (was ${traits.length})`)
+  }
+  
   const filtered = allChars.filter(char => {
     // Check each confirmed trait
-    for (const trait of traits) {
+    for (const trait of effectiveTraits) {
       if (!characterMatchesTrait(char, trait)) {
         return false
       }
