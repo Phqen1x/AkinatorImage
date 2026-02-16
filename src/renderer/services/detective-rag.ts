@@ -373,7 +373,7 @@ async function askNextQuestion(
   console.info(`[Detective-RAG] ${remainingCandidates.length} candidates match confirmed traits`)
 
   // CRITICAL: Handle 0 candidates - character not in database
-  // Only fall back to LLM guessing if we've asked MANY questions (30+)
+  // Use LLM guessing after sufficient questions (15-20+) instead of waiting for 30+
   if (remainingCandidates.length === 0 && traits.length > 0) {
     console.warn('[Detective-RAG] WARNING: No exact matches in database')
     console.warn('[Detective-RAG] Character may not be in knowledge base')
@@ -383,11 +383,12 @@ async function askNextQuestion(
     const traitSummary = traits.map(t => `${t.key}=${t.value}`).join(', ')
     console.warn(`[Detective-RAG] Looking for character with: ${traitSummary}`)
     
-    // STRATEGY: Only use LLM guessing as LAST RESORT after extensive questioning
-    const shouldUseLLMGuessing = turns.length >= 30
+    // STRATEGY: Use LLM guessing after moderate questioning (15+), not as absolute last resort
+    // Database characters should NOT be prioritized over non-database characters
+    const shouldUseLLMGuessing = turns.length >= 15
     
     // Try filtering with fewer traits (relax most recent trait)
-    if (traits.length > 1) {
+    if (traits.length > 1 && !shouldUseLLMGuessing) {
       const relaxedTraits = traits.slice(0, -1)
       const relaxedCandidates = filterCharactersByTraits(relaxedTraits)
       console.info(`[Detective-RAG] Relaxed filtering: ${relaxedCandidates.length} candidates with ${relaxedTraits.length} traits`)
@@ -399,7 +400,7 @@ async function askNextQuestion(
         console.info('[Detective-RAG] Top guesses with relaxed traits:', relaxedGuesses.map(g => g.name))
         
         // If we have very few candidates, just make guesses
-        if (relaxedCandidates.length <= 10) {
+        if (relaxedCandidates.length <= 10 && turns.length >= 12) {
           console.info('[Detective-RAG] Few candidates remaining, making direct guesses')
           return {
             question: 'Is your character one of these?',
@@ -422,7 +423,7 @@ async function askNextQuestion(
           return {
             question: strategicQuestion,
             topGuesses: relaxedGuesses.slice(0, 3).map(g => ({ 
-              name: g.name, 
+              name: g.name,
               confidence: g.confidence * 0.6 
             }))
           }
@@ -592,11 +593,40 @@ async function askNextQuestion(
     }
   }
 
-  // Get top guesses from RAG
-  const ragGuesses = getRagTopGuesses(traits, 3)
+  // Get top guesses from RAG (database)
+  const ragGuesses = getRagTopGuesses(traits, 5)
     .filter(g => !rejectedGuesses.some(r => r.toLowerCase() === g.name.toLowerCase()))
   
   console.info('[Detective-RAG] RAG top guesses:', ragGuesses.map(g => `${g.name} (${Math.round(g.confidence * 100)}%)`))
+
+  // HYBRID APPROACH: If we have enough traits, also get LLM guesses
+  // Don't prioritize database - mix both sources
+  let hybridGuesses = ragGuesses
+  
+  if (turns.length >= 15 && traits.length >= 6) {
+    console.info('[Detective-RAG] Sufficient information for LLM augmentation')
+    try {
+      const llmGuesses = await guessCharacterBeyondDatabase(traits, turns)
+      if (llmGuesses && llmGuesses.length > 0) {
+        // Mix database and LLM guesses, keeping unique names
+        const combined = [...ragGuesses, ...llmGuesses]
+        const uniqueNames = new Set<string>()
+        hybridGuesses = combined
+          .filter(g => {
+            const lower = g.name.toLowerCase()
+            if (uniqueNames.has(lower)) return false
+            uniqueNames.add(lower)
+            return true
+          })
+          .sort((a, b) => b.confidence - a.confidence)
+          .slice(0, 5)
+        
+        console.info('[Detective-RAG] Hybrid guesses (DB + LLM):', hybridGuesses.map(g => `${g.name} (${Math.round(g.confidence * 100)}%)`))
+      }
+    } catch (error) {
+      console.warn('[Detective-RAG] LLM guess augmentation failed:', error)
+    }
+  }
 
   // Get context about remaining candidates for the AI
   const candidateContext = getCandidateContext(remainingCandidates, 5)
@@ -613,27 +643,40 @@ async function askNextQuestion(
     
     return {
       question: strategicQuestion,
-      topGuesses: ragGuesses.map(g => ({ name: g.name, confidence: g.confidence }))
+      topGuesses: hybridGuesses.map(g => ({ name: g.name, confidence: g.confidence }))
     }
   }
   
   // If we have ≤10 candidates and enough discriminating traits, make guesses
   // CRITICAL: Don't guess with only 2-3 broad traits (e.g., "American + Male")
-  // Need at least 5 traits OR category confirmed for good discrimination
-  const hasEnoughTraits = traits.length >= 5 || traits.some(t => t.key === 'category' && !t.value.startsWith('NOT_'))
+  // Need at least 7 traits OR (6 traits + category) for good discrimination
+  // Also need enough turns to have asked discriminating questions
+  const hasEnoughTraits = traits.length >= 7 || 
+                          (traits.length >= 6 && traits.some(t => t.key === 'category' && !t.value.startsWith('NOT_')))
   
-  if (remainingCandidates.length <= 10 && turns.length >= 10 && hasEnoughTraits) {
+  // CRITICAL: Don't guess if we just rejected guesses recently
+  // After rejection, ask at least 3-5 more questions before trying again
+  const turnsSinceLastRejection = rejectedGuesses.length > 0 ? 
+    Math.max(...rejectedGuesses.map(r => turns.length - (turns.findIndex(t => t.question.includes('Am I close')) || 0))) : 999
+  const enoughTurnsSinceRejection = turnsSinceLastRejection >= 4 || rejectedGuesses.length === 0
+  
+  if (remainingCandidates.length <= 10 && turns.length >= 12 && hasEnoughTraits && enoughTurnsSinceRejection) {
     console.info('[Detective-RAG] Small candidate pool (≤10) with sufficient traits, making direct guesses')
     console.info(`[Detective-RAG] Traits: ${traits.length}, Has category: ${hasEnoughTraits}`)
     return {
       question: 'Based on your answers, I think your character is one of these. Am I close?',
-      topGuesses: ragGuesses.slice(0, 5).map(g => ({ name: g.name, confidence: g.confidence }))
+      topGuesses: hybridGuesses.slice(0, 5).map(g => ({ name: g.name, confidence: g.confidence }))
     }
   }
   
   // If small pool but insufficient traits, keep asking strategic questions
   if (remainingCandidates.length <= 10 && !hasEnoughTraits) {
     console.info('[Detective-RAG] Small pool but only', traits.length, 'traits - need more discrimination')
+  }
+  
+  // If we have rejected guesses recently, ask more questions instead of guessing again
+  if (!enoughTurnsSinceRejection) {
+    console.info('[Detective-RAG] Recent rejections - asking more questions before guessing again')
   }
 
   // Build context for AI
