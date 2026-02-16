@@ -90,6 +90,8 @@ const RAG_DETECTIVE_SYSTEM_PROMPT = `You are an expert detective in a character-
 3. Ask questions that eliminate ~50% of remaining candidates (information gain)
 4. When you have 3-5 candidates left, ask SPECIFIC differentiating questions
 5. Make a guess when confidence ≥ 0.75 OR remaining candidates ≤ 2
+6. **DO NOT ask about:** Geography/nationality, specific dates, specific awards, specific physical features (too specific, can't be tracked)
+7. **ONLY ask about:** Category, fictional status, gender, powers, alignment, era (broad), origin medium, team membership
 
 **OUTPUT FORMAT:**
 Return ONLY valid JSON:
@@ -169,6 +171,11 @@ const TRAIT_EXTRACTOR_PROMPT = `Extract a structured trait from this Q&A.
    - Both interpretations are valid!
    
 6. Return null if question doesn't clearly map to any available trait
+   
+7. **Handle complex/negative questions:**
+   - "Does your character originate from a country other than X?" → Return null (too specific, no geography trait)
+   - "Is your character known for X or Y?" → Extract the main category
+   - If question is overly complex or compound, return null
 
 **EXAMPLES:**
 Q: "Is your character an actor?" A: "Yes" → {"key": "category", "value": "actors", "confidence": 0.95}
@@ -182,7 +189,9 @@ Q: "Is your character male?" A: "Yes" → {"key": "gender", "value": "male", "co
 Q: "Is your character male?" A: "No" → {"key": "gender", "value": "female", "confidence": 0.9}
 Q: "Is your character male?" A: "Probably" → {"key": "gender", "value": "male", "confidence": 0.75}
 Q: "Does your character have superpowers?" A: "Yes" → {"key": "has_powers", "value": "true", "confidence": 0.95}
-Q: "Is your character known for football?" A: "No" → null (sport trait not available)`
+Q: "Is your character known for football?" A: "No" → null (sport trait not available)
+Q: "Does your character originate from a country other than the United States?" A: "Yes" → null (too specific, no geography trait)
+Q: "Is your character American?" A: "No" → null (no nationality trait available)`
 
 /**
  * Extract trait from question + answer
