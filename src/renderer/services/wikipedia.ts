@@ -87,73 +87,64 @@ export async function searchWikipediaList(query: string): Promise<WikipediaListP
 
 /**
  * Extract character/person names from a Wikipedia page
- * Looks for list items, tables, and common patterns
+ * Uses MediaWiki Action API to get category members or page links
  */
 async function extractNamesFromPage(pageTitle: string): Promise<string[]> {
   try {
-    // Get page HTML using REST API
-    const url = `${WIKIPEDIA_REST_API}/page/html/${encodeURIComponent(pageTitle)}`
-    const response = await fetch(url)
+    console.info(`[Wikipedia] Fetching links from: ${pageTitle}`)
     
+    // Use MediaWiki Action API to get all links from the page
+    const url = new URL(WIKIPEDIA_API)
+    url.searchParams.set('action', 'query')
+    url.searchParams.set('format', 'json')
+    url.searchParams.set('titles', pageTitle)
+    url.searchParams.set('prop', 'links')
+    url.searchParams.set('pllimit', '100') // Get up to 100 links
+    url.searchParams.set('plnamespace', '0') // Only main namespace (articles)
+    url.searchParams.set('origin', '*') // CORS
+    
+    const response = await fetch(url.toString())
     if (!response.ok) {
-      throw new Error(`Failed to fetch page: ${response.status}`)
+      throw new Error(`Failed to fetch page links: ${response.status}`)
     }
-
-    const html = await response.text()
+    
+    const data = await response.json()
+    const pages = data.query?.pages
+    
+    if (!pages) {
+      console.warn(`[Wikipedia] No pages data for: ${pageTitle}`)
+      return []
+    }
+    
     const names: string[] = []
-
-    // Parse HTML to extract names
-    // Strategy 1: Look for unordered/ordered lists with links
-    const listItemRegex = /<li[^>]*>.*?<a[^>]*href="\/wiki\/([^"#]+)"[^>]*>([^<]+)<\/a>/gi
-    let match
-    while ((match = listItemRegex.exec(html)) !== null && names.length < 100) {
-      const linkTarget = match[1]
-      const linkText = match[2]
+    
+    // Extract links from the page
+    for (const pageId in pages) {
+      const page = pages[pageId]
+      const links = page.links || []
       
-      // Filter out non-person links (categories, files, etc.)
-      if (linkTarget.startsWith('Category:') || 
-          linkTarget.startsWith('File:') || 
-          linkTarget.startsWith('Help:') ||
-          linkTarget.startsWith('Wikipedia:')) {
-        continue
-      }
-      
-      // Clean up the name
-      const cleanName = linkText
-        .replace(/&#\d+;/g, '') // Remove HTML entities
-        .replace(/\([^)]*\)/g, '') // Remove parentheticals
-        .trim()
-      
-      if (cleanName.length > 0 && !names.includes(cleanName)) {
-        names.push(cleanName)
-      }
-    }
-
-    // Strategy 2: Look for table rows (common in "List of" pages)
-    const tableRowRegex = /<tr[^>]*>.*?<a[^>]*href="\/wiki\/([^"#]+)"[^>]*>([^<]+)<\/a>.*?<\/tr>/gi
-    while ((match = tableRowRegex.exec(html)) !== null && names.length < 100) {
-      const linkTarget = match[1]
-      const linkText = match[2]
-      
-      if (linkTarget.startsWith('Category:') || 
-          linkTarget.startsWith('File:') || 
-          linkTarget.startsWith('Help:') ||
-          linkTarget.startsWith('Wikipedia:')) {
-        continue
-      }
-      
-      const cleanName = linkText
-        .replace(/&#\d+;/g, '')
-        .replace(/\([^)]*\)/g, '')
-        .trim()
-      
-      if (cleanName.length > 0 && !names.includes(cleanName)) {
-        names.push(cleanName)
+      for (const link of links) {
+        const linkTitle = link.title
+        
+        // Filter out non-person links
+        if (linkTitle.startsWith('List of') || 
+            linkTitle.startsWith('Category:') ||
+            linkTitle.includes('disambiguation') ||
+            linkTitle.length < 3) {
+          continue
+        }
+        
+        // Clean up the name
+        const cleanName = linkTitle.trim()
+        
+        if (cleanName.length > 0 && !names.includes(cleanName)) {
+          names.push(cleanName)
+        }
       }
     }
 
     console.info(`[Wikipedia] Extracted ${names.length} names from: ${pageTitle}`)
-    return names
+    return names.slice(0, 50) // Limit to 50
 
   } catch (error) {
     console.error(`[Wikipedia] Extract error for ${pageTitle}:`, error)
