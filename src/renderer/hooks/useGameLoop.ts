@@ -99,6 +99,28 @@ export function useGameLoop() {
       }
 
       const topGuess = topGuesses[0]
+
+      // Detect if the returned "question" is actually a character guess
+      // Pattern: "Is your character [Name]?" where Name is not a trait keyword
+      const guessMatch = question.match(/^Is your character (.+)\?$/i)
+      const guessName = guessMatch?.[1]?.trim()
+      const traitKeywords = [
+        'american', 'male', 'female', 'fictional', 'real',
+        'an actor', 'an athlete', 'a musician', 'a politician', 'a superhero',
+        'from a', 'from an', 'from the', 'known for', 'alive', 'dead', 'still alive',
+        'a villain', 'a hero', 'a leader', 'in a band', 'a rapper',
+        'well-known', 'internationally', 'primarily', 'associated with', 'part of',
+      ]
+      const isCharacterGuessQuestion = guessName && !traitKeywords.some(kw => guessName.toLowerCase().includes(kw))
+
+      if (isCharacterGuessQuestion && guessName) {
+        // Route through formal guess UI instead of showing as a question
+        console.log(`[UI] 🎯 Turn ${s.turn + 1}: GUESS DETECTED - "${question}" → routing to formal guess: ${guessName}`)
+        dispatch({ type: 'SET_QUESTION', question, guesses: topGuesses, traits: newTraits })
+        dispatch({ type: 'MAKE_GUESS', guess: guessName })
+        return
+      }
+
       if (topGuess && topGuess.confidence >= CONFIDENCE_THRESHOLD) {
         console.log(`[UI] 🎯 Turn ${s.turn + 1}: HIGH CONFIDENCE GUESS - ${topGuess.name} (${Math.round(topGuess.confidence * 100)}%)`)
         dispatch({ type: 'SET_QUESTION', question, guesses: topGuesses, traits: newTraits })

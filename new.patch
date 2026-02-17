@@ -1,0 +1,331 @@
+diff --git a/src/renderer/hooks/useGameLoop.ts b/src/renderer/hooks/useGameLoop.ts
+index 84212dd..c8b8b77 100644
+--- a/src/renderer/hooks/useGameLoop.ts
++++ b/src/renderer/hooks/useGameLoop.ts
+@@ -99,6 +99,28 @@ export function useGameLoop() {
+       }
+ 
+       const topGuess = topGuesses[0]
++
++      // Detect if the returned "question" is actually a character guess
++      // Pattern: "Is your character [Name]?" where Name is not a trait keyword
++      const guessMatch = question.match(/^Is your character (.+)\?$/i)
++      const guessName = guessMatch?.[1]?.trim()
++      const traitKeywords = [
++        'american', 'male', 'female', 'fictional', 'real',
++        'an actor', 'an athlete', 'a musician', 'a politician', 'a superhero',
++        'from a', 'from an', 'from the', 'known for', 'alive', 'dead', 'still alive',
++        'a villain', 'a hero', 'a leader', 'in a band', 'a rapper',
++        'well-known', 'internationally', 'primarily', 'associated with', 'part of',
++      ]
++      const isCharacterGuessQuestion = guessName && !traitKeywords.some(kw => guessName.toLowerCase().includes(kw))
++
++      if (isCharacterGuessQuestion && guessName) {
++        // Route through formal guess UI instead of showing as a question
++        console.log(`[UI] 🎯 Turn ${s.turn + 1}: GUESS DETECTED - "${question}" → routing to formal guess: ${guessName}`)
++        dispatch({ type: 'SET_QUESTION', question, guesses: topGuesses, traits: newTraits })
++        dispatch({ type: 'MAKE_GUESS', guess: guessName })
++        return
++      }
++
+       if (topGuess && topGuess.confidence >= CONFIDENCE_THRESHOLD) {
+         console.log(`[UI] 🎯 Turn ${s.turn + 1}: HIGH CONFIDENCE GUESS - ${topGuess.name} (${Math.round(topGuess.confidence * 100)}%)`)
+         dispatch({ type: 'SET_QUESTION', question, guesses: topGuesses, traits: newTraits })
+diff --git a/src/renderer/services/character-rag.ts b/src/renderer/services/character-rag.ts
+index db85200..5ae68a6 100644
+--- a/src/renderer/services/character-rag.ts
++++ b/src/renderer/services/character-rag.ts
+@@ -552,12 +552,81 @@ export function getMostInformativeQuestion(
+     }, fictionOnly: true }
+   ]
+   
++  // Build set of confirmed sub-categories from Q&A + traits
++  // Used to skip mutually exclusive questions (e.g., don't ask "drama?" after "sitcom" confirmed)
++  const confirmedSubCategories = new Set<string>()
++
++  // Check traits for sub-category info
++  for (const trait of confirmedTraits) {
++    if (trait.key === 'category' && !trait.value.startsWith('NOT_')) {
++      confirmedSubCategories.add(trait.value.toLowerCase())
++    }
++  }
++
++  // Also infer from asked questions + answers by checking the askedQuestions
++  // We need the full turn history to know answers, but we can use confirmedTraits
++  // which already encode the answers
++
++  // Define mutually exclusive sub-category groups
++  // If any member is confirmed, skip questions about other members in the same group
++  const mutuallyExclusiveGroups: string[][] = [
++    // TV show sub-genres
++    ['sitcom', 'drama series', 'drama', 'animated show', 'animated'],
++    // Sports
++    ['basketball', 'soccer', 'football', 'baseball', 'combat sports', 'boxing', 'mma', 'wrestling'],
++    // Music genres
++    ['rapper', 'hip-hop', 'rock musician', 'rock', 'pop singer', 'pop'],
++    // Comic publishers
++    ['dc comics', 'dc', 'marvel comics', 'marvel'],
++    // Anime series
++    ['dragon ball', 'naruto', 'one piece'],
++  ]
++
++  // Build set of keywords to skip based on confirmed sub-categories in asked questions
++  const skipKeywords = new Set<string>()
++  for (const group of mutuallyExclusiveGroups) {
++    // Check if any question in this group was asked AND answered yes
++    for (const member of group) {
++      // Check if this sub-category was confirmed via askedQuestions
++      const wasConfirmed = askedQuestions.some(aq => {
++        const aqLower = aq.toLowerCase()
++        // Check if the question mentions this sub-category keyword
++        return aqLower.includes(member)
++      }) && confirmedTraits.some(t => {
++        // And the corresponding trait was positively confirmed
++        const val = t.value.toLowerCase()
++        return !val.startsWith('not_') && (
++          val.includes(member) ||
++          member.includes(val) ||
++          // Handle cases like "sitcom" → category "tv-characters"
++          (member === 'sitcom' && val === 'tv-characters') ||
++          (member === 'drama' && val === 'tv-characters') ||
++          (member === 'animated' && val === 'tv-characters')
++        )
++      })
++
++      if (wasConfirmed) {
++        // Skip all OTHER members of this group
++        for (const other of group) {
++          if (other !== member) {
++            skipKeywords.add(other)
++          }
++        }
++        break // Only need to find one confirmed member per group
++      }
++    }
++  }
++
++  if (skipKeywords.size > 0) {
++    console.log(`[RAG] Mutually exclusive sub-categories to skip:`, Array.from(skipKeywords))
++  }
++
+   // Find question that splits candidates closest to 50/50
+   let bestQuestion: string | null = null
+   let bestScore = Infinity
+-  
++
+   console.log(`[RAG] getMostInformativeQuestion called with ${askedQuestions.length} previously asked questions`)
+-  
++
+   for (const {q, test, fictionOnly, realPersonOnly, categoryRequired} of questions) {
+     // Skip fiction-only questions if character is confirmed as non-fictional
+     if (fictionOnly && isNotFictional) {
+@@ -576,7 +645,16 @@ export function getMostInformativeQuestion(
+       console.info(`[RAG] Skipping ${categoryRequired} question (category ruled out): "${q}"`)
+       continue
+     }
+-    
++
++    // Skip questions about mutually exclusive sub-categories
++    // e.g., if "sitcom" was confirmed, skip "drama series?" and "animated show?"
++    const qLowerCheck = q.toLowerCase()
++    const shouldSkipMutualExclusion = Array.from(skipKeywords).some(kw => qLowerCheck.includes(kw))
++    if (shouldSkipMutualExclusion) {
++      console.info(`[RAG] Skipping mutually exclusive question: "${q}" (conflicts with confirmed sub-category)`)
++      continue
++    }
++
+     // Skip if already asked (check for similar questions, not just exact)
+     const normalizedQ = q.toLowerCase().replace(/[()]/g, '').replace(/\s+/g, ' ').trim()
+     const isAlreadyAsked = askedQuestions.some(aq => {
+diff --git a/src/renderer/services/detective-rag.ts b/src/renderer/services/detective-rag.ts
+index 69dcbd5..6a7b150 100644
+--- a/src/renderer/services/detective-rag.ts
++++ b/src/renderer/services/detective-rag.ts
+@@ -85,13 +85,15 @@ function extractJSON(text: string): any {
+ const RAG_DETECTIVE_SYSTEM_PROMPT = `You are an expert detective in a character-guessing game (like Akinator). You have access to a knowledge base of 400+ characters and must guess the user's character in ~10 questions.
+ 
+ **CRITICAL RULES:**
+-1. Ask ONLY yes/no questions
++1. Ask ONLY yes/no questions about TRAITS or CATEGORIES — NEVER name a specific character in your question
+ 2. Use the "Remaining Candidates" context to focus your questions
+ 3. Ask questions that eliminate ~50% of remaining candidates (information gain)
+-4. When you have 3-5 candidates left, ask SPECIFIC differentiating questions
++4. When you have 3-5 candidates left, ask SPECIFIC differentiating questions about TRAITS, not character names
+ 5. Make a guess when confidence ≥ 0.75 OR remaining candidates ≤ 2
+ 6. **DO NOT ask about:** Geography/nationality, specific dates, specific awards, specific physical features (too specific, can't be tracked)
+ 7. **ONLY ask about:** Category, fictional status, gender, powers, alignment, era (broad), origin medium, team membership
++8. **NEVER ask "Is your character [Character Name]?"** — naming a specific character is a GUESS, not a question. Only the game system makes guesses.
++9. **NEVER ask questions that contradict previous answers.** If user confirmed "sitcom", do NOT ask about "drama". If user confirmed "basketball", do NOT ask about "soccer".
+ 
+ **CATEGORY LOGIC (CRITICAL):**
+ Once a character's primary category is confirmed (e.g., actor, athlete, musician, politician):
+@@ -407,6 +409,49 @@ IMPORTANT: Base guesses ONLY on the given traits. Don't make random guesses.`
+   }
+ }
+ 
++/**
++ * Detect if a question is naming a specific character rather than asking about a trait.
++ * Questions like "Is your character Dennis the Menace?" or "Is your character Spider-Man?"
++ * should be treated as guesses, not questions. Only the formal guess logic should do this.
++ */
++function isCharacterNameQuestion(question: string): boolean {
++  // Match pattern: "Is your character [Name]?" where Name is NOT a trait descriptor
++  const guessMatch = question.match(/^Is your character (.+)\?$/i)
++  if (!guessMatch) return false
++
++  const captured = guessMatch[1].trim()
++
++  // List of trait keywords — if the captured part contains these, it's a trait question, not a name
++  const traitKeywords = [
++    'american', 'male', 'female', 'fictional', 'real',
++    'an actor', 'an athlete', 'a musician', 'a politician', 'a superhero',
++    'from a', 'from an', 'from the', 'known for', 'alive', 'dead', 'still alive',
++    'a villain', 'a hero', 'a leader', 'in a band', 'a rapper',
++    'a basketball', 'a soccer', 'a baseball', 'a combat',
++    'well-known', 'internationally', 'primarily',
++    'associated with', 'part of', 'based on',
++  ]
++
++  const capturedLower = captured.toLowerCase()
++  if (traitKeywords.some(kw => capturedLower.includes(kw))) {
++    return false // It's a trait question
++  }
++
++  // Check if captured text looks like a proper name (contains capitalized words)
++  // or is a known character in the database
++  const hasCapitalizedWords = /[A-Z][a-z]/.test(captured)
++  const looksLikeName = hasCapitalizedWords && captured.split(/\s+/).length <= 6
++
++  // Also check the knowledge base
++  const knownCharacter = getCharacterByName(captured)
++
++  if (knownCharacter || looksLikeName) {
++    return true
++  }
++
++  return false
++}
++
+ /**
+  * Ask the next question using RAG context
+  */
+@@ -916,8 +961,45 @@ async function askNextQuestion(
+     t.confidence >= 0.85
+   )
+   
+-  const categoryGuidance = confirmedCategory 
+-    ? `\n\n**IMPORTANT:** Category is confirmed as "${confirmedCategory.value}". 
++  // Build guidance about confirmed sub-categories to prevent contradictory questions
++  // e.g., if "sitcom" was confirmed, don't ask about "drama"
++  const confirmedAnswers = turns
++    .filter(t => t.answer === 'yes' || t.answer === 'probably')
++    .map(t => t.question.toLowerCase())
++
++  const contradictionRules: string[] = []
++  const subCategoryConflicts: Record<string, string[]> = {
++    'sitcom': ['drama', 'animated show', 'horror', 'thriller'],
++    'drama': ['sitcom', 'comedy', 'animated show'],
++    'animated': ['live-action', 'sitcom'],
++    'basketball': ['soccer', 'football', 'baseball', 'tennis', 'golf', 'hockey', 'boxing', 'mma'],
++    'soccer': ['basketball', 'baseball', 'tennis', 'golf', 'hockey', 'boxing', 'mma'],
++    'football': ['basketball', 'baseball', 'tennis', 'golf', 'hockey', 'boxing', 'mma'],
++    'baseball': ['basketball', 'soccer', 'football', 'tennis', 'golf', 'hockey', 'boxing', 'mma'],
++    'rapper': ['rock', 'pop singer', 'country', 'classical'],
++    'rock': ['rapper', 'hip-hop', 'pop singer', 'country', 'classical'],
++    'pop': ['rapper', 'hip-hop', 'rock', 'country', 'classical'],
++    'dc comics': ['marvel'],
++    'marvel': ['dc comics'],
++    'dragon ball': ['naruto', 'one piece', 'bleach', 'attack on titan'],
++    'naruto': ['dragon ball', 'one piece', 'bleach', 'attack on titan'],
++    'one piece': ['dragon ball', 'naruto', 'bleach', 'attack on titan'],
++  }
++
++  for (const confirmedQ of confirmedAnswers) {
++    for (const [keyword, conflicts] of Object.entries(subCategoryConflicts)) {
++      if (confirmedQ.includes(keyword)) {
++        contradictionRules.push(`User confirmed "${keyword}" — do NOT ask about: ${conflicts.join(', ')}`)
++      }
++    }
++  }
++
++  const contradictionGuidance = contradictionRules.length > 0
++    ? `\n\n**CONTRADICTIONS TO AVOID (based on confirmed answers):**\n${contradictionRules.join('\n')}`
++    : ''
++
++  const categoryGuidance = confirmedCategory
++    ? `\n\n**IMPORTANT:** Category is confirmed as "${confirmedCategory.value}".
+ DO NOT ask about other categories (actor/athlete/musician/politician/etc.) unless absolutely necessary.
+ Focus on discriminating questions within this category (era, specific works, characteristics, teams).`
+     : ''
+@@ -926,7 +1008,7 @@ Focus on discriminating questions within this category (era, specific works, cha
+ **Current Game State:**
+ Turn: ${turns.length + 1}
+ Confirmed traits:
+-${traitsList || '(none yet)'}${categoryGuidance}
++${traitsList || '(none yet)'}${categoryGuidance}${contradictionGuidance}
+ 
+ **Previous Q&A:**
+ ${turnsList || '(no questions yet)'}
+@@ -946,11 +1028,13 @@ CRITICAL RULES:
+ 2. Ask about ONE trait only (NOT compound questions with "and" or "or")
+ 3. Keep it broad and simple - NO specific details about team members, abilities, etc.
+ 4. If stuck, try a DIFFERENT type of question (era, appearance, personality, origin)
++5. NEVER name a specific character in your question — "Is your character [Name]?" is a GUESS, not a question
++6. NEVER ask questions that contradict confirmed answers (e.g., don't ask "drama?" after "sitcom" was confirmed)
+ 
++BAD: "Is your character Dennis the Menace?" (this is a guess, not a question!)
++BAD: "Is your character from a drama?" (after user confirmed sitcom)
+ BAD: "Is your character part of a team that includes a member known for having a high level of agility?"
+ GOOD: "Does your character work with a team?"
+-
+-BAD: "Is your character known for intelligence and strategic planning?"
+ GOOD: "Is your character known for intelligence?"
+ 
+ Return your response as JSON.`
+@@ -989,6 +1073,18 @@ Return your response as JSON.`
+       }
+     }
+ 
++    // CRITICAL: Detect character-name questions from LLM
++    // The LLM should NEVER ask "Is your character [Specific Name]?" — that's a guess, not a question
++    // Only the game's formal guess logic should do that
++    if (isCharacterNameQuestion(questionText)) {
++      console.warn(`[Detective-RAG] LLM tried to ask character-name question: "${questionText}" — rejecting`)
++      console.warn('[Detective-RAG] Character-name questions must go through formal guess logic, not LLM questions')
++      return {
++        question: getFallbackQuestion(turns.map(t => t.question), traits),
++        topGuesses: ragGuesses.map(g => ({ name: g.name, confidence: g.confidence }))
++      }
++    }
++
+     // CRITICAL: Check if this question was already asked
+     // This prevents duplicate questions when trait extraction fails
+     const askedQuestions = turns.map(t => t.question.toLowerCase())
+diff --git a/src/shared/constants.ts b/src/shared/constants.ts
+index f65e700..a63b67b 100644
+--- a/src/shared/constants.ts
++++ b/src/shared/constants.ts
+@@ -18,11 +18,11 @@ export const MAX_TURNS = 100  // Allow extensive questioning to narrow down
+ 
+ // Set to false to disable image generation during detective testing
+ // DISABLED: Lemonade image generation takes 180+ seconds and times out
+-export const ENABLE_IMAGE_GENERATION = false
++export const ENABLE_IMAGE_GENERATION = true
+ 
+ // Set to true to use LLM-based visualist (Phi-4-mini) instead of pure function
+ // When false, falls back to buildImagePrompt() for A/B testing
+-export const ENABLE_VISUALIST_LLM = false // Disabled - visualist-llm module not implemented
++export const ENABLE_VISUALIST_LLM = true
+ 
+ // SDXL-Turbo progressive quality: low cfg_scale (turbo models work best near 1.0)
+ // Steps ramp from 2 (fast/blurry) to 6 (sharp) over turns
+@@ -31,7 +31,7 @@ export const getImageParams = (turn: number) => {
+   return {
+     steps: Math.round(1 + progress * 3),
+     cfg_scale: 1.0,
+-    width: 512,
+-    height: 512,
++    width: 256,
++    height: 256,
+   }
+ }

@@ -418,49 +418,6 @@ IMPORTANT: Base guesses ONLY on the given traits. Don't make random guesses.`
 }
 
 /**
- * Detect if a question is naming a specific character rather than asking about a trait.
- * Questions like "Is your character Dennis the Menace?" or "Is your character Spider-Man?"
- * should be treated as guesses, not questions. Only the formal guess logic should do this.
- */
-function isCharacterNameQuestion(question: string): boolean {
-  // Match pattern: "Is your character [Name]?" where Name is NOT a trait descriptor
-  const guessMatch = question.match(/^Is your character (.+)\?$/i)
-  if (!guessMatch) return false
-
-  const captured = guessMatch[1].trim()
-
-  // List of trait keywords — if the captured part contains these, it's a trait question, not a name
-  const traitKeywords = [
-    'american', 'male', 'female', 'fictional', 'real',
-    'an actor', 'an athlete', 'a musician', 'a politician', 'a superhero',
-    'from a', 'from an', 'from the', 'known for', 'alive', 'dead', 'still alive',
-    'a villain', 'a hero', 'a leader', 'in a band', 'a rapper',
-    'a basketball', 'a soccer', 'a baseball', 'a combat',
-    'well-known', 'internationally', 'primarily',
-    'associated with', 'part of', 'based on',
-  ]
-
-  const capturedLower = captured.toLowerCase()
-  if (traitKeywords.some(kw => capturedLower.includes(kw))) {
-    return false // It's a trait question
-  }
-
-  // Check if captured text looks like a proper name (contains capitalized words)
-  // or is a known character in the database
-  const hasCapitalizedWords = /[A-Z][a-z]/.test(captured)
-  const looksLikeName = hasCapitalizedWords && captured.split(/\s+/).length <= 6
-
-  // Also check the knowledge base
-  const knownCharacter = getCharacterByName(captured)
-
-  if (knownCharacter || looksLikeName) {
-    return true
-  }
-
-  return false
-}
-
-/**
  * Ask the next question using RAG context
  */
 async function askNextQuestion(
@@ -969,45 +926,8 @@ async function askNextQuestion(
     t.confidence >= 0.85
   )
   
-  // Build guidance about confirmed sub-categories to prevent contradictory questions
-  // e.g., if "sitcom" was confirmed, don't ask about "drama"
-  const confirmedAnswers = turns
-    .filter(t => t.answer === 'yes' || t.answer === 'probably')
-    .map(t => t.question.toLowerCase())
-
-  const contradictionRules: string[] = []
-  const subCategoryConflicts: Record<string, string[]> = {
-    'sitcom': ['drama', 'animated show', 'horror', 'thriller'],
-    'drama': ['sitcom', 'comedy', 'animated show'],
-    'animated': ['live-action', 'sitcom'],
-    'basketball': ['soccer', 'football', 'baseball', 'tennis', 'golf', 'hockey', 'boxing', 'mma'],
-    'soccer': ['basketball', 'baseball', 'tennis', 'golf', 'hockey', 'boxing', 'mma'],
-    'football': ['basketball', 'baseball', 'tennis', 'golf', 'hockey', 'boxing', 'mma'],
-    'baseball': ['basketball', 'soccer', 'football', 'tennis', 'golf', 'hockey', 'boxing', 'mma'],
-    'rapper': ['rock', 'pop singer', 'country', 'classical'],
-    'rock': ['rapper', 'hip-hop', 'pop singer', 'country', 'classical'],
-    'pop': ['rapper', 'hip-hop', 'rock', 'country', 'classical'],
-    'dc comics': ['marvel'],
-    'marvel': ['dc comics'],
-    'dragon ball': ['naruto', 'one piece', 'bleach', 'attack on titan'],
-    'naruto': ['dragon ball', 'one piece', 'bleach', 'attack on titan'],
-    'one piece': ['dragon ball', 'naruto', 'bleach', 'attack on titan'],
-  }
-
-  for (const confirmedQ of confirmedAnswers) {
-    for (const [keyword, conflicts] of Object.entries(subCategoryConflicts)) {
-      if (confirmedQ.includes(keyword)) {
-        contradictionRules.push(`User confirmed "${keyword}" — do NOT ask about: ${conflicts.join(', ')}`)
-      }
-    }
-  }
-
-  const contradictionGuidance = contradictionRules.length > 0
-    ? `\n\n**CONTRADICTIONS TO AVOID (based on confirmed answers):**\n${contradictionRules.join('\n')}`
-    : ''
-
-  const categoryGuidance = confirmedCategory
-    ? `\n\n**IMPORTANT:** Category is confirmed as "${confirmedCategory.value}".
+  const categoryGuidance = confirmedCategory 
+    ? `\n\n**IMPORTANT:** Category is confirmed as "${confirmedCategory.value}". 
 DO NOT ask about other categories (actor/athlete/musician/politician/etc.) unless absolutely necessary.
 Focus on discriminating questions within this category (era, specific works, characteristics, teams).`
     : ''
@@ -1016,7 +936,7 @@ Focus on discriminating questions within this category (era, specific works, cha
 **Current Game State:**
 Turn: ${turns.length + 1}
 Confirmed traits:
-${traitsList || '(none yet)'}${categoryGuidance}${contradictionGuidance}
+${traitsList || '(none yet)'}${categoryGuidance}
 
 **Previous Q&A:**
 ${turnsList || '(no questions yet)'}
@@ -1036,13 +956,11 @@ CRITICAL RULES:
 2. Ask about ONE trait only (NOT compound questions with "and" or "or")
 3. Keep it broad and simple - NO specific details about team members, abilities, etc.
 4. If stuck, try a DIFFERENT type of question (era, appearance, personality, origin)
-5. NEVER name a specific character in your question — "Is your character [Name]?" is a GUESS, not a question
-6. NEVER ask questions that contradict confirmed answers (e.g., don't ask "drama?" after "sitcom" was confirmed)
 
-BAD: "Is your character Dennis the Menace?" (this is a guess, not a question!)
-BAD: "Is your character from a drama?" (after user confirmed sitcom)
 BAD: "Is your character part of a team that includes a member known for having a high level of agility?"
 GOOD: "Does your character work with a team?"
+
+BAD: "Is your character known for intelligence and strategic planning?"
 GOOD: "Is your character known for intelligence?"
 
 Return your response as JSON.`
@@ -1107,18 +1025,6 @@ Return your response as JSON.`
           question: getFallbackQuestion(turns.map(t => t.question), traits),
           topGuesses: ragGuesses.map(g => ({ name: g.name, confidence: g.confidence }))
         }
-      }
-    }
-
-    // CRITICAL: Detect character-name questions from LLM
-    // The LLM should NEVER ask "Is your character [Specific Name]?" — that's a guess, not a question
-    // Only the game's formal guess logic should do that
-    if (isCharacterNameQuestion(questionText)) {
-      console.warn(`[Detective-RAG] LLM tried to ask character-name question: "${questionText}" — rejecting`)
-      console.warn('[Detective-RAG] Character-name questions must go through formal guess logic, not LLM questions')
-      return {
-        question: getFallbackQuestion(turns.map(t => t.question), traits),
-        topGuesses: ragGuesses.map(g => ({ name: g.name, confidence: g.confidence }))
       }
     }
 

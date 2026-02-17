@@ -610,7 +610,7 @@ export function getMostInformativeQuestion(
       console.info(`[RAG] Skipping mutually exclusive question: "${q}"`)
       continue
     }
-
+    
     // Skip if already asked (check for similar questions, not just exact)
     const normalizedQ = q.toLowerCase().replace(/[()]/g, '').replace(/\s+/g, ' ').trim()
     const isAlreadyAsked = askedQuestions.some(aq => {

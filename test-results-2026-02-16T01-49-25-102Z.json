@@ -1,0 +1,3434 @@
+{
+  "timestamp": "2026-02-16T01:49:25.103Z",
+  "options": {
+    "numGames": 5,
+    "maxTurns": 25
+  },
+  "metrics": {
+    "totalGames": 5,
+    "successRate": 0,
+    "averageTurns": 25,
+    "guessDistribution": {
+      "firstGuess": 0,
+      "secondGuess": 0,
+      "thirdGuess": 0,
+      "notInTop3": 5
+    },
+    "categoryPerformance": {
+      "athletes": {
+        "games": 2,
+        "success": 0,
+        "avgTurns": 25
+      },
+      "tv-characters": {
+        "games": 1,
+        "success": 0,
+        "avgTurns": 25
+      },
+      "actors": {
+        "games": 2,
+        "success": 0,
+        "avgTurns": 25
+      }
+    },
+    "hardestCharacters": [
+      {
+        "name": "Tom Brady",
+        "turns": 25
+      },
+      {
+        "name": "Chandler Bing",
+        "turns": 25
+      },
+      {
+        "name": "Ben Affleck",
+        "turns": 25
+      },
+      {
+        "name": "Rafael Nadal",
+        "turns": 25
+      },
+      {
+        "name": "Emma Watson",
+        "turns": 25
+      }
+    ]
+  },
+  "results": [
+    {
+      "characterName": "Tom Brady",
+      "category": "athletes",
+      "success": false,
+      "turnsToGuess": 25,
+      "totalTurns": 25,
+      "finalGuesses": [
+        "Emmanuel Macron",
+        "François Hollande",
+        "Hugo Chávez",
+        "Donald Trump",
+        "Nicolas Sarkozy"
+      ],
+      "correctGuessRank": null,
+      "traits": [
+        {
+          "key": "origin_medium",
+          "value": "NOT_comic-book",
+          "confidence": 0.9,
+          "turnAdded": 16
+        }
+      ],
+      "questionHistory": [
+        {
+          "question": "Is your character American?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2993395188103421
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.29757696816382434
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.29723418563768694
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.29538683216389866
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.289043826715982
+            }
+          ]
+        },
+        {
+          "question": "Is your character American?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.29443652113862445
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.29379631216949975
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.2925834099344446
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.2905547063569034
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2901714234090995
+            }
+          ]
+        },
+        {
+          "question": "Is your character male?",
+          "answer": "probably",
+          "topGuesses": [
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.29966793258024477
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.29761685564223145
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.29627659819051666
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2925192432507296
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2908596219346558
+            }
+          ]
+        },
+        {
+          "question": "Is your character male?",
+          "answer": "probably",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.29980829359330624
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.29609350447919197
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.29279958051933025
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.29172918332294256
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.2894286210357917
+            }
+          ]
+        },
+        {
+          "question": "Is your character fictional?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.29972987843959875
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.2994763186943319
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.29500444180043617
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.29468379862850813
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.2938910391501532
+            }
+          ]
+        },
+        {
+          "question": "Is your character fictional?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.2982753255223727
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.2974713993458886
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.2973142321660619
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.2960626321673563
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.29456614703818385
+            }
+          ]
+        },
+        {
+          "question": "Is your character still alive today?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.29970141101161774
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.297777969970645
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.2958138787632436
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.29388532586768784
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.2926436079511276
+            }
+          ]
+        },
+        {
+          "question": "Is your character still alive today?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.29820711929589094
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.2972071561868356
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.29555293524784
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.2933535552169538
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.29133959050061164
+            }
+          ]
+        },
+        {
+          "question": "Is your character a historical figure (died before 1950)?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2997728817850563
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.29802552477995325
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.29581925187011276
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.2916902515269346
+            },
+            {
+              "name": "Saddam Hussein",
+              "confidence": 0.28997392712853404
+            }
+          ]
+        },
+        {
+          "question": "Is your character a historical figure (died before 1950)?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.2992019803337855
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2982918908766761
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.2979438088923181
+            },
+            {
+              "name": "Jimmy Carter",
+              "confidence": 0.28925337149153124
+            },
+            {
+              "name": "George H. W. Bush",
+              "confidence": 0.2886442991769326
+            }
+          ]
+        },
+        {
+          "question": "Is your character an actor?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.29618661136708796
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.29597469552338956
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2918545066555487
+            },
+            {
+              "name": "Yasser Arafat",
+              "confidence": 0.28958275938813577
+            },
+            {
+              "name": "Anwar Sadat",
+              "confidence": 0.28933145157011186
+            }
+          ]
+        },
+        {
+          "question": "Is your character an actor?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.2986031511586761
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.2983069887747699
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.2922489300614188
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.29098339046287236
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.2893467213851934
+            }
+          ]
+        },
+        {
+          "question": "Is your character a superhero?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.2987664051007558
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.29805846064650876
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.29714261035674705
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.29635184261866915
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.29293330456083994
+            }
+          ]
+        },
+        {
+          "question": "Is your character a superhero?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.2997615669867387
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.29830657354298784
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.2978209764794139
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.29771244495938376
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2963502723874917
+            }
+          ]
+        },
+        {
+          "question": "Did your character originate in a comic book?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.29934979738404305
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.293500702890394
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.2915652481179545
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.28944652963493206
+            },
+            {
+              "name": "Saddam Hussein",
+              "confidence": 0.2887897499922052
+            }
+          ]
+        },
+        {
+          "question": "Did your character originate in a comic book?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Donald Trump",
+              "confidence": 0.59864827376554
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.5984352987748086
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.595738354361029
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5944234384944075
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.5930125204919734
+            }
+          ]
+        },
+        {
+          "question": "Is your character an athlete?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5990228759740691
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5948760750795133
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.5927776437560315
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5909677087763202
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.5897436585991854
+            }
+          ]
+        },
+        {
+          "question": "Is your character an athlete?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5991495276999437
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.5980874972627016
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.597531216509606
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5923624511209273
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.592124147334012
+            }
+          ]
+        },
+        {
+          "question": "Is your character from a TV show?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.5995892787972099
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5993895375696848
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.596907917115852
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5945918074088108
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.5937981749239339
+            }
+          ]
+        },
+        {
+          "question": "Is your character from a TV show?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5932392769173216
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.5927625586869348
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.5918728034692631
+            },
+            {
+              "name": "Abraham Lincoln",
+              "confidence": 0.5890748857150665
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5883183203012747
+            }
+          ]
+        },
+        {
+          "question": "Is your character a politician?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.5964684338572336
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.5956087769854009
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.5952746283010673
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5944416034729718
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5934584864602992
+            }
+          ]
+        },
+        {
+          "question": "Is your character a politician?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.599030723596573
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.5959827604115818
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.5935432325253372
+            },
+            {
+              "name": "George W. Bush",
+              "confidence": 0.5891571735621867
+            },
+            {
+              "name": "Yasser Arafat",
+              "confidence": 0.5875826486027238
+            }
+          ]
+        },
+        {
+          "question": "Is your character a musician or singer?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5994663148785371
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.595375926526644
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.5943774660961352
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.5922716252197502
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.5909404267044961
+            }
+          ]
+        },
+        {
+          "question": "Is your character a musician or singer?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.5959251249360724
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.5918247960479367
+            },
+            {
+              "name": "Abraham Lincoln",
+              "confidence": 0.5894178323983759
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.587016370488515
+            },
+            {
+              "name": "George W. Bush",
+              "confidence": 0.5869948229763069
+            }
+          ]
+        },
+        {
+          "question": "Is your character known primarily for comedy?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.5991454250771269
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.5943180086342041
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.5927596143930277
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5904961032204802
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5894613005913085
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "characterName": "Chandler Bing",
+      "category": "tv-characters",
+      "success": false,
+      "turnsToGuess": 25,
+      "totalTurns": 25,
+      "finalGuesses": [
+        "François Hollande",
+        "Donald Trump",
+        "Barack Obama",
+        "Recep Tayyip Erdoğan",
+        "Vladimir Putin"
+      ],
+      "correctGuessRank": null,
+      "traits": [
+        {
+          "key": "origin_medium",
+          "value": "NOT_comic-book",
+          "confidence": 0.9,
+          "turnAdded": 16
+        }
+      ],
+      "questionHistory": [
+        {
+          "question": "Is your character American?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.29773858066028186
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.29755945316946675
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.2967928974421151
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.29633236625637227
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.29457199756303554
+            }
+          ]
+        },
+        {
+          "question": "Is your character American?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.29996144439596034
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.299021130722317
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.2982692768317457
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.29759920221723635
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2972245340961724
+            }
+          ]
+        },
+        {
+          "question": "Is your character male?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.2991819734406329
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.29912556146227814
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.2987818336040232
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.29017290010894814
+            },
+            {
+              "name": "Ronald Reagan",
+              "confidence": 0.28875919680666795
+            }
+          ]
+        },
+        {
+          "question": "Is your character male?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.2991510289745789
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.2982888368873812
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.29393335672140497
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.29173019417859924
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.2911885105996198
+            }
+          ]
+        },
+        {
+          "question": "Is your character fictional?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2972579153302558
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.29528005609153374
+            },
+            {
+              "name": "Franklin D. Roosevelt",
+              "confidence": 0.2899571293601519
+            },
+            {
+              "name": "Boris Yeltsin",
+              "confidence": 0.2898799800038965
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.2886979500076605
+            }
+          ]
+        },
+        {
+          "question": "Is your character fictional?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2979357312963242
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.29561098523471685
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.2952499653523416
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.29362631882634055
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.2918805148654252
+            }
+          ]
+        },
+        {
+          "question": "Is your character still alive today?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Donald Trump",
+              "confidence": 0.29299824647858097
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2922232929989227
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.28921023248772554
+            },
+            {
+              "name": "Franklin D. Roosevelt",
+              "confidence": 0.28886543175435964
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.28859325878847836
+            }
+          ]
+        },
+        {
+          "question": "Is your character still alive today?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.2990607292213431
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.2985961143980191
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.2948790998477237
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.2941835646054582
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2907117586572307
+            }
+          ]
+        },
+        {
+          "question": "Is your character a historical figure (died before 1950)?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Joe Biden",
+              "confidence": 0.2994406659981373
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.29774306726942557
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2960144077174815
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.29451782848429925
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.29435918113441556
+            }
+          ]
+        },
+        {
+          "question": "Is your character a historical figure (died before 1950)?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Donald Trump",
+              "confidence": 0.29934046016006255
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.2983276934459591
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.2981022034752559
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.2950520267778991
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.2908608202372981
+            }
+          ]
+        },
+        {
+          "question": "Is your character an actor?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.29953030697535915
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.29835418172446715
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2978548220926436
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.29616503034234937
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.29283808431904446
+            }
+          ]
+        },
+        {
+          "question": "Is your character an actor?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.29772447719534306
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.29465412345438013
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.2945756105820629
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.2929328536952658
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2902389436998355
+            }
+          ]
+        },
+        {
+          "question": "Is your character a superhero?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "François Hollande",
+              "confidence": 0.29794445103970185
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2973994158001961
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.2945420795815037
+            },
+            {
+              "name": "Theodore Roosevelt",
+              "confidence": 0.2899165207533721
+            },
+            {
+              "name": "Nelson Mandela",
+              "confidence": 0.28853152566640294
+            }
+          ]
+        },
+        {
+          "question": "Is your character a superhero?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.29898474203988945
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.2974828614582145
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.2960502037570469
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.29420790828604626
+            },
+            {
+              "name": "Saddam Hussein",
+              "confidence": 0.2898620715136757
+            }
+          ]
+        },
+        {
+          "question": "Did your character originate in a comic book?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2997812046028062
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.29818797731861885
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2969879038923747
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.2944668148956552
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.29256035453519635
+            }
+          ]
+        },
+        {
+          "question": "Did your character originate in a comic book?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5989851381554033
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5963038218626694
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.5952496502761575
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.5930054220437055
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.5925183389663498
+            }
+          ]
+        },
+        {
+          "question": "Is your character an athlete?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5980437381962647
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.5972000804043502
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.592701157645281
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.5915093520730019
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5906746606929635
+            }
+          ]
+        },
+        {
+          "question": "Is your character an athlete?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5942246577592996
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.5940916608455922
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5934923258054633
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.5902058368132499
+            },
+            {
+              "name": "Abraham Lincoln",
+              "confidence": 0.5898215083084403
+            }
+          ]
+        },
+        {
+          "question": "Is your character from a TV show?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5977202389427227
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5971755020506392
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.5961484783366
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.5933735125176075
+            },
+            {
+              "name": "Saddam Hussein",
+              "confidence": 0.5898868028337461
+            }
+          ]
+        },
+        {
+          "question": "Is your character from a TV show?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "François Hollande",
+              "confidence": 0.5991719100230356
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.5974873015874191
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.5958116923028765
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5946702845615459
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.5944706738687391
+            }
+          ]
+        },
+        {
+          "question": "Is your character a politician?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.5994089156503057
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.5981622876924141
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.5966710648978997
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5952042974987564
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.5933885620394196
+            }
+          ]
+        },
+        {
+          "question": "Is your character a politician?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.5961188703402812
+            },
+            {
+              "name": "Anwar Sadat",
+              "confidence": 0.5897346546325869
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.5895427583147478
+            },
+            {
+              "name": "Nelson Mandela",
+              "confidence": 0.5889866003690758
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.5883563854861998
+            }
+          ]
+        },
+        {
+          "question": "Is your character a musician or singer?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.5975167875082328
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.5952082693491356
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.592095532005177
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5897578317454955
+            },
+            {
+              "name": "Franklin D. Roosevelt",
+              "confidence": 0.5884420020451766
+            }
+          ]
+        },
+        {
+          "question": "Is your character a musician or singer?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.5970249061269479
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.592501724765706
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5924494438457827
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5923564128823612
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.5919358670987075
+            }
+          ]
+        },
+        {
+          "question": "Is your character known primarily for comedy?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "François Hollande",
+              "confidence": 0.598431905725131
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5980884471566569
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.5976459714184689
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.5956526547785683
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.5942828464745158
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "characterName": "Ben Affleck",
+      "category": "actors",
+      "success": false,
+      "turnsToGuess": 25,
+      "totalTurns": 25,
+      "finalGuesses": [
+        "Joe Biden",
+        "Nicolas Sarkozy",
+        "Recep Tayyip Erdoğan",
+        "Hugo Chávez",
+        "François Hollande"
+      ],
+      "correctGuessRank": null,
+      "traits": [
+        {
+          "key": "origin_medium",
+          "value": "NOT_comic-book",
+          "confidence": 0.9,
+          "turnAdded": 16
+        }
+      ],
+      "questionHistory": [
+        {
+          "question": "Is your character American?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.299171895218265
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.2975008394053007
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.29656406522319545
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.29211857232620975
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.29010271903934143
+            }
+          ]
+        },
+        {
+          "question": "Is your character American?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Joe Biden",
+              "confidence": 0.2994685637376187
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.29905991441734864
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.2970141426785606
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2949850107415307
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.294020272202952
+            }
+          ]
+        },
+        {
+          "question": "Is your character male?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.29538943342668783
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.2945265831865684
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.29341685624749386
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.2914219921181664
+            },
+            {
+              "name": "Jimmy Carter",
+              "confidence": 0.2888313047187691
+            }
+          ]
+        },
+        {
+          "question": "Is your character male?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.299272209644525
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.29584424497584844
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.2898473083492398
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.2897745122900108
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.28922623576957335
+            }
+          ]
+        },
+        {
+          "question": "Is your character fictional?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.29976467130436196
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.29912834107238456
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.29808100956291433
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2979069471687029
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.29580401771616494
+            }
+          ]
+        },
+        {
+          "question": "Is your character fictional?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.297393871722311
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.2962840497670818
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.2945905440352339
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.2932543200799591
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.291474271104117
+            }
+          ]
+        },
+        {
+          "question": "Is your character still alive today?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.2987101099178182
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.2962000441411155
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.29199224141266894
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2919410266424844
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.2905196652234432
+            }
+          ]
+        },
+        {
+          "question": "Is your character still alive today?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.2958641516766516
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.2957028432599636
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.2938419957825623
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2913984006873963
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.29040791448259584
+            }
+          ]
+        },
+        {
+          "question": "Is your character a historical figure (died before 1950)?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.2974411753241508
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2973530672266933
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.29504963360025566
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.2937877564653013
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.29340791329906424
+            }
+          ]
+        },
+        {
+          "question": "Is your character a historical figure (died before 1950)?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.2994731133485739
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.29827348655095254
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2930677752585397
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.2900205184477132
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.288379579026034
+            }
+          ]
+        },
+        {
+          "question": "Is your character an actor?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.2981456395428916
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2971769407444558
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.2950789876888
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.2933887150632214
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2925347951125279
+            }
+          ]
+        },
+        {
+          "question": "Is your character an actor?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2961786125478535
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.294243100167242
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.2934763696135769
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.2897029695406959
+            },
+            {
+              "name": "Boris Yeltsin",
+              "confidence": 0.2893949824872277
+            }
+          ]
+        },
+        {
+          "question": "Is your character a superhero?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2992494552914017
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.299232656838783
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.29193834925179984
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.29059848521543796
+            },
+            {
+              "name": "Harry S. Truman",
+              "confidence": 0.2896659407122401
+            }
+          ]
+        },
+        {
+          "question": "Is your character a superhero?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.299310917820914
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.29835913690397864
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.29832557046958624
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.29831516765809973
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.29561494086515727
+            }
+          ]
+        },
+        {
+          "question": "Did your character originate in a comic book?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2999737806920194
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.29991996129207416
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.29815378917935537
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.29708212139834783
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.2970777287637367
+            }
+          ]
+        },
+        {
+          "question": "Did your character originate in a comic book?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5986335526262767
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.596549205469517
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.593015367035459
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5910655892376286
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.5896724754670868
+            }
+          ]
+        },
+        {
+          "question": "Is your character an athlete?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.5997797029524556
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.5992526749449536
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.5981944901734716
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.5900021320220661
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5899295105205712
+            }
+          ]
+        },
+        {
+          "question": "Is your character an athlete?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.5989417191373048
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.5971986881442973
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5971190420554905
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.5962943323816102
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.5961494361233027
+            }
+          ]
+        },
+        {
+          "question": "Is your character from a TV show?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.5980903126503315
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5963071988900401
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.5955634887014947
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5952196388004669
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5940852583079606
+            }
+          ]
+        },
+        {
+          "question": "Is your character from a TV show?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.5993180667081607
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5959889775080699
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5959798593017507
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5938027661120914
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.5935898860133368
+            }
+          ]
+        },
+        {
+          "question": "Is your character a politician?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5989272062294518
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5904550731969808
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.5901648037085171
+            },
+            {
+              "name": "John F. Kennedy",
+              "confidence": 0.5883126742361131
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5883109639659215
+            }
+          ]
+        },
+        {
+          "question": "Is your character a politician?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "François Hollande",
+              "confidence": 0.5998329110283079
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.5948734009978432
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.5908720516155404
+            },
+            {
+              "name": "Abraham Lincoln",
+              "confidence": 0.5885899707914346
+            },
+            {
+              "name": "Anwar Sadat",
+              "confidence": 0.587463421404009
+            }
+          ]
+        },
+        {
+          "question": "Is your character a musician or singer?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5993464171727947
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5989045169024956
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.5960276067253519
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.5908152685494237
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.5899914848767654
+            }
+          ]
+        },
+        {
+          "question": "Is your character a musician or singer?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5989649816733118
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.5972680973050888
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.5953352856381325
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.5928255454809342
+            },
+            {
+              "name": "Franklin D. Roosevelt",
+              "confidence": 0.589664672245794
+            }
+          ]
+        },
+        {
+          "question": "Is your character known primarily for comedy?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5992074654023549
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5973482504580949
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.5963077544164835
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.5961087622209034
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.5946409274142969
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "characterName": "Rafael Nadal",
+      "category": "athletes",
+      "success": false,
+      "turnsToGuess": 25,
+      "totalTurns": 25,
+      "finalGuesses": [
+        "Nicolas Sarkozy",
+        "Joe Biden",
+        "Donald Trump",
+        "Hugo Chávez",
+        "Recep Tayyip Erdoğan"
+      ],
+      "correctGuessRank": null,
+      "traits": [
+        {
+          "key": "origin_medium",
+          "value": "NOT_comic-book",
+          "confidence": 0.9,
+          "turnAdded": 16
+        }
+      ],
+      "questionHistory": [
+        {
+          "question": "Is your character American?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "François Hollande",
+              "confidence": 0.2962266524500421
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2929240202550483
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.29083080291151
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.28959290849589603
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.28925431802500934
+            }
+          ]
+        },
+        {
+          "question": "Is your character American?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.2954934319893095
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.2951700265016532
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.293406006595577
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.28992769223530507
+            },
+            {
+              "name": "George W. Bush",
+              "confidence": 0.2890926148107664
+            }
+          ]
+        },
+        {
+          "question": "Is your character male?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "François Hollande",
+              "confidence": 0.29849765994624183
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.29670550944694696
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.2955688254583457
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.29333120513442096
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.29164771999159483
+            }
+          ]
+        },
+        {
+          "question": "Is your character male?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.2999324319969422
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.29667444071169663
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.29522768953166717
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.29307461557294584
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.29222397487803176
+            }
+          ]
+        },
+        {
+          "question": "Is your character fictional?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Donald Trump",
+              "confidence": 0.29895398392597394
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2979985865163723
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.29542540463199946
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.2935889743446233
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.29278520608935155
+            }
+          ]
+        },
+        {
+          "question": "Is your character fictional?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "François Hollande",
+              "confidence": 0.29842113287260835
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.29832089052285404
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.29240794965956574
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.2913591652392768
+            },
+            {
+              "name": "Lyndon B. Johnson",
+              "confidence": 0.28974332515254625
+            }
+          ]
+        },
+        {
+          "question": "Is your character still alive today?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.29950449911904614
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.2978823011427832
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.2972232108219067
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.29554119629356257
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.29301218937927903
+            }
+          ]
+        },
+        {
+          "question": "Is your character still alive today?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Joe Biden",
+              "confidence": 0.2999548219353816
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.29598075296649884
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.2940185630572332
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.28964728676440116
+            },
+            {
+              "name": "George W. Bush",
+              "confidence": 0.28930169420068946
+            }
+          ]
+        },
+        {
+          "question": "Is your character a historical figure (died before 1950)?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.29955802523343095
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.2930996493084186
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2902616255435051
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.28897330087919254
+            },
+            {
+              "name": "Abraham Lincoln",
+              "confidence": 0.2867742726872734
+            }
+          ]
+        },
+        {
+          "question": "Is your character a historical figure (died before 1950)?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2973055879292427
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.29404673431551037
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.29250714600782235
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.290725177989217
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.2901515848923635
+            }
+          ]
+        },
+        {
+          "question": "Is your character an actor?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2994794016500445
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.2990698678564649
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.29619956194687846
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.2948225467725062
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.2928658314390403
+            }
+          ]
+        },
+        {
+          "question": "Is your character an actor?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.2983139141104167
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.29805624854472396
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.2951215674374651
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.29272057424566517
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.2922374110761761
+            }
+          ]
+        },
+        {
+          "question": "Is your character a superhero?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.29969862440508654
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.29392110141524236
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2929550901021745
+            },
+            {
+              "name": "Theodore Roosevelt",
+              "confidence": 0.2898920446760219
+            },
+            {
+              "name": "Gerald Ford",
+              "confidence": 0.28912453163906193
+            }
+          ]
+        },
+        {
+          "question": "Is your character a superhero?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.29894369999832826
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.29517688038376566
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.2949719643865926
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.29286129356793505
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.29275695790987094
+            }
+          ]
+        },
+        {
+          "question": "Did your character originate in a comic book?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.29657498823653244
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.29616342300431303
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.2946842102200173
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.29187874430588717
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.2917227221855829
+            }
+          ]
+        },
+        {
+          "question": "Did your character originate in a comic book?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.5997373402425551
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.5974416768084669
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5971056187512261
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.597097302042594
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.5953010538723923
+            }
+          ]
+        },
+        {
+          "question": "Is your character an athlete?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5993406383322519
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.5923119161897348
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.5918911205299714
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.5910692502535251
+            },
+            {
+              "name": "Gerald Ford",
+              "confidence": 0.5896670513564479
+            }
+          ]
+        },
+        {
+          "question": "Is your character an athlete?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.5973529014615666
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.5936887802140718
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5936309825605057
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.5934820633186518
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.5918431654006316
+            }
+          ]
+        },
+        {
+          "question": "Is your character from a TV show?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.598253121839799
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5964567627421807
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.5958997334946212
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.5938685526490886
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.5930913105794946
+            }
+          ]
+        },
+        {
+          "question": "Is your character from a TV show?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.5990760332239496
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5983334925859773
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.5975195211849869
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.5940592921940976
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.5917518913537986
+            }
+          ]
+        },
+        {
+          "question": "Is your character a politician?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.5966181234431012
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.5958521326980548
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5954325981284737
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5936515572222055
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.5924710552514733
+            }
+          ]
+        },
+        {
+          "question": "Is your character a politician?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.5998741733642055
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5995464401752701
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5934469895890613
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.5928540376842557
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.5918173947002748
+            }
+          ]
+        },
+        {
+          "question": "Is your character a musician or singer?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.5993995075158902
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5990146186323086
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5964860221991627
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.5948676232699789
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.5922131662785687
+            }
+          ]
+        },
+        {
+          "question": "Is your character a musician or singer?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5956743506402205
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5943560382311205
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.5921930089692131
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.591089735541639
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.5905096961217535
+            }
+          ]
+        },
+        {
+          "question": "Is your character known primarily for comedy?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5998863105796849
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5974448313092092
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5937651501557728
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.5899977624116874
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.5887100740261764
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "characterName": "Emma Watson",
+      "category": "actors",
+      "success": false,
+      "turnsToGuess": 25,
+      "totalTurns": 25,
+      "finalGuesses": [
+        "François Hollande",
+        "Nicolas Sarkozy",
+        "Hugo Chávez",
+        "Recep Tayyip Erdoğan",
+        "Vladimir Putin"
+      ],
+      "correctGuessRank": null,
+      "traits": [
+        {
+          "key": "origin_medium",
+          "value": "NOT_comic-book",
+          "confidence": 0.9,
+          "turnAdded": 16
+        }
+      ],
+      "questionHistory": [
+        {
+          "question": "Is your character American?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Joe Biden",
+              "confidence": 0.2971168627494337
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.2957933973021798
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2948185025761139
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.29343906269807785
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.2933656667731819
+            }
+          ]
+        },
+        {
+          "question": "Is your character American?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.29978449453327793
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.2989139495072294
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.29713046121188263
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.2923078399674388
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2910941582099557
+            }
+          ]
+        },
+        {
+          "question": "Is your character male?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.29838311718197585
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.29403627322858117
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.29389940319345836
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.29306811022439755
+            },
+            {
+              "name": "Lyndon B. Johnson",
+              "confidence": 0.289216778281273
+            }
+          ]
+        },
+        {
+          "question": "Is your character male?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2983430788995195
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.29552944154207195
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.29173267007317477
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.29146305788915994
+            },
+            {
+              "name": "Theodore Roosevelt",
+              "confidence": 0.28906086729675584
+            }
+          ]
+        },
+        {
+          "question": "Is your character fictional?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.29989882276128216
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.2967052082675722
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.29501812649068276
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.29392371381338767
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.29343726787244356
+            }
+          ]
+        },
+        {
+          "question": "Is your character fictional?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.298761496961153
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.29765293851882163
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.2966237635071508
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.29601817432770217
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.2919043855064228
+            }
+          ]
+        },
+        {
+          "question": "Is your character still alive today?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.2997626432518488
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.29836848864155996
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.2928482001753593
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.29268374767177957
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.292308087304728
+            }
+          ]
+        },
+        {
+          "question": "Is your character still alive today?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.29682036618898683
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.29546892216372045
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.29487897949627734
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.29159077692946084
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.291109896244404
+            }
+          ]
+        },
+        {
+          "question": "Is your character a historical figure (died before 1950)?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.29779754230614497
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.2951084649319623
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.29472812683779764
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.29179554756616016
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.29143488058764305
+            }
+          ]
+        },
+        {
+          "question": "Is your character a historical figure (died before 1950)?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.29810840843015096
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.2960974241256387
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.2950655918734417
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.2943071778028926
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.29320836848462006
+            }
+          ]
+        },
+        {
+          "question": "Is your character an actor?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.2931698020067173
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.292408543150275
+            },
+            {
+              "name": "George H. W. Bush",
+              "confidence": 0.28894708612445985
+            },
+            {
+              "name": "Bill Clinton",
+              "confidence": 0.2880522075023549
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.28768944790466267
+            }
+          ]
+        },
+        {
+          "question": "Is your character an actor?",
+          "answer": "yes",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.29733240475450096
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.29651192520734143
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.2921781101848721
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.2901906053309668
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2893576872712253
+            }
+          ]
+        },
+        {
+          "question": "Is your character a superhero?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.2988953167695645
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2975564767537284
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.29683694375139114
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.29601553522752566
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.29137204530926886
+            }
+          ]
+        },
+        {
+          "question": "Is your character a superhero?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Joe Biden",
+              "confidence": 0.29879100932255076
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.2964258374709466
+            },
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.2957947574350963
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.29456774395266505
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.2920452591054649
+            }
+          ]
+        },
+        {
+          "question": "Did your character originate in a comic book?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.2990636075336054
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.2928935885940179
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.2923033330926689
+            },
+            {
+              "name": "Yasser Arafat",
+              "confidence": 0.28976972678746515
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.2895454880319926
+            }
+          ]
+        },
+        {
+          "question": "Did your character originate in a comic book?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.5995286539076508
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5986669697446065
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.597857147797813
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5942764545857137
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5941621933047204
+            }
+          ]
+        },
+        {
+          "question": "Is your character an athlete?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Barack Obama",
+              "confidence": 0.5982840057955146
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.5981669842753385
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.5973505810442971
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.5972827731299367
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5948466909935141
+            }
+          ]
+        },
+        {
+          "question": "Is your character an athlete?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.5996528752927406
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.5977779920050434
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.5974782527095418
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5971268704448278
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.5950642125787351
+            }
+          ]
+        },
+        {
+          "question": "Is your character from a TV show?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.59956941141007
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5995514606145096
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5970550333294103
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5955392310098452
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.5953005264382929
+            }
+          ]
+        },
+        {
+          "question": "Is your character from a TV show?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.5998961505833426
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.5970792877406916
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.5959261189260959
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5954030234815598
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.5923972664087396
+            }
+          ]
+        },
+        {
+          "question": "Is your character a politician?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.5984554508206645
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.5978534677344688
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.5954706881694276
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5923315968371425
+            },
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.5914416517698196
+            }
+          ]
+        },
+        {
+          "question": "Is your character a politician?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Hosni Mubarak",
+              "confidence": 0.5992858976263921
+            },
+            {
+              "name": "Donald Trump",
+              "confidence": 0.5983047669128052
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.5969667359482701
+            },
+            {
+              "name": "Barack Obama",
+              "confidence": 0.5952075815099496
+            },
+            {
+              "name": "François Hollande",
+              "confidence": 0.59508030730975
+            }
+          ]
+        },
+        {
+          "question": "Is your character a musician or singer?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.5956406801659618
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5932604944781203
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.59155690074485
+            },
+            {
+              "name": "Yasser Arafat",
+              "confidence": 0.5885140489045476
+            },
+            {
+              "name": "John F. Kennedy",
+              "confidence": 0.5883376931934889
+            }
+          ]
+        },
+        {
+          "question": "Is your character a musician or singer?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "Emmanuel Macron",
+              "confidence": 0.5976317113086539
+            },
+            {
+              "name": "Joe Biden",
+              "confidence": 0.5926091504987894
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.5920619549454217
+            },
+            {
+              "name": "Gerald Ford",
+              "confidence": 0.5896695477371883
+            },
+            {
+              "name": "Ronald Reagan",
+              "confidence": 0.5888312249231047
+            }
+          ]
+        },
+        {
+          "question": "Is your character known primarily for comedy?",
+          "answer": "no",
+          "topGuesses": [
+            {
+              "name": "François Hollande",
+              "confidence": 0.5993892171428783
+            },
+            {
+              "name": "Nicolas Sarkozy",
+              "confidence": 0.5980011054367272
+            },
+            {
+              "name": "Hugo Chávez",
+              "confidence": 0.5958652393200066
+            },
+            {
+              "name": "Recep Tayyip Erdoğan",
+              "confidence": 0.5938619836041341
+            },
+            {
+              "name": "Vladimir Putin",
+              "confidence": 0.5917522392850638
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

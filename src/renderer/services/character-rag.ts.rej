@@ -1,0 +1,86 @@
+--- src/renderer/services/character-rag.ts
++++ src/renderer/services/character-rag.ts
+@@ -552,12 +552,81 @@ export function getMostInformativeQuestion(
+     }, fictionOnly: true }
+   ]
+   
++  // Build set of confirmed sub-categories from Q&A + traits
++  // Used to skip mutually exclusive questions (e.g., don't ask "drama?" after "sitcom" confirmed)
++  const confirmedSubCategories = new Set<string>()
++
++  // Check traits for sub-category info
++  for (const trait of confirmedTraits) {
++    if (trait.key === 'category' && !trait.value.startsWith('NOT_')) {
++      confirmedSubCategories.add(trait.value.toLowerCase())
++    }
++  }
++
++  // Also infer from asked questions + answers by checking the askedQuestions
++  // We need the full turn history to know answers, but we can use confirmedTraits
++  // which already encode the answers
++
++  // Define mutually exclusive sub-category groups
++  // If any member is confirmed, skip questions about other members in the same group
++  const mutuallyExclusiveGroups: string[][] = [
++    // TV show sub-genres
++    ['sitcom', 'drama series', 'drama', 'animated show', 'animated'],
++    // Sports
++    ['basketball', 'soccer', 'football', 'baseball', 'combat sports', 'boxing', 'mma', 'wrestling'],
++    // Music genres
++    ['rapper', 'hip-hop', 'rock musician', 'rock', 'pop singer', 'pop'],
++    // Comic publishers
++    ['dc comics', 'dc', 'marvel comics', 'marvel'],
++    // Anime series
++    ['dragon ball', 'naruto', 'one piece'],
++  ]
++
++  // Build set of keywords to skip based on confirmed sub-categories in asked questions
++  const skipKeywords = new Set<string>()
++  for (const group of mutuallyExclusiveGroups) {
++    // Check if any question in this group was asked AND answered yes
++    for (const member of group) {
++      // Check if this sub-category was confirmed via askedQuestions
++      const wasConfirmed = askedQuestions.some(aq => {
++        const aqLower = aq.toLowerCase()
++        // Check if the question mentions this sub-category keyword
++        return aqLower.includes(member)
++      }) && confirmedTraits.some(t => {
++        // And the corresponding trait was positively confirmed
++        const val = t.value.toLowerCase()
++        return !val.startsWith('not_') && (
++          val.includes(member) ||
++          member.includes(val) ||
++          // Handle cases like "sitcom" → category "tv-characters"
++          (member === 'sitcom' && val === 'tv-characters') ||
++          (member === 'drama' && val === 'tv-characters') ||
++          (member === 'animated' && val === 'tv-characters')
++        )
++      })
++
++      if (wasConfirmed) {
++        // Skip all OTHER members of this group
++        for (const other of group) {
++          if (other !== member) {
++            skipKeywords.add(other)
++          }
++        }
++        break // Only need to find one confirmed member per group
++      }
++    }
++  }
++
++  if (skipKeywords.size > 0) {
++    console.log(`[RAG] Mutually exclusive sub-categories to skip:`, Array.from(skipKeywords))
++  }
++
+   // Find question that splits candidates closest to 50/50
+   let bestQuestion: string | null = null
+   let bestScore = Infinity
+-  
++
+   console.log(`[RAG] getMostInformativeQuestion called with ${askedQuestions.length} previously asked questions`)
+-  
++
+   for (const {q, test, fictionOnly, realPersonOnly, categoryRequired} of questions) {
+     // Skip fiction-only questions if character is confirmed as non-fictional
+     if (fictionOnly && isNotFictional) {

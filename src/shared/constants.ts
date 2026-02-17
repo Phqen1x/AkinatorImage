@@ -18,11 +18,11 @@ export const MAX_TURNS = 100  // Allow extensive questioning to narrow down
 
 // Set to false to disable image generation during detective testing
 // DISABLED: Lemonade image generation takes 180+ seconds and times out
-export const ENABLE_IMAGE_GENERATION = false
+export const ENABLE_IMAGE_GENERATION = true
 
 // Set to true to use LLM-based visualist (Phi-4-mini) instead of pure function
 // When false, falls back to buildImagePrompt() for A/B testing
-export const ENABLE_VISUALIST_LLM = false // Disabled - visualist-llm module not implemented
+export const ENABLE_VISUALIST_LLM = true
 
 // SDXL-Turbo progressive quality: low cfg_scale (turbo models work best near 1.0)
 // Steps ramp from 2 (fast/blurry) to 6 (sharp) over turns
@@ -31,7 +31,7 @@ export const getImageParams = (turn: number) => {
   return {
     steps: Math.round(1 + progress * 3),
     cfg_scale: 1.0,
-    width: 512,
-    height: 512,
+    width: 256,
+    height: 256,
   }
 }
