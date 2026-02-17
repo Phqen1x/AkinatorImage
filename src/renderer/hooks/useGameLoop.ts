@@ -14,7 +14,8 @@ export function useGameLoop() {
   stateRef.current = state
 
   // Mid-game image generation: Simple text-to-image portrait (fast)
-  const generateImageInBackground = useCallback((topGuesses: Array<{name: string, confidence: number}>, traits: Trait[], turn: number, seed: number) => {
+  // Returns a Promise so caller can await if desired
+  const generateImageInBackground = useCallback(async (topGuesses: Array<{name: string, confidence: number}>, traits: Trait[], turn: number, seed: number): Promise<void> => {
     if (!ENABLE_IMAGE_GENERATION) {
       console.info('[GameLoop] Image generation disabled')
       return
@@ -29,19 +30,17 @@ export function useGameLoop() {
     const topGuess = topGuesses[0]
     console.info(`[GameLoop] Generating portrait for top guess: ${topGuess.name} (${Math.round(topGuess.confidence * 100)}%)`)
     
-    ;(async () => {
-      try {
-        // Build appearance details
-        const appearanceDetails = buildHeroImagePrompt(topGuess.name, traits)
-        
-        // Generate simple portrait (fast, no img2img)
-        const imageUrl = await renderSimplePortrait(topGuess.name, seed + turn * 1000, appearanceDetails)
-        dispatch({ type: 'UPDATE_IMAGE', imageUrl })
-      } catch (e) {
-        console.warn('Mid-game portrait generation failed:', e)
-        // Don't show error to user - mid-game images are optional
-      }
-    })()
+    try {
+      // Build appearance details
+      const appearanceDetails = buildHeroImagePrompt(topGuess.name, traits)
+      
+      // Generate simple portrait (fast, no img2img)
+      const imageUrl = await renderSimplePortrait(topGuess.name, seed + turn * 1000, appearanceDetails)
+      dispatch({ type: 'UPDATE_IMAGE', imageUrl })
+    } catch (e) {
+      console.warn('Mid-game portrait generation failed:', e)
+      // Don't show error to user - mid-game images are optional
+    }
   }, [dispatch])
 
   const startGame = useCallback(async () => {
@@ -131,8 +130,8 @@ export function useGameLoop() {
       dispatch({ type: 'SET_QUESTION', question, guesses: topGuesses, traits: newTraits })
 
       const allTraits = [...s.traits, ...newTraits]
-      // Generate caricature of top guess
-      generateImageInBackground(topGuesses, allTraits, s.turn + 1, s.seed)
+      // Wait for image generation to complete before allowing next question
+      await generateImageInBackground(topGuesses, allTraits, s.turn + 1, s.seed)
     } catch (e) {
       dispatch({ type: 'SET_ERROR', error: e instanceof Error ? e.message : 'Detective failed' })
     }
