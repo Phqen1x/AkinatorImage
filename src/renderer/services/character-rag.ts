@@ -302,6 +302,31 @@ function characterMatchesTrait(char: CharacterData, trait: Trait): boolean {
     }
   }
   
+  // nationality (american, british, japanese, etc.)
+  if (key === 'nationality') {
+    const facts = char.distinctive_facts.join(' ').toLowerCase()
+    
+    // Map common variations
+    const nationalityMappings: Record<string, string[]> = {
+      'american': ['american', 'united states', 'u.s.', 'usa'],
+      'british': ['british', 'uk', 'united kingdom', 'england', 'english', 'scottish', 'welsh'],
+      'japanese': ['japanese', 'japan'],
+      'russian': ['russian', 'russia', 'soviet'],
+      'french': ['french', 'france'],
+      'german': ['german', 'germany'],
+      'italian': ['italian', 'italy'],
+      'chinese': ['chinese', 'china'],
+      'korean': ['korean', 'korea'],
+      'mexican': ['mexican', 'mexico']
+    }
+    
+    const keywords = nationalityMappings[actualValue] || [actualValue]
+    const nationalityMatches = keywords.some(kw => facts.includes(kw))
+    
+    const matches = isNegative ? !nationalityMatches : nationalityMatches
+    return matches
+  }
+  
   // Default: search in distinctive facts
   const allText = [
     char.name,

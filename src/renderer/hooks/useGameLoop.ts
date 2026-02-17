@@ -122,16 +122,41 @@ export function useGameLoop() {
       const isCharacterGuessQuestion = guessName && !traitKeywords.some(kw => guessName.toLowerCase().includes(kw))
 
       if (isCharacterGuessQuestion && guessName) {
-        // Route through formal guess UI instead of showing as a question
-        console.log(`[UI] 🎯 Turn ${s.turn + 1}: GUESS DETECTED - "${question}" → routing to formal guess: ${guessName}`)
+        // Generate hero render BEFORE showing guess
+        console.log(`[UI] 🎯 Turn ${s.turn + 1}: GUESS DETECTED - "${question}" → Creating character render for: ${guessName}`)
         dispatch({ type: 'SET_QUESTION', question, guesses: topGuesses, traits: newTraits })
+        
+        // Generate portrait before making guess
+        try {
+          console.info('[GameLoop] Creating character render...')
+          const appearanceDetails = buildHeroImagePrompt(guessName, [...s.traits, ...newTraits])
+          const heroUrl = await renderSimplePortrait(guessName, s.seed, appearanceDetails)
+          dispatch({ type: 'UPDATE_IMAGE', imageUrl: heroUrl })
+          console.info('[GameLoop] ✓ Character render complete')
+        } catch (error) {
+          console.warn('[GameLoop] Character render failed, continuing with guess:', error)
+        }
+        
         dispatch({ type: 'MAKE_GUESS', guess: guessName })
         return
       }
 
       if (topGuess && topGuess.confidence >= CONFIDENCE_THRESHOLD) {
-        console.log(`[UI] 🎯 Turn ${s.turn + 1}: HIGH CONFIDENCE GUESS - ${topGuess.name} (${Math.round(topGuess.confidence * 100)}%)`)
+        // Generate hero render BEFORE showing guess
+        console.log(`[UI] 🎯 Turn ${s.turn + 1}: HIGH CONFIDENCE GUESS - Creating character render for: ${topGuess.name} (${Math.round(topGuess.confidence * 100)}%)`)
         dispatch({ type: 'SET_QUESTION', question, guesses: topGuesses, traits: newTraits })
+        
+        // Generate portrait before making guess
+        try {
+          console.info('[GameLoop] Creating character render...')
+          const appearanceDetails = buildHeroImagePrompt(topGuess.name, [...s.traits, ...newTraits])
+          const heroUrl = await renderSimplePortrait(topGuess.name, s.seed, appearanceDetails)
+          dispatch({ type: 'UPDATE_IMAGE', imageUrl: heroUrl })
+          console.info('[GameLoop] ✓ Character render complete')
+        } catch (error) {
+          console.warn('[GameLoop] Character render failed, continuing with guess:', error)
+        }
+        
         dispatch({ type: 'MAKE_GUESS', guess: topGuess.name })
         return
       }
@@ -167,7 +192,7 @@ export function useGameLoop() {
       } else {
         try {
           console.info('[GameLoop] ==========================================')
-          console.info('[GameLoop] GENERATING HERO IMAGE FOR:', s.finalGuess)
+          console.info('[GameLoop] Creating character render for:', s.finalGuess)
           console.info('[GameLoop] ==========================================')
           
           // Build appearance description
@@ -198,11 +223,11 @@ export function useGameLoop() {
             console.info('[GameLoop] ✓ Caricature generated')
           }
           
-          console.info('[GameLoop] ✓✓✓ SUCCESS: Hero image generated!')
+          console.info('[GameLoop] ✓✓✓ SUCCESS: Character render complete!')
           console.info('[GameLoop] ==========================================')
           dispatch({ type: 'HERO_RENDER_COMPLETE', imageUrl: heroUrl })
         } catch (error) {
-          console.error('[GameLoop] ✗✗✗ ERROR: Hero image generation failed:', error)
+          console.error('[GameLoop] ✗✗✗ ERROR: Character render failed:', error)
           dispatch({ type: 'HERO_RENDER_COMPLETE', imageUrl: s.currentImageUrl || '' })
         }
       }

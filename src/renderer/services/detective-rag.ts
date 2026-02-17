@@ -187,6 +187,7 @@ const TRAIT_EXTRACTOR_PROMPT = `Extract a structured trait from this Q&A.
 - species (human, alien, robot, god, animal, etc.)
 - age_group (child, teenager, adult)
 - era (ancient, medieval, modern, contemporary)
+- nationality (american, british, japanese, etc.)
 
 **OUTPUT:** Return ONLY valid JSON:
 {"key": "trait_key", "value": "trait_value", "confidence": 0.95}
@@ -238,7 +239,9 @@ const TRAIT_EXTRACTOR_PROMPT = `Extract a structured trait from this Q&A.
    - If question is overly complex or compound, return null
 
 **EXAMPLES (note: some questions can extract MULTIPLE traits):**
-Q: "Is your character American?" A: "Yes" → null (no nationality trait available)
+Q: "Is your character American?" A: "Yes" → [{"key": "nationality", "value": "american", "confidence": 0.95}]
+Q: "Is your character American?" A: "No" → [{"key": "nationality", "value": "NOT_american", "confidence": 0.9}]
+Q: "Is your character British?" A: "Yes" → [{"key": "nationality", "value": "british", "confidence": 0.95}]
 Q: "Is your character an actor?" A: "Yes" → [{"key": "category", "value": "actors", "confidence": 0.95}]
 Q: "Is your character an actor?" A: "No" → [{"key": "category", "value": "NOT_actors", "confidence": 0.9}]
 Q: "Is your character an athlete?" A: "Yes" → [{"key": "category", "value": "athletes", "confidence": 0.95}]
@@ -252,13 +255,15 @@ Q: "Is your character male?" A: "Probably" → [{"key": "gender", "value": "male
 Q: "Is your character male?" A: "Probably not" → [{"key": "gender", "value": "female", "confidence": 0.70}]
 Q: "Is your character still alive today?" A: "Yes" → [] (no alive/dead trait available)
 Q: "Is your character still alive today?" A: "No" → [] (no alive/dead trait available)
+Q: "Is your character from the UK?" A: "Yes" → [{"key": "nationality", "value": "british", "confidence": 0.95}]
+Q: "Is your character Japanese?" A: "Yes" → [{"key": "nationality", "value": "japanese", "confidence": 0.95}]
 Q: "Was your character active before 2000?" A: "Yes" → [{"key": "era", "value": "modern", "confidence": 0.75}]
 Q: "Was your character active before 2000?" A: "No" → [{"key": "era", "value": "contemporary", "confidence": 0.75}]
 Q: "Does your character have superpowers?" A: "Yes" → [{"key": "has_powers", "value": "true", "confidence": 0.95}]
 Q: "Does your character have superpowers?" A: "Probably not" → [{"key": "has_powers", "value": "false", "confidence": 0.70}]
 Q: "Is your character known for football?" A: "No" → [] (sport trait not available)
-Q: "Does your character originate from a country other than the United States?" A: "Yes" → [] (too specific, no geography trait)
-Q: "Is your character American?" A: "No" → [] (no nationality trait available)
+Q: "Does your character originate from a country other than the United States?" A: "Yes" → [{"key": "nationality", "value": "NOT_american", "confidence": 0.8}]
+Q: "Is your character American?" A: "No" → [{"key": "nationality", "value": "NOT_american", "confidence": 0.9}]
 Q: "Did your character originate in an anime or manga?" A: "Yes" → [{"key": "category", "value": "anime", "confidence": 0.95}]
 Q: "Is your character from an anime?" A: "Yes" → [{"key": "category", "value": "anime", "confidence": 0.95}]
 Q: "Is your character from a TV show?" A: "Yes" → [{"key": "category", "value": "tv-characters", "confidence": 0.95}]
@@ -1350,7 +1355,7 @@ export async function askDetective(
     } else {
       // Regular question - extract traits (can be multiple!)
       console.info('[Detective-RAG] Extracting traits from Q&A...')
-      const validTraitKeys = ['category', 'fictional', 'gender', 'origin_medium', 'has_powers', 'alignment', 'species', 'age_group', 'era', 'tv_show_type', 'publisher']
+      const validTraitKeys = ['category', 'fictional', 'gender', 'origin_medium', 'has_powers', 'alignment', 'species', 'age_group', 'era', 'tv_show_type', 'publisher', 'nationality']
       const extractedTraits = await extractTraits(questionToAnalyze, answerToAnalyze, turnAdded, validTraitKeys)
       if (extractedTraits.length > 0) {
         newTraits.push(...extractedTraits)
