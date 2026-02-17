@@ -19,8 +19,8 @@ type ExpressionPrompt = {
 
 const EXPRESSION_PROMPTS: Record<LemonExpression, ExpressionPrompt> = {
   neutral: {
-    positive: 'NEUTRAL CALM EXPRESSION, gentle friendly smile, relaxed peaceful demeanor, content',
-    negative: 'frowning, sad, angry, crying, extreme emotions, laughing',
+    positive: 'NEUTRAL EXPRESSION, straight horizontal mouth line, expressionless face, blank stare, emotionless',
+    negative: 'frowning, sad, angry, crying, extreme emotions, laughing, smiling, grinning, happy',
   },
   yes: {
     positive: 'EXTREMELY HAPPY EXCITED JOYFUL, HUGE WIDE OPEN MOUTH SMILE, eyes sparkling with excitement, jumping for joy, arms raised in celebration, pure happiness, ecstatic',
@@ -31,24 +31,24 @@ const EXPRESSION_PROMPTS: Record<LemonExpression, ExpressionPrompt> = {
     negative: 'smiling, happy, grinning, cheerful, laughing, positive, excited, neutral',
   },
   probably: {
-    positive: 'THOUGHTFUL PONDERING THINKING, hand touching chin in thought, slight hopeful smile, analyzing, considering carefully, intellectual expression',
-    negative: 'laughing, big grin, sad, crying, confused, angry',
+    positive: 'THOUGHTFUL PONDERING THINKING, hand touching chin in thought, SERIOUS analytical face, furrowed brow, eyes narrowed in concentration, calculating expression',
+    negative: 'laughing, big grin, sad, crying, confused, angry, smiling, happy, cheerful',
   },
   probably_not: {
-    positive: 'SKEPTICAL SUSPICIOUS DOUBTFUL, one eyebrow raised high, arms crossed defensively, squinting eyes, NOT convinced, questioning look, distrustful',
+    positive: 'SKEPTICAL SUSPICIOUS DOUBTFUL, one eyebrow raised high, arms crossed defensively, squinting eyes, NOT convinced, questioning look, distrustful, FROWNING',
     negative: 'smiling broadly, very happy, enthusiastic, excited, sad, crying',
   },
   dont_know: {
-    positive: 'EXTREMELY CONFUSED BEWILDERED LOST, scratching head with both hands, question marks floating above head, eyes looking in different directions, mouth open in confusion, shrugging shoulders, completely puzzled',
-    negative: 'smiling confidently, happy, certain, sad, angry',
+    positive: 'EXTREMELY CONFUSED BEWILDERED LOST, scratching head with both hands, question marks floating above head, eyes looking in different directions, mouth open in confusion, shrugging shoulders, completely puzzled, PERPLEXED',
+    negative: 'smiling confidently, happy, certain, sad, angry, cheerful, grinning',
   },
 }
 
-const BASE_PROMPT = `professional 3D CGI render of anthropomorphic glass of lemonade character, Kool-Aid Man style mascot, 
+const BASE_PROMPT = `professional 3D CGI render of anthropomorphic glass of lemonade character, 
 transparent glass pitcher body filled with bright yellow lemonade liquid, ice cubes floating inside the glass, 
 fresh lemon slice garnish on rim, condensation water droplets on glass, 
 white cartoon gloved hands and arms attached to glass, white shoes on cartoon legs, 
-Pixar Disney 3D animation style, high quality render, studio lighting, plain white background, vibrant colors`
+3D animation style, high quality render, studio lighting, plain white background, vibrant colors`
 
 const BASE_NEGATIVE = 'blurry, low quality, deformed, disfigured, extra limbs, bad anatomy, realistic photo, photograph, dark, gloomy, text, watermark, logo, multiple characters, horror, scary'
 
