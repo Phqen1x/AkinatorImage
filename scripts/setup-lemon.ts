@@ -1,16 +1,17 @@
-import { generateImage } from './lemonade'
-import { IMAGE_MODEL } from '../../shared/constants'
+/**
+ * Setup script to generate Lemon mascot expressions
+ * Run this once to pre-generate all lemon character images
+ * 
+ * Usage: npm run setup:lemon
+ */
+
+import { generateImage } from '../src/renderer/services/lemonade'
+import { IMAGE_MODEL } from '../src/shared/constants'
 import * as fs from 'fs'
 import * as path from 'path'
 
-/**
- * Lemon mascot expression types
- */
-export type LemonExpression = 'neutral' | 'yes' | 'no' | 'probably' | 'probably_not' | 'dont_know'
+type LemonExpression = 'neutral' | 'yes' | 'no' | 'probably' | 'probably_not' | 'dont_know'
 
-/**
- * Mapping of expressions to emotion descriptions for prompts
- */
 const EXPRESSION_PROMPTS: Record<LemonExpression, string> = {
   neutral: 'friendly smiling face, welcoming expression, cheerful and inviting',
   yes: 'very happy excited face, big smile, enthusiastic and joyful expression',
@@ -29,9 +30,6 @@ const NEGATIVE_PROMPT = 'blurry, low quality, deformed, disfigured, realistic hu
 
 const LEMON_ASSETS_DIR = path.join(process.cwd(), 'public', 'lemon-assets')
 
-/**
- * Ensure the lemon assets directory exists
- */
 function ensureAssetsDirectory() {
   if (!fs.existsSync(LEMON_ASSETS_DIR)) {
     fs.mkdirSync(LEMON_ASSETS_DIR, { recursive: true })
@@ -39,31 +37,19 @@ function ensureAssetsDirectory() {
   }
 }
 
-/**
- * Get file path for a cached lemon expression
- */
 function getCachedImagePath(expression: LemonExpression): string {
   return path.join(LEMON_ASSETS_DIR, `lemon-${expression}.png`)
 }
 
-/**
- * Check if a lemon expression image is already cached
- */
-export function isExpressionCached(expression: LemonExpression): boolean {
+function isExpressionCached(expression: LemonExpression): boolean {
   return fs.existsSync(getCachedImagePath(expression))
 }
 
-/**
- * Check if all lemon expressions are cached
- */
-export function areAllExpressionsCached(): boolean {
+function areAllExpressionsCached(): boolean {
   const expressions: LemonExpression[] = ['neutral', 'yes', 'no', 'probably', 'probably_not', 'dont_know']
   return expressions.every(isExpressionCached)
 }
 
-/**
- * Generate a single lemon expression image
- */
 async function generateLemonExpression(expression: LemonExpression, seed: number): Promise<string> {
   console.info(`[Lemon] Generating ${expression} expression...`)
   
@@ -93,19 +79,13 @@ async function generateLemonExpression(expression: LemonExpression, seed: number
   }
 }
 
-/**
- * Save base64 image to disk
- */
 function saveImageToDisk(base64Data: string, filePath: string) {
   const buffer = Buffer.from(base64Data, 'base64')
   fs.writeFileSync(filePath, buffer)
   console.info(`[Lemon] Saved to disk: ${filePath}`)
 }
 
-/**
- * Generate and cache a single lemon expression
- */
-export async function generateAndCacheExpression(expression: LemonExpression, seed: number = 42): Promise<void> {
+async function generateAndCacheExpression(expression: LemonExpression, seed: number = 42): Promise<void> {
   ensureAssetsDirectory()
   
   if (isExpressionCached(expression)) {
@@ -120,10 +100,7 @@ export async function generateAndCacheExpression(expression: LemonExpression, se
   console.info(`[Lemon] ✓ Cached ${expression} expression`)
 }
 
-/**
- * Generate and cache all lemon expressions
- */
-export async function generateAllLemonExpressions(seed: number = 42): Promise<void> {
+async function generateAllLemonExpressions(seed: number = 42): Promise<void> {
   console.info('[Lemon] ==========================================')
   console.info('[Lemon] Generating Lemon mascot expressions')
   console.info('[Lemon] ==========================================')
@@ -153,29 +130,32 @@ export async function generateAllLemonExpressions(seed: number = 42): Promise<vo
   console.info('[Lemon] ==========================================')
 }
 
-/**
- * Get public URL for a lemon expression image
- */
-export function getLemonImageUrl(expression: LemonExpression): string {
-  return `/lemon-assets/lemon-${expression}.png`
-}
-
-/**
- * Load a cached lemon expression as base64 data URL
- */
-export function loadCachedExpression(expression: LemonExpression): string | null {
-  const filePath = getCachedImagePath(expression)
+async function main() {
+  console.log('\n🍋 Lemon Mascot Setup\n')
   
-  if (!fs.existsSync(filePath)) {
-    return null
+  if (areAllExpressionsCached()) {
+    console.log('✅ All lemon expressions already exist!')
+    console.log('   To regenerate, delete the public/lemon-assets/ folder and run this again.')
+    process.exit(0)
   }
+  
+  console.log('⚠️  Make sure your Lemonade server is running with sdxl-turbo loaded!')
+  console.log('   Expected endpoint: http://localhost:8000')
+  console.log('')
+  console.log('Generating 6 lemon expressions (this may take 30-60 seconds)...\n')
   
   try {
-    const buffer = fs.readFileSync(filePath)
-    const base64 = buffer.toString('base64')
-    return `data:image/png;base64,${base64}`
+    await generateAllLemonExpressions(42) // Use fixed seed for consistency
+    console.log('\n✅ Setup complete! Lemon mascot is ready to go.')
+    console.log('   Images saved to: public/lemon-assets/')
   } catch (error) {
-    console.error(`[Lemon] Failed to load cached ${expression}:`, error)
-    return null
+    console.error('\n❌ Setup failed:', error)
+    console.error('\nTroubleshooting:')
+    console.error('  1. Ensure Lemonade server is running: curl http://localhost:8000/health')
+    console.error('  2. Verify sdxl-turbo model is loaded')
+    console.error('  3. Check GPU memory (SDXL needs ~6GB VRAM)')
+    process.exit(1)
   }
 }
+
+main()
