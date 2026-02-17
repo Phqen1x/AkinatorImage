@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "character_count": 407,
-  "last_updated": "2026-02-15T19:28:32.709365",
+  "character_count": 530,
+  "last_updated": "2026-02-15T20:30:55.418889",
   "characters": {
     "abraham lincoln": {
       "name": "Abraham Lincoln",
@@ -4850,12 +4850,10 @@
       "category": "anime",
       "signature_works": [],
       "traits": {
-        "fictional": true
+        "fictional": false
       },
       "distinctive_facts": [
-        "Protagonist of Sword Art Online anime series",
-        "Skilled swordsman in virtual reality MMORPG",
-        "Real name: Kazuto Kirigaya"
+        "Japanese rock singer and musician (born 1972)"
       ],
       "aliases": null,
       "appearance": null,
@@ -5078,7 +5076,7 @@
       "relationships": null,
       "source": "wikipedia",
       "source_url": "https://en.wikipedia.org/wiki/John_F._Kennedy",
-      "last_updated": "2026-02-15T17:58:39.840567",
+      "last_updated": "2026-02-15T20:30:45.507334",
       "confidence": 0.6
     },
     "novak djokovic": {
@@ -7063,7 +7061,7 @@
     },
     "recep tayyip erdoğan": {
       "name": "Recep Tayyip Erdoğan",
-      "category": "politicians",
+      "category": "politicans",
       "signature_works": [],
       "traits": {
         "fictional": false
@@ -7076,7 +7074,7 @@
       "relationships": null,
       "source": "wikipedia",
       "source_url": "https://en.wikipedia.org/wiki/Recep_Tayyip_Erdo%C4%9Fan",
-      "last_updated": "2026-02-15T19:26:44.120213",
+      "last_updated": "2026-02-15T20:30:49.098361",
       "confidence": 0.6
     },
     "zlatan ibrahimović": {
@@ -7094,7 +7092,7 @@
       "relationships": null,
       "source": "wikipedia",
       "source_url": "https://en.wikipedia.org/wiki/Zlatan_Ibrahimovi%C4%87",
-      "last_updated": "2026-02-15T19:26:49.966651",
+      "last_updated": "2026-02-15T20:30:51.031353",
       "confidence": 0.6
     },
     "chuck berry": {
@@ -7329,6 +7327,2220 @@
       "source": "wikipedia",
       "source_url": "https://en.wikipedia.org/wiki/Warren_Buffett",
       "last_updated": "2026-02-15T19:28:32.708072",
+      "confidence": 0.6
+    },
+    "ariana grande": {
+      "name": "Ariana Grande",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American singer and actress (born 1993)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Ariana_Grande",
+      "last_updated": "2026-02-15T19:29:36.021483",
+      "confidence": 0.6
+    },
+    "arnold schwarzenegger": {
+      "name": "Arnold Schwarzenegger",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Austrian and American actor and politician (born 1947)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Arnold_Schwarzenegger",
+      "last_updated": "2026-02-15T19:29:43.963879",
+      "confidence": 0.6
+    },
+    "black canary": {
+      "name": "Black Canary",
+      "category": "superheroes",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "DC comics fictional character"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Black_Canary",
+      "last_updated": "2026-02-15T19:29:55.574943",
+      "confidence": 0.6
+    },
+    "bruce willis": {
+      "name": "Bruce Willis",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American actor (born 1955)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Bruce_Willis",
+      "last_updated": "2026-02-15T19:30:03.158229",
+      "confidence": 0.6
+    },
+    "bruno mars": {
+      "name": "Bruno Mars",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American singer-songwriter (born 1985)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Bruno_Mars",
+      "last_updated": "2026-02-15T19:30:08.483456",
+      "confidence": 0.6
+    },
+    "clint eastwood": {
+      "name": "Clint Eastwood",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American actor and filmmaker (born 1930)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Clint_Eastwood",
+      "last_updated": "2026-02-15T19:30:16.405649",
+      "confidence": 0.6
+    },
+    "cyborg": {
+      "name": "Cyborg",
+      "category": "superheroes",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Being with both organic and biomechatronic body parts"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Cyborg",
+      "last_updated": "2026-02-15T19:30:21.530375",
+      "confidence": 0.6
+    },
+    "eddie murphy": {
+      "name": "Eddie Murphy",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American comedian, actor, and singer (born 1961)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Eddie_Murphy",
+      "last_updated": "2026-02-15T19:30:28.619054",
+      "confidence": 0.6
+    },
+    "golda meir": {
+      "name": "Golda Meir",
+      "category": "politicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Prime Minister of Israel from 1969 to 1974"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Golda_Meir",
+      "last_updated": "2026-02-15T19:30:37.881996",
+      "confidence": 0.6
+    },
+    "jim carrey": {
+      "name": "Jim Carrey",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Canadian and American actor (born 1962)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Jim_Carrey",
+      "last_updated": "2026-02-15T19:30:46.625305",
+      "confidence": 0.6
+    },
+    "joan of arc": {
+      "name": "Joan of Arc",
+      "category": "historical",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "French folk heroine and saint (1412–1431)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Joan_of_Arc",
+      "last_updated": "2026-02-15T19:31:00.097480",
+      "confidence": 0.6
+    },
+    "katy perry": {
+      "name": "Katy Perry",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American singer (born 1984)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Katy_Perry",
+      "last_updated": "2026-02-15T19:31:05.135512",
+      "confidence": 0.6
+    },
+    "kendrick lamar": {
+      "name": "Kendrick Lamar",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American rapper and singer (born 1987)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Kendrick_Lamar",
+      "last_updated": "2026-02-15T19:31:10.977287",
+      "confidence": 0.6
+    },
+    "lelouch lamperouge": {
+      "name": "Lelouch Lamperouge",
+      "category": "anime",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Fictional character from Code Geass"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Lelouch_Lamperouge",
+      "last_updated": "2026-02-15T19:31:19.909682",
+      "confidence": 0.6
+    },
+    "leonard hofstadter": {
+      "name": "Leonard Hofstadter",
+      "category": "tv-characters",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Fictional character in The Big Bang Theory"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Leonard_Hofstadter",
+      "last_updated": "2026-02-15T19:31:25.560379",
+      "confidence": 0.6
+    },
+    "lois griffin": {
+      "name": "Lois Griffin",
+      "category": "tv-characters",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Fictional character from the Family Guy franchise"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Lois_Griffin",
+      "last_updated": "2026-02-15T19:31:38.313448",
+      "confidence": 0.6
+    },
+    "martian manhunter": {
+      "name": "Martian Manhunter",
+      "category": "superheroes",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Superhero from DC Comics"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Martian_Manhunter",
+      "last_updated": "2026-02-15T19:31:52.897613",
+      "confidence": 0.6
+    },
+    "mel gibson": {
+      "name": "Mel Gibson",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American actor and filmmaker (born 1956)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Mel_Gibson",
+      "last_updated": "2026-02-15T19:32:05.741869",
+      "confidence": 0.6
+    },
+    "mob": {
+      "name": "Mob",
+      "category": "anime",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Topics referred to by the same term"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Mob",
+      "last_updated": "2026-02-15T19:32:18.356974",
+      "confidence": 0.6
+    },
+    "morty smith": {
+      "name": "Morty Smith",
+      "category": "tv-characters",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Fictional character"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Morty_Smith",
+      "last_updated": "2026-02-15T19:32:26.526432",
+      "confidence": 0.6
+    },
+    "nicolas cage": {
+      "name": "Nicolas Cage",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American actor (born 1964)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Nicolas_Cage",
+      "last_updated": "2026-02-15T19:32:33.187329",
+      "confidence": 0.6
+    },
+    "penny": {
+      "name": "Penny",
+      "category": "tv-characters",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Unit of currency in various countries"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Penny",
+      "last_updated": "2026-02-15T19:32:41.664218",
+      "confidence": 0.6
+    },
+    "peter griffin": {
+      "name": "Peter Griffin",
+      "category": "tv-characters",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Fictional character from the Family Guy franchise"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Peter_Griffin",
+      "last_updated": "2026-02-15T19:32:46.699003",
+      "confidence": 0.6
+    },
+    "rick sanchez": {
+      "name": "Rick Sanchez",
+      "category": "tv-characters",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Fictional character"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Rick_Sanchez",
+      "last_updated": "2026-02-15T19:32:56.246615",
+      "confidence": 0.6
+    },
+    "robin williams": {
+      "name": "Robin Williams",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American actor and comedian (1951–2014)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Robin_Williams",
+      "last_updated": "2026-02-15T19:33:01.529815",
+      "confidence": 0.6
+    },
+    "senku ishigami": {
+      "name": "Senku Ishigami",
+      "category": "anime",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Fictional character from Dr. Stone"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Senku_Ishigami",
+      "last_updated": "2026-02-15T19:33:07.767858",
+      "confidence": 0.6
+    },
+    "shinzo abe": {
+      "name": "Shinzo Abe",
+      "category": "politicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Prime Minister of Japan (2006–2007; 2012–2020)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Shinzo_Abe",
+      "last_updated": "2026-02-15T19:33:16.039408",
+      "confidence": 0.6
+    },
+    "steve harrington": {
+      "name": "Steve Harrington",
+      "category": "tv-characters",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Stranger Things character"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Steve_Harrington",
+      "last_updated": "2026-02-15T19:33:21.765237",
+      "confidence": 0.6
+    },
+    "stewie griffin": {
+      "name": "Stewie Griffin",
+      "category": "tv-characters",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Fictional character from the Family Guy franchise"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Stewie_Griffin",
+      "last_updated": "2026-02-15T19:33:32.284184",
+      "confidence": 0.6
+    },
+    "sylvester stallone": {
+      "name": "Sylvester Stallone",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American actor and filmmaker (born 1946)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Sylvester_Stallone",
+      "last_updated": "2026-02-15T19:33:40.597488",
+      "confidence": 0.6
+    },
+    "the weeknd": {
+      "name": "The Weeknd",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Canadian singer-songwriter (born 1990)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/The_Weeknd",
+      "last_updated": "2026-02-15T19:33:50.660756",
+      "confidence": 0.6
+    },
+    "wasp": {
+      "name": "Wasp",
+      "category": "superheroes",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Group of insects"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Wasp",
+      "last_updated": "2026-02-15T19:34:05.216780",
+      "confidence": 0.6
+    },
+    "alphonse elric": {
+      "name": "Alphonse Elric",
+      "category": "anime",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Character in Fullmetal Alchemist"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Alphonse_Elric",
+      "last_updated": "2026-02-15T19:34:13.441183",
+      "confidence": 0.6
+    },
+    "arya stark": {
+      "name": "Arya Stark",
+      "category": "tv-characters",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Character in A Song of Ice and Fire and Game of Thrones"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Arya_Stark",
+      "last_updated": "2026-02-15T19:34:27.902473",
+      "confidence": 0.6
+    },
+    "ban": {
+      "name": "Ban",
+      "category": "anime",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Topics referred to by the same term"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Ban",
+      "last_updated": "2026-02-15T19:34:36.378303",
+      "confidence": 0.6
+    },
+    "coldplay": {
+      "name": "Coldplay",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "British rock band"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Coldplay",
+      "last_updated": "2026-02-15T19:34:41.150763",
+      "confidence": 0.6
+    },
+    "daniel craig": {
+      "name": "Daniel Craig",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "English actor (born 1968)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Daniel_Craig",
+      "last_updated": "2026-02-15T19:34:48.144198",
+      "confidence": 0.6
+    },
+    "denji": {
+      "name": "Denji",
+      "category": "anime",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Topics referred to by the same term"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Denji",
+      "last_updated": "2026-02-15T19:34:52.915333",
+      "confidence": 0.6
+    },
+    "foo fighters": {
+      "name": "Foo Fighters",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American rock band"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Foo_Fighters",
+      "last_updated": "2026-02-15T19:35:01.660510",
+      "confidence": 0.6
+    },
+    "green day": {
+      "name": "Green Day",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American rock band"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Green_Day",
+      "last_updated": "2026-02-15T19:35:09.173306",
+      "confidence": 0.6
+    },
+    "helen mirren": {
+      "name": "Helen Mirren",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "English actor (born 1945)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Helen_Mirren",
+      "last_updated": "2026-02-15T19:35:14.690866",
+      "confidence": 0.6
+    },
+    "ho chi minh": {
+      "name": "Ho Chi Minh",
+      "category": "politicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Leader of North Vietnam from 1945 to 1969"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Ho_Chi_Minh",
+      "last_updated": "2026-02-15T19:35:24.329757",
+      "confidence": 0.6
+    },
+    "judi dench": {
+      "name": "Judi Dench",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "English actress (born 1934)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Judi_Dench",
+      "last_updated": "2026-02-15T19:35:34.549959",
+      "confidence": 0.6
+    },
+    "kim il sung": {
+      "name": "Kim Il Sung",
+      "category": "politicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Leader of North Korea from 1948 to 1994"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Kim_Il_Sung",
+      "last_updated": "2026-02-15T19:35:45.297289",
+      "confidence": 0.6
+    },
+    "led zeppelin": {
+      "name": "Led Zeppelin",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "English rock band (1968–1980)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Led_Zeppelin",
+      "last_updated": "2026-02-15T19:35:54.401075",
+      "confidence": 0.6
+    },
+    "linkin park": {
+      "name": "Linkin Park",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American rock band"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Linkin_Park",
+      "last_updated": "2026-02-15T19:36:03.276917",
+      "confidence": 0.6
+    },
+    "makima": {
+      "name": "Makima",
+      "category": "anime",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Fictional character from Chainsaw Man"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Makima",
+      "last_updated": "2026-02-15T19:36:10.803390",
+      "confidence": 0.6
+    },
+    "meliodas": {
+      "name": "Meliodas",
+      "category": "anime",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Figure in Arthurian legend"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Meliodas",
+      "last_updated": "2026-02-15T19:36:15.496718",
+      "confidence": 0.6
+    },
+    "nirvana": {
+      "name": "Nirvana",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Liberation from repeated rebirth in saṃsāra"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Nirvana",
+      "last_updated": "2026-02-15T19:36:20.179011",
+      "confidence": 0.6
+    },
+    "pam beesly": {
+      "name": "Pam Beesly",
+      "category": "tv-characters",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Fictional character on NBC's \"The Office\""
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Pam_Beesly",
+      "last_updated": "2026-02-15T19:36:27.180797",
+      "confidence": 0.6
+    },
+    "pierce brosnan": {
+      "name": "Pierce Brosnan",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Irish actor (born 1953)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Pierce_Brosnan",
+      "last_updated": "2026-02-15T19:36:35.165811",
+      "confidence": 0.6
+    },
+    "pink floyd": {
+      "name": "Pink Floyd",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "English rock band"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Pink_Floyd",
+      "last_updated": "2026-02-15T19:36:40.157202",
+      "confidence": 0.6
+    },
+    "power": {
+      "name": "Power",
+      "category": "anime",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Topics referred to by the same term"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Power",
+      "last_updated": "2026-02-15T19:36:47.027130",
+      "confidence": 0.6
+    },
+    "queen": {
+      "name": "Queen",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Topics referred to by the same term"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Queen",
+      "last_updated": "2026-02-15T19:36:51.886303",
+      "confidence": 0.6
+    },
+    "radiohead": {
+      "name": "Radiohead",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "English rock band"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Radiohead",
+      "last_updated": "2026-02-15T19:37:00.233859",
+      "confidence": 0.6
+    },
+    "red hot chili peppers": {
+      "name": "Red Hot Chili Peppers",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American rock band"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Red_Hot_Chili_Peppers",
+      "last_updated": "2026-02-15T19:37:06.028978",
+      "confidence": 0.6
+    },
+    "reese witherspoon": {
+      "name": "Reese Witherspoon",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American actress (born 1976)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Reese_Witherspoon",
+      "last_updated": "2026-02-15T19:37:19.641780",
+      "confidence": 0.6
+    },
+    "russell crowe": {
+      "name": "Russell Crowe",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "New Zealand-born actor (born 1964)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Russell_Crowe",
+      "last_updated": "2026-02-15T19:37:27.793185",
+      "confidence": 0.6
+    },
+    "sean connery": {
+      "name": "Sean Connery",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Scottish actor (1930–2020)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Sean_Connery",
+      "last_updated": "2026-02-15T19:37:32.902703",
+      "confidence": 0.6
+    },
+    "war machine": {
+      "name": "War Machine",
+      "category": "superheroes",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Marvel Comics fictional character"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/War_Machine",
+      "last_updated": "2026-02-15T19:37:40.999747",
+      "confidence": 0.6
+    },
+    "andy bernard": {
+      "name": "Andy Bernard",
+      "category": "tv-characters",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Fictional character on NBC's The Office"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Andy_Bernard",
+      "last_updated": "2026-02-15T19:38:07.950817",
+      "confidence": 0.6
+    },
+    "list of spy × family characters": {
+      "name": "List of Spy × Family characters",
+      "category": "anime",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Spy × Family, a manga series written and illustrated by Tatsuya Endo and later adapted to an anime with the same name, features a cast of characters w"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/List_of_Spy_%C3%97_Family_characters",
+      "last_updated": "2026-02-15T19:42:06.932660",
+      "confidence": 0.6
+    },
+    "billie eilish": {
+      "name": "Billie Eilish",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American singer-songwriter (born 2001)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Billie_Eilish",
+      "last_updated": "2026-02-15T19:38:21.072589",
+      "confidence": 0.6
+    },
+    "blue beetle": {
+      "name": "Blue Beetle",
+      "category": "superheroes",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Name of multiple DC Comics superheroes"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Blue_Beetle",
+      "last_updated": "2026-02-15T19:38:32.225567",
+      "confidence": 0.6
+    },
+    "christoph waltz": {
+      "name": "Christoph Waltz",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Austrian and German actor (born 1956)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Christoph_Waltz",
+      "last_updated": "2026-02-15T19:38:45.324645",
+      "confidence": 0.6
+    },
+    "creed bratton": {
+      "name": "Creed Bratton",
+      "category": "tv-characters",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American actor and musician (born 1943)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Creed_Bratton",
+      "last_updated": "2026-02-15T19:38:53.667957",
+      "confidence": 0.6
+    },
+    "dua lipa": {
+      "name": "Dua Lipa",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "English singer-songwriter and actress (born 1995)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Dua_Lipa",
+      "last_updated": "2026-02-15T19:38:58.688377",
+      "confidence": 0.6
+    },
+    "friedrich nietzsche": {
+      "name": "Friedrich Nietzsche",
+      "category": "historical",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "German philosopher (1844–1900)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Friedrich_Nietzsche",
+      "last_updated": "2026-02-15T19:39:11.684671",
+      "confidence": 0.6
+    },
+    "garou": {
+      "name": "Garou",
+      "category": "anime",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Topics referred to by the same term"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Garou",
+      "last_updated": "2026-02-15T19:39:16.471025",
+      "confidence": 0.6
+    },
+    "gary oldman": {
+      "name": "Gary Oldman",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "English actor and filmmaker (born 1958)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Gary_Oldman",
+      "last_updated": "2026-02-15T19:39:26.517299",
+      "confidence": 0.6
+    },
+    "immanuel kant": {
+      "name": "Immanuel Kant",
+      "category": "historical",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "German philosopher (1724–1804)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Immanuel_Kant",
+      "last_updated": "2026-02-15T19:39:35.186527",
+      "confidence": 0.6
+    },
+    "jair bolsonaro": {
+      "name": "Jair Bolsonaro",
+      "category": "politicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "President of Brazil from 2019 to 2023"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Jair_Bolsonaro",
+      "last_updated": "2026-02-15T19:39:40.219717",
+      "confidence": 0.6
+    },
+    "javier bardem": {
+      "name": "Javier Bardem",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Spanish actor (born 1969)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Javier_Bardem",
+      "last_updated": "2026-02-15T19:39:49.650616",
+      "confidence": 0.6
+    },
+    "john locke": {
+      "name": "John Locke",
+      "category": "historical",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "English philosopher and physician (1632–1704)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/John_Locke",
+      "last_updated": "2026-02-15T19:39:58.409654",
+      "confidence": 0.6
+    },
+    "karl marx": {
+      "name": "Karl Marx",
+      "category": "historical",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "German philosopher and socialist theorist (1818–1883)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Karl_Marx",
+      "last_updated": "2026-02-15T19:40:03.588671",
+      "confidence": 0.6
+    },
+    "kevin malone": {
+      "name": "Kevin Malone",
+      "category": "tv-characters",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Fictional character of American TV series/mockumentary The Office"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Kevin_Malone",
+      "last_updated": "2026-02-15T19:40:16.617671",
+      "confidence": 0.6
+    },
+    "patrick mahomes": {
+      "name": "Patrick Mahomes",
+      "category": "athletes",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American football player (born 1995)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Patrick_Mahomes",
+      "last_updated": "2026-02-15T19:40:32.973650",
+      "confidence": 0.6
+    },
+    "philip seymour hoffman": {
+      "name": "Philip Seymour Hoffman",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American actor (1967–2014)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Philip_Seymour_Hoffman",
+      "last_updated": "2026-02-15T19:40:38.106297",
+      "confidence": 0.6
+    },
+    "post malone": {
+      "name": "Post Malone",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American singer and rapper (born 1995)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Post_Malone",
+      "last_updated": "2026-02-15T19:40:46.220789",
+      "confidence": 0.6
+    },
+    "rené descartes": {
+      "name": "René Descartes",
+      "category": "historical",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "French philosopher (1596–1650)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Ren%C3%A9_Descartes",
+      "last_updated": "2026-02-15T19:41:05.664369",
+      "confidence": 0.6
+    },
+    "shazam": {
+      "name": "Shazam",
+      "category": "superheroes",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Topics referred to by the same term"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Shazam",
+      "last_updated": "2026-02-15T19:41:13.442537",
+      "confidence": 0.6
+    },
+    "list of the office (american tv series) characters": {
+      "name": "List of The Office (American TV series) characters",
+      "category": "tv-characters",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "The Office is an American television series based on the British television comedy of the same name. The format of the series is a parody of the fly o"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/List_of_The_Office_(American_TV_series)_characters",
+      "last_updated": "2026-02-15T19:41:18.952059",
+      "confidence": 0.6
+    },
+    "steve buscemi": {
+      "name": "Steve Buscemi",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American actor (born 1957)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Steve_Buscemi",
+      "last_updated": "2026-02-15T19:41:29.182234",
+      "confidence": 0.6
+    },
+    "supergirl": {
+      "name": "Supergirl",
+      "category": "superheroes",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "DC Comics superheroine"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Supergirl",
+      "last_updated": "2026-02-15T19:41:36.605549",
+      "confidence": 0.6
+    },
+    "list of one-punch man characters": {
+      "name": "List of One-Punch Man characters",
+      "category": "anime",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "\nThe Japanese manga series One-Punch Man contains a number of fictional characters created by One and illustrated by Yusuke Murata. The series follows"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/List_of_One-Punch_Man_characters",
+      "last_updated": "2026-02-15T19:41:43.497000",
+      "confidence": 0.6
+    },
+    "the chainsmokers": {
+      "name": "The Chainsmokers",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American music producer duo"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/The_Chainsmokers",
+      "last_updated": "2026-02-15T19:41:53.621752",
+      "confidence": 0.6
+    },
+    "travis scott": {
+      "name": "Travis Scott",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American rapper (born 1991)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Travis_Scott",
+      "last_updated": "2026-02-15T19:41:58.625400",
+      "confidence": 0.6
+    },
+    "zatanna": {
+      "name": "Zatanna",
+      "category": "superheroes",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "DC Comics superheroine"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Zatanna",
+      "last_updated": "2026-02-15T19:42:11.551651",
+      "confidence": 0.6
+    },
+    "ac/dc": {
+      "name": "AC/DC",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Australian rock band"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/AC%2FDC",
+      "last_updated": "2026-02-15T19:42:17.042053",
+      "confidence": 0.6
+    },
+    "anya taylor-joy": {
+      "name": "Anya Taylor-Joy",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Actress (born 1996)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Anya_Taylor-Joy",
+      "last_updated": "2026-02-15T19:42:21.982275",
+      "confidence": 0.6
+    },
+    "apu nahasapeemapetilon": {
+      "name": "Apu Nahasapeemapetilon",
+      "category": "tv-characters",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Fictional character from The Simpsons franchise"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Apu_Nahasapeemapetilon",
+      "last_updated": "2026-02-15T19:42:33.221651",
+      "confidence": 0.6
+    },
+    "bts": {
+      "name": "BTS",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "South Korean boy band"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/BTS",
+      "last_updated": "2026-02-15T19:42:37.869723",
+      "confidence": 0.6
+    },
+    "blade": {
+      "name": "Blade",
+      "category": "superheroes",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Sharp cutting part of a weapon or tool"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Blade",
+      "last_updated": "2026-02-15T19:42:42.551967",
+      "confidence": 0.6
+    },
+    "erling haaland": {
+      "name": "Erling Haaland",
+      "category": "athletes",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Norwegian footballer (born 2000)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Erling_Haaland",
+      "last_updated": "2026-02-15T19:42:56.881921",
+      "confidence": 0.6
+    },
+    "ferdinand magellan": {
+      "name": "Ferdinand Magellan",
+      "category": "historical",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Portuguese explorer (1480–1521)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Ferdinand_Magellan",
+      "last_updated": "2026-02-15T19:43:01.814541",
+      "confidence": 0.6
+    },
+    "florence pugh": {
+      "name": "Florence Pugh",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "English actress (born 1996)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Florence_Pugh",
+      "last_updated": "2026-02-15T19:43:09.954885",
+      "confidence": 0.6
+    },
+    "gerhard schröder": {
+      "name": "Gerhard Schröder",
+      "category": "politicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Chancellor of Germany from 1998 to 2005"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Gerhard_Schr%C3%B6der",
+      "last_updated": "2026-02-15T19:43:21.283170",
+      "confidence": 0.6
+    },
+    "ghost rider": {
+      "name": "Ghost Rider",
+      "category": "superheroes",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Character from Marvel Comics"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Ghost_Rider",
+      "last_updated": "2026-02-15T19:43:26.201035",
+      "confidence": 0.6
+    },
+    "giannis antetokounmpo": {
+      "name": "Giannis Antetokounmpo",
+      "category": "athletes",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Nigerian-Greek basketball player (born 1994)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Giannis_Antetokounmpo",
+      "last_updated": "2026-02-15T19:43:31.855359",
+      "confidence": 0.6
+    },
+    "guns n' roses": {
+      "name": "Guns N' Roses",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American rock band"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Guns_N'_Roses",
+      "last_updated": "2026-02-15T19:43:49.300119",
+      "confidence": 0.6
+    },
+    "gut": {
+      "name": "Gut",
+      "category": "anime",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Topics referred to by the same term"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Gut",
+      "last_updated": "2026-02-15T19:43:54.664374",
+      "confidence": 0.6
+    },
+    "henry viii": {
+      "name": "Henry VIII",
+      "category": "historical",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "King of England from 1509 to 1547"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Henry_VIII",
+      "last_updated": "2026-02-15T19:44:06.283860",
+      "confidence": 0.6
+    },
+    "inuyasha": {
+      "name": "Inuyasha",
+      "category": "anime",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Japanese manga series"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Inuyasha",
+      "last_updated": "2026-02-15T19:44:15.735220",
+      "confidence": 0.6
+    },
+    "jacques chirac": {
+      "name": "Jacques Chirac",
+      "category": "politicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "President of France from 1995 to 2007"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Jacques_Chirac",
+      "last_updated": "2026-02-15T19:44:20.815812",
+      "confidence": 0.6
+    },
+    "john boyega": {
+      "name": "John Boyega",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "English actor (born 1992)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/John_Boyega",
+      "last_updated": "2026-02-15T19:44:28.302390",
+      "confidence": 0.6
+    },
+    "list of inuyasha characters": {
+      "name": "List of Inuyasha characters",
+      "category": "anime",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "The characters of the Inuyasha manga series were created by Rumiko Takahashi. Most of the series takes place in a fictional version of Japan's Warring"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/List_of_Inuyasha_characters",
+      "last_updated": "2026-02-15T19:44:36.360992",
+      "confidence": 0.6
+    },
+    "himura kenshin": {
+      "name": "Himura Kenshin",
+      "category": "anime",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Fictional character and protagonist of the Rurouni Kenshin manga"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Himura_Kenshin",
+      "last_updated": "2026-02-15T19:44:41.617326",
+      "confidence": 0.6
+    },
+    "luka dončić": {
+      "name": "Luka Dončić",
+      "category": "athletes",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Slovenian basketball player (born 1999)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Luka_Don%C4%8Di%C4%87",
+      "last_updated": "2026-02-15T19:44:49.505647",
+      "confidence": 0.6
+    },
+    "maggie simpson": {
+      "name": "Maggie Simpson",
+      "category": "tv-characters",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Fictional character from The Simpsons franchise"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Maggie_Simpson",
+      "last_updated": "2026-02-15T19:44:57.248471",
+      "confidence": 0.6
+    },
+    "marco polo": {
+      "name": "Marco Polo",
+      "category": "historical",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Venetian merchant, explorer, and writer (1254–1324)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Marco_Polo",
+      "last_updated": "2026-02-15T19:45:02.321455",
+      "confidence": 0.6
+    },
+    "max verstappen": {
+      "name": "Max Verstappen",
+      "category": "athletes",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Dutch and Belgian racing driver (born 1997)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Max_Verstappen",
+      "last_updated": "2026-02-15T19:45:10.528717",
+      "confidence": 0.6
+    },
+    "metallica": {
+      "name": "Metallica",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American heavy metal band"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Metallica",
+      "last_updated": "2026-02-15T19:45:15.365441",
+      "confidence": 0.6
+    },
+    "moon knight": {
+      "name": "Moon Knight",
+      "category": "superheroes",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Marvel Comics fictional character"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Moon_Knight",
+      "last_updated": "2026-02-15T19:45:21.490996",
+      "confidence": 0.6
+    },
+    "mr. burns": {
+      "name": "Mr. Burns",
+      "category": "tv-characters",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Fictional character from The Simpsons franchise"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Mr._Burns",
+      "last_updated": "2026-02-15T19:45:26.446377",
+      "confidence": 0.6
+    },
+    "ms. marvel": {
+      "name": "Ms. Marvel",
+      "category": "superheroes",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Comic book superhero created in 1977"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Ms._Marvel",
+      "last_updated": "2026-02-15T19:45:32.444218",
+      "confidence": 0.6
+    },
+    "ned flanders": {
+      "name": "Ned Flanders",
+      "category": "tv-characters",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Fictional character from The Simpsons franchise"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Ned_Flanders",
+      "last_updated": "2026-02-15T19:45:37.342338",
+      "confidence": 0.6
+    },
+    "oscar isaac": {
+      "name": "Oscar Isaac",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American actor (born 1979)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Oscar_Isaac",
+      "last_updated": "2026-02-15T19:45:43.137568",
+      "confidence": 0.6
+    },
+    "she-hulk": {
+      "name": "She-Hulk",
+      "category": "superheroes",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Comic book superhero"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/She-Hulk",
+      "last_updated": "2026-02-15T19:45:48.190459",
+      "confidence": 0.6
+    },
+    "silvio berlusconi": {
+      "name": "Silvio Berlusconi",
+      "category": "politicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Italian media tycoon and politician (1936–2023)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Silvio_Berlusconi",
+      "last_updated": "2026-02-15T19:45:55.958575",
+      "confidence": 0.6
+    },
+    "timothée chalamet": {
+      "name": "Timothée Chalamet",
+      "category": "actors",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American and French actor (born 1995)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Timoth%C3%A9e_Chalamet",
+      "last_updated": "2026-02-15T19:46:12.608515",
+      "confidence": 0.6
+    },
+    "u2": {
+      "name": "U2",
+      "category": "musicians",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "Irish rock band"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/U2",
+      "last_updated": "2026-02-15T19:46:26.431244",
+      "confidence": 0.6
+    },
+    "vash the stampede": {
+      "name": "Vash the Stampede",
+      "category": "anime",
+      "signature_works": [],
+      "traits": {
+        "fictional": true
+      },
+      "distinctive_facts": [
+        "Fictional character from Trigun"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Vash_the_Stampede",
+      "last_updated": "2026-02-15T19:46:35.488585",
+      "confidence": 0.6
+    },
+    "aaron rodgers": {
+      "name": "Aaron Rodgers",
+      "category": "other",
+      "signature_works": [],
+      "traits": {
+        "fictional": false
+      },
+      "distinctive_facts": [
+        "American football player (born 1983)"
+      ],
+      "aliases": null,
+      "appearance": null,
+      "relationships": null,
+      "source": "wikipedia",
+      "source_url": "https://en.wikipedia.org/wiki/Aaron_Rodgers",
+      "last_updated": "2026-02-15T20:30:55.417761",
       "confidence": 0.6
     }
   }

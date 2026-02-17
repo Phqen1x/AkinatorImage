@@ -2,3 +2,22 @@ node_modules/
 dist/
 dist-electron/
 *.log
+
+# Patch and merge artifacts
+*.patch
+*.orig
+*.rej
+
+# Test results
+test-results-*.json
+test-output*.log
+test-duplicate*.log
+test-logical-deduction.ts
+
+# Screenshots
+Screenshot*.png
+
+# Temporary files
+character-knowledge*.json~
+character-knowledge\ (*.json
+
