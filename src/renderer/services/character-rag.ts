@@ -449,22 +449,22 @@ export function getMostInformativeQuestion(
       return facts.includes('marvel') || facts.includes('iron man') || facts.includes('avengers') || facts.includes('mcu')
     }, fictionOnly: false, realPersonOnly: true, categoryRequired: 'actors' },
     
-    // Superheroes
+    // Superheroes (fiction-only and category-specific)
     { q: 'Is your character from DC Comics?', test: (c: CharacterData) => {
       if (c.category !== 'superheroes') return false
       const facts = c.distinctive_facts.join(' ').toLowerCase()
       return facts.includes('dc comics') || facts.includes('batman') || facts.includes('justice league')
-    }, fictionOnly: false },
+    }, fictionOnly: true, categoryRequired: 'superheroes' },
     { q: 'Is your character from Marvel Comics?', test: (c: CharacterData) => {
       if (c.category !== 'superheroes') return false
       const facts = c.distinctive_facts.join(' ').toLowerCase()
       return facts.includes('marvel') || facts.includes('spider-man') || facts.includes('x-men')
-    }, fictionOnly: false },
+    }, fictionOnly: true, categoryRequired: 'superheroes' },
     { q: 'Does your character have superpowers?', test: (c: CharacterData) => {
       if (c.category !== 'superheroes') return false
       const facts = c.distinctive_facts.join(' ').toLowerCase()
       return facts.includes('power') || facts.includes('ability') || facts.includes('superhuman')
-    }, fictionOnly: false },
+    }, fictionOnly: true, categoryRequired: 'superheroes' },
     
     // Anime (category-specific questions that require character to be anime category)
     { q: 'Is your character from Dragon Ball?', test: (c: CharacterData) => {
