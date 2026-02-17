@@ -13,7 +13,7 @@ export const VISUALIST_MODEL = 'Phi-4-mini-instruct-GGUF'
 // Image generation disabled until GPU acceleration is configured
 export const IMAGE_MODEL = 'SDXL-Turbo'
 
-export const CONFIDENCE_THRESHOLD = 0.95  // Lower for RAG (10 guess target)
+export const CONFIDENCE_THRESHOLD = 0.95  // Must be high enough to avoid false positives
 export const MAX_TURNS = 100  // Allow extensive questioning to narrow down
 
 // Set to false to disable image generation during detective testing

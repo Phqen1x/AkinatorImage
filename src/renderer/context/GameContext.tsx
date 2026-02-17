@@ -54,6 +54,8 @@ function gameReducer(state: GameState, action: GameAction): GameState {
 
     case 'SET_QUESTION':
       // Detective returned a new question — show it, advance turn, merge traits
+      // Turn number is incremented HERE (when question is set), so turnNumber reflects
+      // the turn number when this question is being asked
       return {
         ...state,
         phase: 'waiting_for_answer',
@@ -66,21 +68,22 @@ function gameReducer(state: GameState, action: GameAction): GameState {
 
     case 'SUBMIT_ANSWER':
       // Record the completed Q&A turn, then go to processing
+      // Note: turnNumber is state.turn (BEFORE increment), which was set when SET_QUESTION ran
+      // So if SET_QUESTION set turn=5, this records turnNumber=5 for that Q&A pair
+      const newTurn = {
+        turnNumber: state.turn,
+        question: state.currentQuestion || '',
+        answer: action.answer,
+        newTraits: [],  // Will be populated when SET_QUESTION is dispatched with new traits
+        topGuesses: state.topGuesses,
+        imageUrl: state.currentImageUrl,
+      }
+      
       return {
         ...state,
         phase: 'processing',
         isProcessing: true,
-        turns: [
-          ...state.turns,
-          {
-            turnNumber: state.turn,
-            question: state.currentQuestion || '',
-            answer: action.answer,
-            newTraits: [],
-            topGuesses: state.topGuesses,
-            imageUrl: state.currentImageUrl,
-          },
-        ],
+        turns: [...state.turns, newTurn],
       }
 
     case 'UPDATE_IMAGE':

@@ -247,6 +247,26 @@ function characterMatchesTrait(char: CharacterData, trait: Trait): boolean {
     return matches
   }
   
+  // tv_show_type (sitcom, drama, animated)
+  if (key === 'tv_show_type') {
+    const facts = char.distinctive_facts.join(' ').toLowerCase()
+    let typeMatches = false
+    
+    if (actualValue === 'sitcom') {
+      typeMatches = facts.includes('sitcom') || facts.includes('comedy series')
+    } else if (actualValue === 'drama') {
+      typeMatches = facts.includes('drama') && !facts.includes('sitcom')
+    } else if (actualValue === 'animated') {
+      typeMatches = facts.includes('animated') || facts.includes('cartoon')
+    }
+    
+    const matches = isNegative ? !typeMatches : typeMatches
+    if (!matches) {
+      console.log(`[RAG] ${char.name} REJECTED: tv_show_type mismatch (${isNegative ? 'NOT ' : ''}${actualValue})`)
+    }
+    return matches
+  }
+  
   // has_powers
   if (key === 'has_powers') {
     const hasPowers = lowerValue === 'true' || lowerValue === 'yes'
@@ -594,6 +614,10 @@ export function getMostInformativeQuestion(
       .filter(t => t.answer === 'yes' || t.answer === 'probably')
       .map(t => t.question.toLowerCase())
     
+    const deniedAnswers = turns
+      .filter(t => t.answer === 'no' || t.answer === 'probably_not')
+      .map(t => t.question.toLowerCase())
+    
     const subCategoryConflicts: Record<string, string[]> = {
       // Nationality/geography (mutually exclusive for most characters)
       'american': ['british', 'uk', 'united kingdom', 'european', 'europe', 'from europe', 'from the uk', 'from the united kingdom'],
@@ -602,15 +626,19 @@ export function getMostInformativeQuestion(
       'united kingdom': ['american', 'usa', 'united states', 'from america'],
       'europe': ['american', 'usa', 'united states', 'from america'],
       'european': ['american', 'usa', 'united states', 'from america'],
+      'japanese': ['american', 'british', 'uk', 'european'],
       // Sports
       'basketball': ['soccer', 'football', 'baseball', 'tennis', 'golf', 'hockey', 'boxing', 'mma'],
       'soccer': ['basketball', 'baseball', 'tennis', 'golf', 'hockey', 'boxing', 'mma'],
       'football': ['basketball', 'baseball', 'tennis', 'golf', 'hockey', 'boxing', 'mma'],
       'baseball': ['basketball', 'soccer', 'football', 'tennis', 'golf', 'hockey', 'boxing', 'mma'],
+      'tennis': ['basketball', 'soccer', 'football', 'baseball', 'golf', 'hockey', 'boxing', 'mma'],
+      'golf': ['basketball', 'soccer', 'football', 'baseball', 'tennis', 'hockey', 'boxing', 'mma'],
       // Music genres
       'rapper': ['rock', 'pop', 'country', 'classical'],
       'rock': ['rapper', 'hip-hop', 'pop', 'country', 'classical'],
       'pop': ['rapper', 'hip-hop', 'rock', 'country', 'classical'],
+      'country': ['rapper', 'hip-hop', 'rock', 'pop', 'classical'],
       // Comic publishers
       'dc': ['marvel'],
       'marvel': ['dc'],
@@ -620,11 +648,22 @@ export function getMostInformativeQuestion(
       'one piece': ['dragon ball', 'naruto'],
     }
 
+    // For confirmed (yes/probably) answers, exclude conflicting keywords
     for (const confirmedQ of confirmedAnswers) {
       for (const [keyword, conflicts] of Object.entries(subCategoryConflicts)) {
         if (confirmedQ.includes(keyword)) {
           conflicts.forEach(conflict => skipKeywordsFromTurns.add(conflict))
           console.log(`[RAG] Confirmed "${keyword}" → excluding questions about: ${conflicts.join(', ')}`)
+        }
+      }
+    }
+    
+    // For denied (no/probably_not) answers, exclude the keyword itself
+    for (const deniedQ of deniedAnswers) {
+      for (const keyword of Object.keys(subCategoryConflicts)) {
+        if (deniedQ.includes(keyword)) {
+          skipKeywordsFromTurns.add(keyword)
+          console.log(`[RAG] Denied "${keyword}" → excluding questions about: ${keyword}`)
         }
       }
     }

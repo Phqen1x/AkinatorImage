@@ -82,14 +82,14 @@ function extractJSON(text: string): any {
 /**
  * System prompt for RAG-enhanced detective
  */
-const RAG_DETECTIVE_SYSTEM_PROMPT = `You are an expert detective in a character-guessing game (like Akinator). You have access to a knowledge base of 400+ characters and must guess the user's character in ~10 questions.
+const RAG_DETECTIVE_SYSTEM_PROMPT = `You are an expert detective in a character-guessing game (like Akinator). You have access to a knowledge base of 530 characters and must guess the user's character in ~10 questions.
 
 **CRITICAL RULES:**
 1. Ask ONLY yes/no questions about TRAITS or CATEGORIES — NEVER name a specific character in your question
 2. Use the "Remaining Candidates" context to focus your questions
 3. Ask questions that eliminate ~50% of remaining candidates (information gain)
 4. When you have 3-5 candidates left, ask SPECIFIC differentiating questions about TRAITS, not character names
-5. Make a guess when confidence ≥ 0.75 OR remaining candidates ≤ 2
+5. Make a guess when confidence ≥ 0.95 OR remaining candidates ≤ 2
 6. **DO NOT ask about:** Specific dates, specific awards, specific physical features (too specific, can't be tracked)
 7. **ONLY ask about:** Category, fictional status, gender, powers, alignment, era (broad), origin medium, team membership, nationality (broad - American/British/European only)
 8. **NEVER ask "Is your character [Character Name]?"** — naming a specific character is a GUESS, not a question. Only the game system makes guesses.
@@ -205,20 +205,22 @@ Q: "Is your character fictional?" A: "No" → {"key": "fictional", "value": "fal
 Q: "Is your character male?" A: "Yes" → {"key": "gender", "value": "male", "confidence": 0.95}
 Q: "Is your character male?" A: "No" → {"key": "gender", "value": "female", "confidence": 0.9}
 Q: "Is your character male?" A: "Probably" → {"key": "gender", "value": "male", "confidence": 0.75}
+Q: "Is your character male?" A: "Probably not" → {"key": "gender", "value": "female", "confidence": 0.70}
 Q: "Is your character still alive today?" A: "Yes" → null (no alive/dead trait available)
 Q: "Is your character still alive today?" A: "No" → null (no alive/dead trait available)
 Q: "Was your character active before 2000?" A: "Yes" → {"key": "era", "value": "modern", "confidence": 0.75}
 Q: "Was your character active before 2000?" A: "No" → {"key": "era", "value": "contemporary", "confidence": 0.75}
 Q: "Does your character have superpowers?" A: "Yes" → {"key": "has_powers", "value": "true", "confidence": 0.95}
+Q: "Does your character have superpowers?" A: "Probably not" → {"key": "has_powers", "value": "false", "confidence": 0.70}
 Q: "Is your character known for football?" A: "No" → null (sport trait not available)
 Q: "Does your character originate from a country other than the United States?" A: "Yes" → null (too specific, no geography trait)
 Q: "Is your character American?" A: "No" → null (no nationality trait available)
 Q: "Did your character originate in an anime or manga?" A: "Yes" → {"key": "category", "value": "anime", "confidence": 0.95}
 Q: "Is your character from an anime?" A: "Yes" → {"key": "category", "value": "anime", "confidence": 0.95}
 Q: "Is your character from a TV show?" A: "Yes" → {"key": "category", "value": "tv-characters", "confidence": 0.95}
-Q: "Is your character from a sitcom?" A: "Yes" → {"key": "category", "value": "tv-characters", "confidence": 0.9}
-Q: "Is your character from an animated show?" A: "Yes" → {"key": "category", "value": "tv-characters", "confidence": 0.9}
-Q: "Is your character from a drama series?" A: "Yes" → {"key": "category", "value": "tv-characters", "confidence": 0.9}
+Q: "Is your character from a sitcom?" A: "Yes" → {"key": "category", "value": "tv-characters", "confidence": 0.9}, {"key": "tv_show_type", "value": "sitcom", "confidence": 0.9}
+Q: "Is your character from an animated show?" A: "Yes" → {"key": "category", "value": "tv-characters", "confidence": 0.9}, {"key": "tv_show_type", "value": "animated", "confidence": 0.9}
+Q: "Is your character from a drama series?" A: "Yes" → {"key": "category", "value": "tv-characters", "confidence": 0.9}, {"key": "tv_show_type", "value": "drama", "confidence": 0.9}
 Q: "Is your character from a video game?" A: "Yes" → {"key": "category", "value": "video-games", "confidence": 0.95}`
 
 /**
@@ -422,6 +424,7 @@ IMPORTANT: Base guesses ONLY on the given traits. Don't make random guesses.`
  */
 function isCharacterNameQuestion(question: string): boolean {
   // Match pattern: "Is your character [Name]?" where Name is NOT a trait descriptor
+  // Enhanced regex to support hyphens, apostrophes, numbers, and single letters
   const guessMatch = question.match(/^Is your character (.+)\?$/i)
   if (!guessMatch) return false
 
@@ -443,10 +446,11 @@ function isCharacterNameQuestion(question: string): boolean {
     return false // It's a trait question
   }
 
-  // Check if captured text looks like a proper name (contains capitalized words)
-  // or is a known character in the database
-  const hasCapitalizedWords = /[A-Z][a-z]/.test(captured)
-  const looksLikeName = hasCapitalizedWords && captured.split(/\s+/).length <= 6
+  // Enhanced pattern to match names with hyphens, apostrophes, numbers, single letters
+  // Examples: "Spider-Man", "O'Neill", "C-3PO", "X", "Mary-Jane Watson"
+  const hasNamePattern = /^[A-Z][A-Za-z0-9'-]*(?:\s+[A-Z][A-Za-z0-9'-]*)*$/.test(captured) ||
+                        /^[A-Z]$/.test(captured)  // Single capital letter names like "X" or "L"
+  const looksLikeName = hasNamePattern && captured.split(/\s+/).length <= 6
 
   // Also check the knowledge base
   const knownCharacter = getCharacterByName(captured)
@@ -814,8 +818,9 @@ async function askNextQuestion(
       askedQuestions[i].includes('president') && 
       (answers[i] === 'yes' || answers[i] === 'true')
     )
+    const currentYear = new Date().getFullYear()
     const askedCurrentlyInOffice = askedQuestions.some(q => 
-      (q.includes('currently in office') || q.includes('in office now')) && q.includes('2026')
+      (q.includes('currently in office') || q.includes('in office now')) && q.includes(String(currentYear))
     )
     const confirmedCurrentlyInOffice = askedCurrentlyInOffice && turns.some((t, i) => 
       (askedQuestions[i].includes('currently in office') || askedQuestions[i].includes('in office now')) &&
@@ -833,7 +838,7 @@ async function askNextQuestion(
         question: `Is your character ${topGuess.name}?`,
         topGuesses: [{ 
           name: topGuess.name, 
-          confidence: Math.max(0.95, topGuess.confidence) // Very high confidence for logical deduction
+          confidence: Math.min(0.95, topGuess.confidence) // Cap at 0.95 for logical deduction
         }]
       }
     }
@@ -866,7 +871,7 @@ async function askNextQuestion(
           question: `Is your character ${topGuess.name}?`,
           topGuesses: [{ 
             name: topGuess.name, 
-            confidence: Math.max(0.95, topGuess.confidence)
+            confidence: Math.min(0.95, topGuess.confidence)
           }]
         }
       }
@@ -912,10 +917,16 @@ async function askNextQuestion(
   
   // CRITICAL: Don't guess if we just rejected guesses recently
   // After rejection, ask at least 4-5 more questions before trying again
-  const turnsSinceLastRejection = rejectedGuesses.length > 0 ? 
-    Math.max(0, turns.length - turns.slice().reverse().findIndex(t => 
-      rejectedGuesses.some(rg => t.question.toLowerCase().includes(rg.toLowerCase()))
-    )) : 999
+  // Track the turn number where the last rejection occurred using guessAttempts
+  const rejectedAttempts = turns.filter(t => {
+    // Find if this turn resulted in a rejected guess
+    const turnNum = turns.indexOf(t) + 1
+    return rejectedGuesses.includes(t.question.match(/^Is your character (.+)\?$/)?.[1] || '')
+  })
+  const lastRejectedTurn = rejectedAttempts.length > 0 ?
+    Math.max(...rejectedAttempts.map(t => turns.indexOf(t) + 1)) : -1
+  const turnsSinceLastRejection = lastRejectedTurn >= 0 ? 
+    turns.length - lastRejectedTurn : 999
   const enoughTurnsSinceRejection = turnsSinceLastRejection >= 5 || rejectedGuesses.length === 0
   
   // IMPROVED STRATEGY: Only make direct guesses when highly confident or down to very few candidates
@@ -1110,7 +1121,7 @@ Return your response as JSON.`
         console.info('[Detective-RAG] Converting to formal guess')
         return {
           question: `Is your character ${matchingGuess.name}?`,
-          topGuesses: [{ name: matchingGuess.name, confidence: Math.max(0.95, matchingGuess.confidence) }]
+          topGuesses: [{ name: matchingGuess.name, confidence: Math.min(0.95, matchingGuess.confidence) }]
         }
       } else {
         console.warn('[Detective-RAG] Character not in top guesses or low confidence - using fallback question')

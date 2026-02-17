@@ -25,6 +25,7 @@ export interface GuessAttempt {
   guess: string
   correct: boolean
   turnNumber: number
+  turn?: number  // Add for backward compatibility
 }
 
 export interface TurnRecord {

@@ -61,8 +61,14 @@ export function useGameLoop() {
   const submitAnswer = useCallback(async (answer: AnswerValue) => {
     const s = stateRef.current
     
+    // Validate current state
+    if (!s.currentQuestion) {
+      console.error('[GameLoop] No current question to answer')
+      return
+    }
+    
     // Track ambiguous questions (user doesn't know the answer)
-    if (answer === 'dont_know' && s.currentQuestion) {
+    if (answer === 'dont_know') {
       recordAmbiguousQuestion(s.currentQuestion, s.turn)
     }
 
@@ -74,7 +80,7 @@ export function useGameLoop() {
       // s.turns has all PREVIOUS turns, we need to add the current one
       const turnHistory = [
         ...s.turns.map(t => ({ question: t.question, answer: t.answer })),
-        ...(s.currentQuestion ? [{ question: s.currentQuestion, answer }] : [])
+        { question: s.currentQuestion, answer }
       ]
       
       console.log(`[GameLoop] Calling askDetective with turn history (${turnHistory.length} items):`, 
@@ -129,9 +135,10 @@ export function useGameLoop() {
 
       dispatch({ type: 'SET_QUESTION', question, guesses: topGuesses, traits: newTraits })
 
-      const allTraits = [...s.traits, ...newTraits]
+      // Get fresh merged traits for image generation
+      const mergedTraits = [...s.traits, ...newTraits]
       // Wait for image generation to complete before allowing next question
-      await generateImageInBackground(topGuesses, allTraits, s.turn + 1, s.seed)
+      await generateImageInBackground(topGuesses, mergedTraits, s.turn + 1, s.seed)
     } catch (e) {
       dispatch({ type: 'SET_ERROR', error: e instanceof Error ? e.message : 'Detective failed' })
     }
