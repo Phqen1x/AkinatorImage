@@ -12,21 +12,45 @@ import * as path from 'path'
 
 type LemonExpression = 'neutral' | 'yes' | 'no' | 'probably' | 'probably_not' | 'dont_know'
 
-const EXPRESSION_PROMPTS: Record<LemonExpression, string> = {
-  neutral: 'friendly smiling face, welcoming expression, cheerful and inviting',
-  yes: 'very happy excited face, big smile, enthusiastic and joyful expression',
-  no: 'sad disappointed face, frowning, dejected expression',
-  probably: 'thoughtful considering face, slight smile, pondering expression with hand on chin',
-  probably_not: 'skeptical uncertain face, raised eyebrow, doubtful expression',
-  dont_know: 'confused puzzled face, question mark expression, bewildered look',
+type ExpressionPrompt = {
+  positive: string
+  negative: string
 }
 
-const BASE_PROMPT = `3D rendered anthropomorphic glass of lemonade character, Kool-Aid Man style, cute mascot design, 
-glass pitcher filled with yellow lemonade, visible ice cubes floating inside, lemon slice garnish on rim, 
-condensation droplets on glass surface, cartoon arms and legs with white gloves and shoes, 
-professional 3D render, Pixar style, high quality CGI, clean background, studio lighting, vibrant colors`
+const EXPRESSION_PROMPTS: Record<LemonExpression, ExpressionPrompt> = {
+  neutral: {
+    positive: 'calm neutral expression, gentle smile, friendly welcoming face, relaxed demeanor',
+    negative: 'frowning, sad, angry, extreme emotions',
+  },
+  yes: {
+    positive: 'VERY HAPPY, EXCITED, ENTHUSIASTIC, HUGE WIDE SMILE, JOYFUL, CELEBRATING, eyes wide open with excitement, mouth open in big grin',
+    negative: 'sad, frowning, crying, disappointed, neutral, calm',
+  },
+  no: {
+    positive: 'VERY SAD, DISAPPOINTED, CRYING, FROWNING DEEPLY, mouth turned down, tears, dejected, depressed expression, downcast eyes, UNHAPPY',
+    negative: 'smiling, happy, grinning, cheerful, laughing, positive',
+  },
+  probably: {
+    positive: 'THOUGHTFUL, PONDERING, considering carefully, hand on chin, slight optimistic smile, analytical expression, thinking pose',
+    negative: 'laughing, big smile, sad, crying, confused',
+  },
+  probably_not: {
+    positive: 'SKEPTICAL, DOUBTFUL, UNCERTAIN, one eyebrow raised, suspicious look, questioning expression, arms crossed, NOT convinced, dubious',
+    negative: 'smiling broadly, happy, enthusiastic, sad, crying',
+  },
+  dont_know: {
+    positive: 'VERY CONFUSED, BEWILDERED, PUZZLED, scratching head, question marks around head, lost expression, eyes looking different directions, shrugging shoulders, COMPLETELY UNSURE',
+    negative: 'smiling, happy, confident, certain, sad',
+  },
+}
 
-const NEGATIVE_PROMPT = 'blurry, low quality, deformed, disfigured, realistic human, photograph, dark, gloomy, text, watermark, logo, multiple characters'
+const BASE_PROMPT = `high quality 3D rendered anthropomorphic glass of lemonade character, Kool-Aid Man mascot style, cute cartoon design, 
+transparent glass pitcher filled with bright yellow lemonade liquid, ice cubes floating inside visible through glass, 
+fresh lemon slice garnish on the rim, water condensation droplets on glass surface, 
+cartoon white gloved hands and arms, cartoon legs with white shoes, 
+professional CGI render, Pixar Disney animation style, studio lighting, white clean background, vibrant saturated colors`
+
+const BASE_NEGATIVE = 'blurry, low quality, deformed, disfigured, extra limbs, bad anatomy, realistic human, photograph, dark lighting, gloomy, text, watermark, logo, signature, multiple characters, scary, horror'
 
 const LEMON_ASSETS_DIR = path.join(process.cwd(), 'public', 'lemon-assets')
 
@@ -53,17 +77,21 @@ function areAllExpressionsCached(): boolean {
 async function generateLemonExpression(expression: LemonExpression, seed: number): Promise<string> {
   console.info(`[Lemon] Generating ${expression} expression...`)
   
-  const emotionPrompt = EXPRESSION_PROMPTS[expression]
-  const fullPrompt = `${BASE_PROMPT}, ${emotionPrompt}`
+  const expressionPrompt = EXPRESSION_PROMPTS[expression]
+  const fullPrompt = `${BASE_PROMPT}, ${expressionPrompt.positive}`
+  const fullNegativePrompt = `${BASE_NEGATIVE}, ${expressionPrompt.negative}`
+  
+  console.info(`[Lemon] Prompt: ${fullPrompt.substring(0, 100)}...`)
+  console.info(`[Lemon] Negative: ${fullNegativePrompt.substring(0, 100)}...`)
   
   try {
     const response = await generateImage({
       model: IMAGE_MODEL,
       prompt: fullPrompt,
-      negative_prompt: NEGATIVE_PROMPT,
+      negative_prompt: fullNegativePrompt,
       seed: seed + expression.length, // Vary seed slightly per expression
-      steps: 6, // Slightly more steps for better quality since these are cached
-      cfg_scale: 1.5,
+      steps: 8, // More steps for better expression accuracy
+      cfg_scale: 2.0, // Higher CFG to follow prompt more closely
       width: 512,
       height: 512,
     })
