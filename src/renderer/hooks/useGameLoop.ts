@@ -122,46 +122,46 @@ export function useGameLoop() {
       const isCharacterGuessQuestion = guessName && !traitKeywords.some(kw => guessName.toLowerCase().includes(kw))
 
       if (isCharacterGuessQuestion && guessName) {
-        // Generate hero render BEFORE showing guess
-        console.log(`[UI] 🎯 Turn ${s.turn + 1}: GUESS DETECTED - "${question}" → Creating character render for: ${guessName}`)
+        // Make the guess FIRST, then generate portrait in background
+        console.log(`[UI] 🎯 Turn ${s.turn + 1}: GUESS DETECTED - "${question}" → Guessing: ${guessName}`)
         
-        // DON'T dispatch SET_QUESTION - we're going straight to guess dialog
-        // dispatch({ type: 'SET_QUESTION', question, guesses: topGuesses, traits: newTraits })
-        
-        // Generate portrait before making guess
-        try {
-          console.info('[GameLoop] Creating character render...')
-          const appearanceDetails = buildHeroImagePrompt(guessName, [...s.traits, ...newTraits])
-          const heroUrl = await renderSimplePortrait(guessName, s.seed, appearanceDetails)
-          dispatch({ type: 'UPDATE_IMAGE', imageUrl: heroUrl })
-          console.info('[GameLoop] ✓ Character render complete')
-        } catch (error) {
-          console.warn('[GameLoop] Character render failed, continuing with guess:', error)
-        }
-        
+        // Show guess dialog immediately
         dispatch({ type: 'MAKE_GUESS', guess: guessName })
+        
+        // Generate portrait in background (non-blocking)
+        console.info('[GameLoop] Creating character render in background...')
+        const appearanceDetails = buildHeroImagePrompt(guessName, [...s.traits, ...newTraits])
+        renderSimplePortrait(guessName, s.seed, appearanceDetails)
+          .then(heroUrl => {
+            dispatch({ type: 'UPDATE_IMAGE', imageUrl: heroUrl })
+            console.info('[GameLoop] ✓ Character render complete')
+          })
+          .catch(error => {
+            console.warn('[GameLoop] Character render failed:', error)
+          })
+        
         return
       }
 
       if (topGuess && topGuess.confidence >= CONFIDENCE_THRESHOLD) {
-        // Generate hero render BEFORE showing guess
-        console.log(`[UI] 🎯 Turn ${s.turn + 1}: HIGH CONFIDENCE GUESS - Creating character render for: ${topGuess.name} (${Math.round(topGuess.confidence * 100)}%)`)
+        // Make the guess FIRST, then generate portrait in background
+        console.log(`[UI] 🎯 Turn ${s.turn + 1}: HIGH CONFIDENCE GUESS - Guessing: ${topGuess.name} (${Math.round(topGuess.confidence * 100)}%)`)
         
-        // DON'T dispatch SET_QUESTION - we're going straight to guess dialog
-        // dispatch({ type: 'SET_QUESTION', question, guesses: topGuesses, traits: newTraits })
-        
-        // Generate portrait before making guess
-        try {
-          console.info('[GameLoop] Creating character render...')
-          const appearanceDetails = buildHeroImagePrompt(topGuess.name, [...s.traits, ...newTraits])
-          const heroUrl = await renderSimplePortrait(topGuess.name, s.seed, appearanceDetails)
-          dispatch({ type: 'UPDATE_IMAGE', imageUrl: heroUrl })
-          console.info('[GameLoop] ✓ Character render complete')
-        } catch (error) {
-          console.warn('[GameLoop] Character render failed, continuing with guess:', error)
-        }
-        
+        // Show guess dialog immediately
         dispatch({ type: 'MAKE_GUESS', guess: topGuess.name })
+        
+        // Generate portrait in background (non-blocking)
+        console.info('[GameLoop] Creating character render in background...')
+        const appearanceDetails = buildHeroImagePrompt(topGuess.name, [...s.traits, ...newTraits])
+        renderSimplePortrait(topGuess.name, s.seed, appearanceDetails)
+          .then(heroUrl => {
+            dispatch({ type: 'UPDATE_IMAGE', imageUrl: heroUrl })
+            console.info('[GameLoop] ✓ Character render complete')
+          })
+          .catch(error => {
+            console.warn('[GameLoop] Character render failed:', error)
+          })
+        
         return
       }
 
