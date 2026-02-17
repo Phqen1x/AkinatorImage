@@ -3,6 +3,8 @@
  * 
  * Uses character-knowledge.json via RAG to dramatically improve guessing accuracy.
  * Target: Guess any character in knowledge base within 10 questions.
+ * 
+ * From turn 5+: Supplements with Wikipedia search for "top 50 X" characters.
  */
 
 import { z } from 'zod'
@@ -21,6 +23,7 @@ import {
   generateDynamicQuestion,
   scoreCharacterMatch
 } from './character-rag'
+import { getWikipediaSupplementalCharacters } from './wikipedia'
 
 const ANSWER_LABELS: Record<AnswerValue, string> = {
   yes: 'yes',
@@ -550,6 +553,22 @@ async function askNextQuestion(
   let remainingCandidates = filterCharactersByTraits(traits)
   console.info(`[Detective-RAG] ${remainingCandidates.length} candidates match with strict filtering`)
   
+  // WIKIPEDIA AUGMENTATION: From turn 5 onwards, supplement with Wikipedia search
+  // This expands beyond the 407-character database to find additional matches
+  let wikipediaNames: string[] = []
+  if (turns.length >= 5 && traits.length >= 2) {
+    console.info('[Detective-RAG] Turn 5+: Fetching supplemental characters from Wikipedia...')
+    try {
+      wikipediaNames = await getWikipediaSupplementalCharacters(traits)
+      if (wikipediaNames.length > 0) {
+        console.info(`[Wikipedia] ✓ Found ${wikipediaNames.length} supplemental characters`)
+        console.info(`[Wikipedia] Sample names:`, wikipediaNames.slice(0, 10).join(', '))
+      }
+    } catch (error) {
+      console.warn('[Wikipedia] Failed to fetch supplemental characters:', error)
+    }
+  }
+  
   // If strict filtering returns too few results, use fuzzy matching
   if (remainingCandidates.length === 0 && traits.length > 2) {
     console.info('[Detective-RAG] Strict filtering found 0 candidates, trying fuzzy matching...')
@@ -829,9 +848,42 @@ async function askNextQuestion(
   
   console.info('[Detective-RAG] RAG top guesses:', ragGuesses.map(g => `${g.name} (${Math.round(g.confidence * 100)}%)`))
 
-  // HYBRID APPROACH: Mix database and LLM guesses for better coverage
+  // HYBRID APPROACH: Mix database, Wikipedia, and LLM guesses for better coverage
   // But be conservative - only use LLM when database has limited options
   let hybridGuesses: Guess[] = ragGuesses
+  
+  // Add Wikipedia names with medium confidence (0.5-0.7 range)
+  // These are from verified Wikipedia lists, so more reliable than LLM hallucinations
+  if (wikipediaNames.length > 0) {
+    const wikipediaGuesses: Guess[] = wikipediaNames
+      .filter(name => !rejectedGuesses.some(r => r.toLowerCase() === name.toLowerCase()))
+      .filter(name => !ragGuesses.some(g => g.name.toLowerCase() === name.toLowerCase()))
+      .slice(0, 10) // Limit to top 10 Wikipedia additions
+      .map((name, index) => ({
+        name,
+        confidence: 0.65 - (index * 0.02) // Decreasing confidence: 0.65, 0.63, 0.61...
+      }))
+    
+    if (wikipediaGuesses.length > 0) {
+      console.info(`[Wikipedia] Adding ${wikipediaGuesses.length} Wikipedia characters to guess pool`)
+      console.info(`[Wikipedia] Names:`, wikipediaGuesses.slice(0, 5).map(g => g.name).join(', '))
+      
+      // Merge Wikipedia guesses with database guesses
+      const combined = [...ragGuesses, ...wikipediaGuesses]
+      const uniqueNames = new Set<string>()
+      hybridGuesses = combined
+        .filter(g => {
+          const lower = g.name.toLowerCase()
+          if (uniqueNames.has(lower)) return false
+          uniqueNames.add(lower)
+          return true
+        })
+        .sort((a, b) => b.confidence - a.confidence)
+        .slice(0, 10) // Keep top 10 overall
+      
+      console.info('[Detective-RAG] Hybrid guesses (DB + Wikipedia):', hybridGuesses.slice(0, 5).map(g => `${g.name} (${Math.round(g.confidence * 100)}%)`))
+    }
+  }
   
   // Only augment with LLM if:
   // 1. We have sufficient turns/traits (20+/7+)
