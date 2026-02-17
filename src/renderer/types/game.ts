@@ -50,6 +50,7 @@ export interface GameState {
   finalGuess: string | null
   error: string | null
   isProcessing: boolean
+  lastAnswer: AnswerValue | null  // Track last answer for lemonade expression
 }
 
 export type GameAction =

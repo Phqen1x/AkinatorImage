@@ -15,6 +15,7 @@ const initialState: GameState = {
   finalGuess: null,
   error: null,
   isProcessing: false,
+  lastAnswer: null,
 }
 
 function mergeTraits(existing: Trait[], incoming: Trait[]): Trait[] {
@@ -84,6 +85,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         phase: 'processing',
         isProcessing: true,
         turns: [...state.turns, newTurn],
+        lastAnswer: action.answer,  // Track last answer for lemonade expression
       }
 
     case 'UPDATE_IMAGE':

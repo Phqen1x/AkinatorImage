@@ -138,11 +138,16 @@ export function useGameLoop() {
 
       dispatch({ type: 'SET_QUESTION', question, guesses: topGuesses, traits: newTraits })
 
+      // ============================================================
+      // MID-GAME IMAGE GENERATION DISABLED
+      // Uncomment below to re-enable portrait generation during game
+      // ============================================================
       // Get fresh merged traits for image generation
-      const mergedTraits = [...s.traits, ...newTraits]
-      // Generate image in background (non-blocking - don't await)
-      generateImageInBackground(topGuesses, mergedTraits, s.turn + 1, s.seed)
-        .catch(err => console.warn('[GameLoop] Background image generation failed (ignored):', err))
+      // const mergedTraits = [...s.traits, ...newTraits]
+      // // Generate image in background (non-blocking - don't await)
+      // generateImageInBackground(topGuesses, mergedTraits, s.turn + 1, s.seed)
+      //   .catch(err => console.warn('[GameLoop] Background image generation failed (ignored):', err))
+      // ============================================================
     } catch (e) {
       dispatch({ type: 'SET_ERROR', error: e instanceof Error ? e.message : 'Detective failed' })
     }
