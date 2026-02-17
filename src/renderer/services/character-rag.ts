@@ -339,6 +339,11 @@ export function getMostInformativeQuestion(
       .map(t => t.value.replace('NOT_', ''))
   )
   
+  // Check if we have a confirmed positive category
+  const confirmedCategory = confirmedTraits.find(t => 
+    t.key === 'category' && !t.value.startsWith('NOT_') && !t.value.startsWith('not_')
+  )
+  
   // Also infer ruled-out categories from remaining candidates
   // If ALL remaining candidates are NOT in a category, that category is ruled out
   if (remainingCandidates.length > 0) {
@@ -353,6 +358,9 @@ export function getMostInformativeQuestion(
   }
   
   console.log(`[RAG] Ruled out categories:`, Array.from(ruledOutCategories))
+  if (confirmedCategory) {
+    console.log(`[RAG] Confirmed positive category: ${confirmedCategory.value}`)
+  }
   
   const questions: Array<{q: string, test: (c: CharacterData) => boolean, fictionOnly?: boolean, realPersonOnly?: boolean, categoryRequired?: string}> = [
     { q: 'Is your character fictional?', test: (c: CharacterData) => c.traits.fictional, fictionOnly: false },
@@ -363,11 +371,11 @@ export function getMostInformativeQuestion(
     { q: 'Did your character originate in a comic book?', test: (c: CharacterData) => c.category === 'superheroes', fictionOnly: true },
     { q: 'Is your character from a video game?', test: (c: CharacterData) => c.category === 'video-games', fictionOnly: true },
     { q: 'Is your character from a TV show?', test: (c: CharacterData) => c.category === 'tv-characters', fictionOnly: false },
-    // Real person questions
-    { q: 'Is your character an athlete?', test: (c: CharacterData) => c.category === 'athletes', fictionOnly: false, realPersonOnly: true },
-    { q: 'Is your character a politician?', test: (c: CharacterData) => c.category === 'politicians', fictionOnly: false, realPersonOnly: true },
-    { q: 'Is your character a musician or singer?', test: (c: CharacterData) => c.category === 'musicians', fictionOnly: false, realPersonOnly: true },
-    { q: 'Is your character an actor?', test: (c: CharacterData) => c.category === 'actors', fictionOnly: false, realPersonOnly: true },
+    // Real person category questions - mutually exclusive!
+    { q: 'Is your character an athlete?', test: (c: CharacterData) => c.category === 'athletes', fictionOnly: false, realPersonOnly: true, categoryRequired: 'athletes' },
+    { q: 'Is your character a politician?', test: (c: CharacterData) => c.category === 'politicians', fictionOnly: false, realPersonOnly: true, categoryRequired: 'politicians' },
+    { q: 'Is your character a musician or singer?', test: (c: CharacterData) => c.category === 'musicians', fictionOnly: false, realPersonOnly: true, categoryRequired: 'musicians' },
+    { q: 'Is your character an actor?', test: (c: CharacterData) => c.category === 'actors', fictionOnly: false, realPersonOnly: true, categoryRequired: 'actors' },
     { q: 'Is your character a historical figure (died before 1950)?', test: (c: CharacterData) => {
       const facts = c.distinctive_facts.join(' ')
       return /\d{4}–\d{4}/.test(facts) && facts.includes('195') === false && facts.includes('196') === false
@@ -668,9 +676,15 @@ export function getMostInformativeQuestion(
       continue
     }
     
-    // Skip category-specific questions if that category has been ruled out
-    if (categoryRequired && ruledOutCategories.has(categoryRequired)) {
-      continue
+    // Skip category-specific questions if that category has been ruled out OR if a different category is confirmed
+    if (categoryRequired) {
+      if (ruledOutCategories.has(categoryRequired)) {
+        continue
+      }
+      // If we have a confirmed positive category, skip questions for OTHER categories
+      if (confirmedCategory && categoryRequired !== confirmedCategory.value) {
+        continue
+      }
     }
     
     // Skip mutually exclusive questions
