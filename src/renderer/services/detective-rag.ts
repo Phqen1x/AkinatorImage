@@ -5,6 +5,7 @@
  * Target: Guess any character in knowledge base within 10 questions.
  */
 
+import { z } from 'zod'
 import { chatCompletion } from './lemonade'
 import { DETECTIVE_MODEL, CONFIDENCE_THRESHOLD } from '../../shared/constants'
 import type { Trait, Guess, AnswerValue } from '../types/game'
@@ -15,7 +16,10 @@ import {
   getTopGuesses as getRagTopGuesses,
   getCandidateContext,
   getMostInformativeQuestion,
-  getCharacterByName
+  getCharacterByName,
+  // TODO: Implement these next
+  // generateDynamicQuestion,
+  // scoreCharacterMatch
 } from './character-rag'
 
 const ANSWER_LABELS: Record<AnswerValue, string> = {
@@ -29,6 +33,21 @@ const ANSWER_LABELS: Record<AnswerValue, string> = {
 interface TurnAdded {
   turnAdded?: number
 }
+
+// Zod schemas for LLM output validation
+const TraitSchema = z.object({
+  key: z.string(),
+  value: z.string(),
+  confidence: z.number().min(0).max(1)
+})
+
+const GuessSchema = z.object({
+  name: z.string(),
+  confidence: z.number().min(0).max(1)
+})
+
+const TraitsArraySchema = z.array(TraitSchema)
+const GuessesArraySchema = z.array(GuessSchema)
 
 // Ensure character knowledge is loaded
 let knowledgeLoaded = false
@@ -64,18 +83,43 @@ export function recordAmbiguousQuestion(question: string, turnAdded: number): vo
 }
 
 /**
- * Extract structured JSON from LLM response
+ * Extract and validate structured JSON from LLM response using Zod
  */
 function extractJSON(text: string): any {
   try {
-    // Look for JSON object in the response
-    const jsonMatch = text.match(/\{[\s\S]*\}/)
+    // Look for JSON object or array in the response
+    const jsonMatch = text.match(/\{[\s\S]*\}|\[[\s\S]*\]/)
     if (jsonMatch) {
       return JSON.parse(jsonMatch[0])
     }
     return JSON.parse(text)
   } catch {
     return null
+  }
+}
+
+/**
+ * Validate and parse trait extraction response
+ * Returns traits without turnAdded (caller will add it)
+ */
+function parseTraits(llmResponse: string): Omit<Trait, 'turnAdded'>[] {
+  const json = extractJSON(llmResponse)
+  if (!json) return []
+  
+  try {
+    // Support both single trait object and array of traits
+    const data = Array.isArray(json) ? json : [json]
+    const result = TraitsArraySchema.safeParse(data)
+    
+    if (result.success) {
+      return result.data
+    } else {
+      console.warn('[Detective-RAG] Trait validation failed:', result.error)
+      return []
+    }
+  } catch (error) {
+    console.error('[Detective-RAG] Error parsing traits:', error)
+    return []
   }
 }
 
@@ -193,54 +237,66 @@ const TRAIT_EXTRACTOR_PROMPT = `Extract a structured trait from this Q&A.
    - "Is your character known for X or Y?" → Extract the main category
    - If question is overly complex or compound, return null
 
-**EXAMPLES:**
+**EXAMPLES (note: some questions can extract MULTIPLE traits):**
 Q: "Is your character American?" A: "Yes" → null (no nationality trait available)
-Q: "Is your character an actor?" A: "Yes" → {"key": "category", "value": "actors", "confidence": 0.95}
-Q: "Is your character an actor?" A: "No" → {"key": "category", "value": "NOT_actors", "confidence": 0.9}
-Q: "Is your character an athlete?" A: "Yes" → {"key": "category", "value": "athletes", "confidence": 0.95}
-Q: "Is your character an athlete?" A: "No" → {"key": "category", "value": "NOT_athletes", "confidence": 0.9}
-Q: "Is your character a musician or singer?" A: "No" → {"key": "category", "value": "NOT_musicians", "confidence": 0.9}
-Q: "Is your character fictional?" A: "Yes" → {"key": "fictional", "value": "true", "confidence": 0.95}
-Q: "Is your character fictional?" A: "No" → {"key": "fictional", "value": "false", "confidence": 0.95}
-Q: "Is your character male?" A: "Yes" → {"key": "gender", "value": "male", "confidence": 0.95}
-Q: "Is your character male?" A: "No" → {"key": "gender", "value": "female", "confidence": 0.9}
-Q: "Is your character male?" A: "Probably" → {"key": "gender", "value": "male", "confidence": 0.75}
-Q: "Is your character male?" A: "Probably not" → {"key": "gender", "value": "female", "confidence": 0.70}
-Q: "Is your character still alive today?" A: "Yes" → null (no alive/dead trait available)
-Q: "Is your character still alive today?" A: "No" → null (no alive/dead trait available)
-Q: "Was your character active before 2000?" A: "Yes" → {"key": "era", "value": "modern", "confidence": 0.75}
-Q: "Was your character active before 2000?" A: "No" → {"key": "era", "value": "contemporary", "confidence": 0.75}
-Q: "Does your character have superpowers?" A: "Yes" → {"key": "has_powers", "value": "true", "confidence": 0.95}
-Q: "Does your character have superpowers?" A: "Probably not" → {"key": "has_powers", "value": "false", "confidence": 0.70}
-Q: "Is your character known for football?" A: "No" → null (sport trait not available)
-Q: "Does your character originate from a country other than the United States?" A: "Yes" → null (too specific, no geography trait)
-Q: "Is your character American?" A: "No" → null (no nationality trait available)
-Q: "Did your character originate in an anime or manga?" A: "Yes" → {"key": "category", "value": "anime", "confidence": 0.95}
-Q: "Is your character from an anime?" A: "Yes" → {"key": "category", "value": "anime", "confidence": 0.95}
-Q: "Is your character from a TV show?" A: "Yes" → {"key": "category", "value": "tv-characters", "confidence": 0.95}
-Q: "Is your character from a sitcom?" A: "Yes" → {"key": "category", "value": "tv-characters", "confidence": 0.9}, {"key": "tv_show_type", "value": "sitcom", "confidence": 0.9}
-Q: "Is your character from an animated show?" A: "Yes" → {"key": "category", "value": "tv-characters", "confidence": 0.9}, {"key": "tv_show_type", "value": "animated", "confidence": 0.9}
-Q: "Is your character from a drama series?" A: "Yes" → {"key": "category", "value": "tv-characters", "confidence": 0.9}, {"key": "tv_show_type", "value": "drama", "confidence": 0.9}
-Q: "Is your character from a video game?" A: "Yes" → {"key": "category", "value": "video-games", "confidence": 0.95}`
+Q: "Is your character an actor?" A: "Yes" → [{"key": "category", "value": "actors", "confidence": 0.95}]
+Q: "Is your character an actor?" A: "No" → [{"key": "category", "value": "NOT_actors", "confidence": 0.9}]
+Q: "Is your character an athlete?" A: "Yes" → [{"key": "category", "value": "athletes", "confidence": 0.95}]
+Q: "Is your character an athlete?" A: "No" → [{"key": "category", "value": "NOT_athletes", "confidence": 0.9}]
+Q: "Is your character a musician or singer?" A: "No" → [{"key": "category", "value": "NOT_musicians", "confidence": 0.9}]
+Q: "Is your character fictional?" A: "Yes" → [{"key": "fictional", "value": "true", "confidence": 0.95}]
+Q: "Is your character fictional?" A: "No" → [{"key": "fictional", "value": "false", "confidence": 0.95}]
+Q: "Is your character male?" A: "Yes" → [{"key": "gender", "value": "male", "confidence": 0.95}]
+Q: "Is your character male?" A: "No" → [{"key": "gender", "value": "female", "confidence": 0.9}]
+Q: "Is your character male?" A: "Probably" → [{"key": "gender", "value": "male", "confidence": 0.75}]
+Q: "Is your character male?" A: "Probably not" → [{"key": "gender", "value": "female", "confidence": 0.70}]
+Q: "Is your character still alive today?" A: "Yes" → [] (no alive/dead trait available)
+Q: "Is your character still alive today?" A: "No" → [] (no alive/dead trait available)
+Q: "Was your character active before 2000?" A: "Yes" → [{"key": "era", "value": "modern", "confidence": 0.75}]
+Q: "Was your character active before 2000?" A: "No" → [{"key": "era", "value": "contemporary", "confidence": 0.75}]
+Q: "Does your character have superpowers?" A: "Yes" → [{"key": "has_powers", "value": "true", "confidence": 0.95}]
+Q: "Does your character have superpowers?" A: "Probably not" → [{"key": "has_powers", "value": "false", "confidence": 0.70}]
+Q: "Is your character known for football?" A: "No" → [] (sport trait not available)
+Q: "Does your character originate from a country other than the United States?" A: "Yes" → [] (too specific, no geography trait)
+Q: "Is your character American?" A: "No" → [] (no nationality trait available)
+Q: "Did your character originate in an anime or manga?" A: "Yes" → [{"key": "category", "value": "anime", "confidence": 0.95}]
+Q: "Is your character from an anime?" A: "Yes" → [{"key": "category", "value": "anime", "confidence": 0.95}]
+Q: "Is your character from a TV show?" A: "Yes" → [{"key": "category", "value": "tv-characters", "confidence": 0.95}]
+Q: "Is your character from a sitcom?" A: "Yes" → [{"key": "category", "value": "tv-characters", "confidence": 0.9}, {"key": "tv_show_type", "value": "sitcom", "confidence": 0.9}]
+Q: "Is your character from an animated show?" A: "Yes" → [{"key": "category", "value": "tv-characters", "confidence": 0.9}, {"key": "tv_show_type", "value": "animated", "confidence": 0.9}]
+Q: "Is your character from a drama series?" A: "Yes" → [{"key": "category", "value": "tv-characters", "confidence": 0.9}, {"key": "tv_show_type", "value": "drama", "confidence": 0.9}]
+Q: "Is your character from a video game?" A: "Yes" → [{"key": "category", "value": "video-games", "confidence": 0.95}]
+
+MULTI-TRAIT EXTRACTION: If the question or answer implies multiple traits, extract ALL of them:
+Q: "Is your character a Marvel superhero?" A: "Yes" → [{"key": "category", "value": "superheroes", "confidence": 0.95}, {"key": "publisher", "value": "marvel", "confidence": 0.9}]
+Q: "Is your character a male athlete?" A: "Yes" → [{"key": "category", "value": "athletes", "confidence": 0.95}, {"key": "gender", "value": "male", "confidence": 0.95}]
+
+Return an array of traits (can be empty []). Always prefer extracting MORE traits when information is available.`
 
 /**
- * Extract trait from question + answer
+ * Extract traits from question + answer (can return multiple traits)
  */
-async function extractTrait(
+async function extractTraits(
   question: string,
   answer: AnswerValue,
-  turnAdded: number
-): Promise<Trait | null> {
+  turnAdded: number,
+  validTraitKeys?: string[]
+): Promise<Trait[]> {
   if (answer === 'dont_know') {
     console.warn('[Detective-RAG] User answered "dont_know", skipping trait extraction')
-    return null
+    return []
+  }
+
+  let contextualHint = ''
+  if (validTraitKeys && validTraitKeys.length > 0) {
+    contextualHint = `\n\nVALID TRAIT KEYS (only use these): ${validTraitKeys.join(', ')}`
   }
 
   const prompt = `Question: "${question}"
 Answer: "${ANSWER_LABELS[answer]}"
 
 CRITICAL: Match the question topic precisely. Don't infer unrelated traits.
-Extract the trait.`
+Extract trait(s) as a JSON array.${contextualHint}`
 
   try {
     const response = await chatCompletion({
@@ -250,82 +306,29 @@ Extract the trait.`
         { role: 'user', content: prompt }
       ],
       temperature: 0.1,
-      max_tokens: 100,
+      max_tokens: 150,
     })
 
     const raw = response.choices[0]?.message?.content || ''
-    console.info('[Detective-RAG] extractTrait raw:', raw)
+    console.info('[Detective-RAG] extractTraits raw:', raw)
     
-    const json = extractJSON(raw)
-    if (!json || !json.key || !json.value) {
-      console.warn('[Detective-RAG] FAILED extraction - invalid JSON:', raw)
-      return null
-    }
-
-    // Validate value
-    const value = String(json.value).toLowerCase()
-    if (['unknown', 'unclear', 'n/a', 'none'].includes(value)) {
-      console.warn('[Detective-RAG] FAILED extraction - unclear value:', value)
-      return null
-    }
-
-    // CRITICAL: Validate that extracted key is related to the question
-    // This prevents hallucinations like extracting "fictional" when question is about "American"
-    const questionLower = question.toLowerCase()
-    const extractedKey = String(json.key)
+    const traits = parseTraits(raw)
     
-    // Map each trait key to keywords that must appear in the question
-    const keywordMap: Record<string, string[]> = {
-      'fictional': ['fictional', 'real person', 'made up', 'exist'],
-      'gender': ['male', 'female', 'man', 'woman', 'boy', 'girl'],
-      'category': ['actor', 'athlete', 'musician', 'singer', 'politician', 'historical', 'superhero'],
-      'origin_medium': ['tv', 'television', 'movie', 'film', 'anime', 'manga', 'video game', 'comic'],
-      'has_powers': ['power', 'superpower', 'abilities', 'magic', 'supernatural'],
-      'alignment': ['hero', 'villain', 'good', 'evil', 'bad guy'],
-      'species': ['human', 'alien', 'robot', 'animal', 'god'],
-      'age_group': ['child', 'kid', 'teenager', 'teen', 'adult', 'young', 'old'],
-      'era': ['ancient', 'medieval', 'modern', 'contemporary', 'century', 'before', 'after', 'active']
+    if (traits.length === 0) {
+      console.warn('[Detective-RAG] No valid traits extracted from:', raw)
+      return []
     }
     
-    // Check if any relevant keyword appears in the question
-    const requiredKeywords = keywordMap[extractedKey]
-    if (requiredKeywords) {
-      const hasKeyword = requiredKeywords.some(kw => questionLower.includes(kw))
-      if (!hasKeyword) {
-        console.warn(`[Detective-RAG] FAILED extraction - key "${extractedKey}" not related to question: "${question}"`)
-        return null
-      }
-    }
-
-    // Additional validation for category values
-    if (extractedKey === 'category') {
-      const questionLower = question.toLowerCase()
-      const extractedValue = value.replace(/^not_/, '') // Strip NOT_ prefix for validation
-
-      // Check if the extracted category appears in or is closely related to the question
-      const isRelated =
-        questionLower.includes(extractedValue) || // Direct match (e.g., "actor" in question, "actors" extracted)
-        questionLower.includes(extractedValue.replace(/s$/, '')) || // Singular form
-        extractedValue.includes(questionLower.match(/(?:actor|athlete|musician|politician|historical)/)?.[0] || '') // Key category word
-
-      if (!isRelated) {
-        console.warn(`[Detective-RAG] FAILED extraction - category "${extractedValue}" not related to question: "${question}"`)
-        return null
-      }
-    }
-
-    const trait = {
-      key: String(json.key),
-      value: String(json.value),
-      confidence: Math.min(Math.max(Number(json.confidence) || 0.9, 0.1), 0.99),
-      turnAdded
-    }
+    // Add turnAdded to all traits
+    const traitsWithTurn = traits.map(t => ({ ...t, turnAdded }))
     
-    console.info(`[Detective-RAG] SUCCESS: ${trait.key} = ${trait.value} (conf: ${Math.round(trait.confidence * 100)}%)`)
-    return trait
+    console.info(`[Detective-RAG] ✅ Extracted ${traitsWithTurn.length} trait(s):`, 
+                 traitsWithTurn.map(t => `${t.key}=${t.value}`).join(', '))
+    
+    return traitsWithTurn
   } catch (error) {
-    console.error('[Detective-RAG] extractTrait error:', error)
-    return null
+    console.error('[Detective-RAG] FAILED to extract traits:', error)
+    return []
   }
 }
 
@@ -1334,14 +1337,16 @@ export async function askDetective(
         // This is handled by useGameLoop with CONFIRM_GUESS
       }
     } else {
-      // Regular question - extract trait
-      console.info('[Detective-RAG] Extracting trait from Q&A...')
-      const extractedTrait = await extractTrait(questionToAnalyze, answerToAnalyze, turnAdded)
-      if (extractedTrait) {
-        newTraits.push({ ...extractedTrait, turnAdded })
-        console.info('[Detective-RAG] ✓ Extracted trait:', extractedTrait.key, '=', extractedTrait.value, `(confidence: ${Math.round(extractedTrait.confidence * 100)}%)`)
+      // Regular question - extract traits (can be multiple!)
+      console.info('[Detective-RAG] Extracting traits from Q&A...')
+      const validTraitKeys = ['category', 'fictional', 'gender', 'origin_medium', 'has_powers', 'alignment', 'species', 'age_group', 'era', 'tv_show_type', 'publisher']
+      const extractedTraits = await extractTraits(questionToAnalyze, answerToAnalyze, turnAdded, validTraitKeys)
+      if (extractedTraits.length > 0) {
+        newTraits.push(...extractedTraits)
+        console.info(`[Detective-RAG] ✓ Extracted ${extractedTraits.length} trait(s):`, 
+                     extractedTraits.map(t => `${t.key}=${t.value} (${Math.round(t.confidence * 100)}%)`).join(', '))
       } else {
-        console.warn('[Detective-RAG] ✗ No trait extracted from answer')
+        console.warn('[Detective-RAG] ✗ No traits extracted from answer')
       }
     }
   }
