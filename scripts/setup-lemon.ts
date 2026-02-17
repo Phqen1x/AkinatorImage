@@ -19,38 +19,38 @@ type ExpressionPrompt = {
 
 const EXPRESSION_PROMPTS: Record<LemonExpression, ExpressionPrompt> = {
   neutral: {
-    positive: 'calm neutral expression, gentle smile, friendly welcoming face, relaxed demeanor',
-    negative: 'frowning, sad, angry, extreme emotions',
+    positive: 'NEUTRAL CALM EXPRESSION, gentle friendly smile, relaxed peaceful demeanor, content',
+    negative: 'frowning, sad, angry, crying, extreme emotions, laughing',
   },
   yes: {
-    positive: 'VERY HAPPY, EXCITED, ENTHUSIASTIC, HUGE WIDE SMILE, JOYFUL, CELEBRATING, eyes wide open with excitement, mouth open in big grin',
-    negative: 'sad, frowning, crying, disappointed, neutral, calm',
+    positive: 'EXTREMELY HAPPY EXCITED JOYFUL, HUGE WIDE OPEN MOUTH SMILE, eyes sparkling with excitement, jumping for joy, arms raised in celebration, pure happiness, ecstatic',
+    negative: 'sad, frowning, crying, disappointed, neutral, calm, serious',
   },
   no: {
-    positive: 'VERY SAD, DISAPPOINTED, CRYING, FROWNING DEEPLY, mouth turned down, tears, dejected, depressed expression, downcast eyes, UNHAPPY',
-    negative: 'smiling, happy, grinning, cheerful, laughing, positive',
+    positive: 'EXTREMELY SAD UNHAPPY CRYING, TEARS STREAMING DOWN, DEEP FROWN, mouth turned completely down, sobbing, devastated depressed heartbroken, eyes closed in sadness',
+    negative: 'smiling, happy, grinning, cheerful, laughing, positive, excited, neutral',
   },
   probably: {
-    positive: 'THOUGHTFUL, PONDERING, considering carefully, hand on chin, slight optimistic smile, analytical expression, thinking pose',
-    negative: 'laughing, big smile, sad, crying, confused',
+    positive: 'THOUGHTFUL PONDERING THINKING, hand touching chin in thought, slight hopeful smile, analyzing, considering carefully, intellectual expression',
+    negative: 'laughing, big grin, sad, crying, confused, angry',
   },
   probably_not: {
-    positive: 'SKEPTICAL, DOUBTFUL, UNCERTAIN, one eyebrow raised, suspicious look, questioning expression, arms crossed, NOT convinced, dubious',
-    negative: 'smiling broadly, happy, enthusiastic, sad, crying',
+    positive: 'SKEPTICAL SUSPICIOUS DOUBTFUL, one eyebrow raised high, arms crossed defensively, squinting eyes, NOT convinced, questioning look, distrustful',
+    negative: 'smiling broadly, very happy, enthusiastic, excited, sad, crying',
   },
   dont_know: {
-    positive: 'VERY CONFUSED, BEWILDERED, PUZZLED, scratching head, question marks around head, lost expression, eyes looking different directions, shrugging shoulders, COMPLETELY UNSURE',
-    negative: 'smiling, happy, confident, certain, sad',
+    positive: 'EXTREMELY CONFUSED BEWILDERED LOST, scratching head with both hands, question marks floating above head, eyes looking in different directions, mouth open in confusion, shrugging shoulders, completely puzzled',
+    negative: 'smiling confidently, happy, certain, sad, angry',
   },
 }
 
-const BASE_PROMPT = `high quality 3D rendered anthropomorphic glass of lemonade character, Kool-Aid Man mascot style, cute cartoon design, 
-transparent glass pitcher filled with bright yellow lemonade liquid, ice cubes floating inside visible through glass, 
-fresh lemon slice garnish on the rim, water condensation droplets on glass surface, 
-cartoon white gloved hands and arms, cartoon legs with white shoes, 
-professional CGI render, Pixar Disney animation style, studio lighting, white clean background, vibrant saturated colors`
+const BASE_PROMPT = `professional 3D CGI render of anthropomorphic glass of lemonade character, Kool-Aid Man style mascot, 
+transparent glass pitcher body filled with bright yellow lemonade liquid, ice cubes floating inside the glass, 
+fresh lemon slice garnish on rim, condensation water droplets on glass, 
+white cartoon gloved hands and arms attached to glass, white shoes on cartoon legs, 
+Pixar Disney 3D animation style, high quality render, studio lighting, plain white background, vibrant colors`
 
-const BASE_NEGATIVE = 'blurry, low quality, deformed, disfigured, extra limbs, bad anatomy, realistic human, photograph, dark lighting, gloomy, text, watermark, logo, signature, multiple characters, scary, horror'
+const BASE_NEGATIVE = 'blurry, low quality, deformed, disfigured, extra limbs, bad anatomy, realistic photo, photograph, dark, gloomy, text, watermark, logo, multiple characters, horror, scary'
 
 const LEMON_ASSETS_DIR = path.join(process.cwd(), 'public', 'lemon-assets')
 
@@ -81,17 +81,30 @@ async function generateLemonExpression(expression: LemonExpression, seed: number
   const fullPrompt = `${BASE_PROMPT}, ${expressionPrompt.positive}`
   const fullNegativePrompt = `${BASE_NEGATIVE}, ${expressionPrompt.negative}`
   
-  console.info(`[Lemon] Prompt: ${fullPrompt.substring(0, 100)}...`)
-  console.info(`[Lemon] Negative: ${fullNegativePrompt.substring(0, 100)}...`)
+  console.info(`[Lemon] Prompt: ${fullPrompt.substring(0, 120)}...`)
+  console.info(`[Lemon] Negative: ${fullNegativePrompt.substring(0, 80)}...`)
+  
+  // Map expressions to very different seed offsets to get diverse results
+  const seedOffsets: Record<LemonExpression, number> = {
+    neutral: 0,
+    yes: 10000,
+    no: 20000,
+    probably: 30000,
+    probably_not: 40000,
+    dont_know: 50000,
+  }
+  
+  const finalSeed = seed + seedOffsets[expression]
+  console.info(`[Lemon] Using seed: ${finalSeed}`)
   
   try {
     const response = await generateImage({
       model: IMAGE_MODEL,
       prompt: fullPrompt,
       negative_prompt: fullNegativePrompt,
-      seed: seed + expression.length, // Vary seed slightly per expression
-      steps: 8, // More steps for better expression accuracy
-      cfg_scale: 2.0, // Higher CFG to follow prompt more closely
+      seed: finalSeed,
+      steps: 4, // SDXL-turbo optimal: 1-4 steps
+      cfg_scale: 1.0, // SDXL-turbo optimal: 0-2, using 1.0 for best quality
       width: 512,
       height: 512,
     })
