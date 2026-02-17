@@ -19,28 +19,28 @@ type ExpressionPrompt = {
 
 const EXPRESSION_PROMPTS: Record<LemonExpression, ExpressionPrompt> = {
   neutral: {
-    positive: 'NEUTRAL EXPRESSION, straight horizontal mouth line, expressionless face, blank stare, emotionless',
-    negative: 'frowning, sad, angry, crying, extreme emotions, laughing, smiling, grinning, happy',
+    positive: 'NEUTRAL EXPRESSION, simple dot eyes, straight horizontal line mouth, completely blank emotionless face, standing still',
+    negative: 'frowning, sad, angry, crying, extreme emotions, laughing, smiling, grinning, happy, cheerful',
   },
   yes: {
-    positive: 'EXTREMELY HAPPY EXCITED JOYFUL, HUGE WIDE OPEN MOUTH SMILE, eyes sparkling with excitement, jumping for joy, arms raised in celebration, pure happiness, ecstatic',
-    negative: 'sad, frowning, crying, disappointed, neutral, calm, serious',
+    positive: 'EXTREMELY HAPPY EXCITED JOYFUL, HUGE WIDE GRIN ear to ear, eyes wide open and sparkling, both arms raised HIGH above head in celebration, jumping, pure ecstatic happiness',
+    negative: 'sad, frowning, crying, disappointed, neutral, calm, serious, tired',
   },
   no: {
-    positive: 'EXTREMELY SAD UNHAPPY CRYING, TEARS STREAMING DOWN, DEEP FROWN, mouth turned completely down, sobbing, devastated depressed heartbroken, eyes closed in sadness',
-    negative: 'smiling, happy, grinning, cheerful, laughing, positive, excited, neutral',
+    positive: 'SAD DISAPPOINTED face with visible eyes and mouth, LARGE DOWNTURNED FROWN mouth, sad droopy eyes with single tear drop on cheek, arms hanging down at sides looking dejected, shoulders slumped',
+    negative: 'smiling, happy, grinning, cheerful, laughing, positive, excited, neutral, no face, featureless',
   },
   probably: {
-    positive: 'THOUGHTFUL PONDERING THINKING, hand touching chin in thought, SERIOUS analytical face, furrowed brow, eyes narrowed in concentration, calculating expression',
-    negative: 'laughing, big grin, sad, crying, confused, angry, smiling, happy, cheerful',
+    positive: 'THOUGHTFUL PONDERING expression, one hand on chin, slight OPTIMISTIC SMILE, one eyebrow raised slightly, eyes looking upward thinking, considering possibilities, hopeful but uncertain',
+    negative: 'laughing, big grin, sad, crying, very confused, angry, frowning, negative',
   },
   probably_not: {
-    positive: 'SKEPTICAL SUSPICIOUS DOUBTFUL, one eyebrow raised high, arms crossed defensively, squinting eyes, NOT convinced, questioning look, distrustful, FROWNING',
-    negative: 'smiling broadly, very happy, enthusiastic, excited, sad, crying',
+    positive: 'SKEPTICAL DOUBTFUL SUSPICIOUS face, both eyebrows FURROWED DOWN, DEEP FROWN mouth, arms CROSSED tightly, eyes narrowed in distrust, head tilted to side in disbelief, very dubious',
+    negative: 'smiling, happy, enthusiastic, excited, laughing, cheerful, grinning, positive',
   },
   dont_know: {
-    positive: 'EXTREMELY CONFUSED BEWILDERED LOST, scratching head with both hands, question marks floating above head, eyes looking in different directions, mouth open in confusion, shrugging shoulders, completely puzzled, PERPLEXED',
-    negative: 'smiling confidently, happy, certain, sad, angry, cheerful, grinning',
+    positive: 'VERY CONFUSED BEWILDERED, both hands on head scratching, eyes CROSSED looking at each other, mouth in wide O shape, SHRUGGING shoulders up high, question mark floating near head, completely baffled perplexed',
+    negative: 'smiling, happy, confident, certain, sad crying, angry, cheerful, grinning, laughing',
   },
 }
 
