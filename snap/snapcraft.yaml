@@ -9,10 +9,8 @@ description: |
 
   **Key Features**
 
-  * Smart question generation using Google Gemini AI
-  * 1,300+ character database with trait-based matching
+  * Smart question generation 
   * Wikipedia integration for discovering famous personalities
-  * Real-time AI-generated character portraits via SDXL-Turbo
   * Logical deduction engine that learns from your answers
   * Confidence scoring to determine optimal guess timing
   * Beautiful Electron desktop interface with React
@@ -20,20 +18,18 @@ description: |
   **Requirements**
 
   This snap requires the lemonade-server snap to be installed and running on 
-  localhost:8080. The server provides the SDXL-Turbo image generation backend.
+  localhost:8080. The server provides the SDXL-Turbo image generation, Qwen3-4B, and Phi-4-mini models.
 
   To install both:
 
     sudo snap install lemonator
     sudo snap install lemonade-server
 
-  You'll also need a Google Gemini API key set in your environment or config.
-
   **How to Play**
 
   1. Think of any character (real or fictional)
-  2. Answer yes/no/maybe/unsure questions from the AI detective
-  3. Watch as the AI narrows down possibilities and generates a portrait
+  2. Answer yes/no/probably/probably not/I don't know questions from the AI detective
+  3. Watch as the AI narrows down possibilities
   4. See if the AI can guess your character correctly!
 
   The AI combines database searching, Wikipedia discovery, and logical reasoning
@@ -83,6 +79,7 @@ parts:
       cp $CRAFT_PART_SRC/lemonator.desktop $CRAFT_PART_INSTALL/
     prime:
       - linux-unpacked
+      - lemonator.desktop
       - -*/chrome-sandbox
       - -*/resources/app.asar.unpacked/node_modules/sharp/vendor/lib
       - -*/resources/app.asar.unpacked/node_modules/sharp/vendor/include
@@ -93,6 +90,7 @@ parts:
     override-build: |
       mkdir -p $CRAFT_PART_INSTALL/bin/
       cp launcher $CRAFT_PART_INSTALL/bin/
+      chmod a+x $CRAFT_PART_INSTALL/bin/launcher
 
   cleanup:
     after: [ lemonator ]

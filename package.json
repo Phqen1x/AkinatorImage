@@ -1,5 +1,5 @@
 {
-  "name": "lemonators",
+  "name": "lemonator",
   "version": "1.0.0",
   "description": "Lemonator — AI guesses your character while drawing them",
   "main": "dist-electron/main/index.js",
@@ -49,8 +49,8 @@
     "vite-plugin-electron-renderer": "^0.14.6"
   },
   "build": {
-    "appId": "com.lemonators.app",
-    "productName": "Lemonators",
+    "appId": "com.github.phqen1x.lemonator",
+    "productName": "Lemonator",
     "npmRebuild": false,
     "asar": false,
     "directories": {
@@ -72,12 +72,12 @@
       "maintainer": "Drew VanDine <avandine23@gmail.com>",
       "desktop": {
         "entry": {
-          "Name": "Lemonators",
+          "Name": "Lemonator",
           "GenericName": "AI Character Guessing Game",
           "Comment": "AI detective guesses your character while drawing them",
           "Keywords": "game;ai;guessing;character;akinator;",
           "Categories": "Game;LogicGame;",
-          "StartupWMClass": "Lemonators"
+          "StartupWMClass": "Lemonator"
         }
       }
     },
