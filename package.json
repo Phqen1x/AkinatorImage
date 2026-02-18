@@ -51,6 +51,7 @@
   "build": {
     "appId": "com.lemonators.app",
     "productName": "Lemonators",
+    "npmRebuild": false,
     "directories": {
       "output": "release",
       "buildResources": "build"
@@ -58,7 +59,8 @@
     "files": [
       "dist/**/*",
       "dist-electron/**/*",
-      "package.json"
+      "package.json",
+      "node_modules/**/*"
     ],
     "linux": {
       "target": [
