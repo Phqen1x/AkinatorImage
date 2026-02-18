@@ -22,17 +22,17 @@ export default function QuestionBubble() {
     }
   }, [currentQuestion, phase, turn])
 
-  // Show question during waiting phase
-  if (phase !== 'waiting_for_answer' || !currentQuestion) {
-    return null
-  }
+  // Always render container to maintain layout, show question when waiting
+  const showQuestion = phase === 'waiting_for_answer' && currentQuestion
 
   return (
     <div className="question-bubble-container">
-      <div className="question-bubble">
-        <div className="question-bubble-avatar">🍋</div>
-        <div className="question-bubble-text">{currentQuestion}</div>
-      </div>
+      {showQuestion && (
+        <div className="question-bubble">
+          <div className="question-bubble-avatar">🍋</div>
+          <div className="question-bubble-text">{currentQuestion}</div>
+        </div>
+      )}
     </div>
   )
 }
