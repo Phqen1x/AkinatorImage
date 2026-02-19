@@ -1370,7 +1370,11 @@ Return your response as JSON.`
     // CRITICAL: Check if this question was already asked
     // This prevents duplicate questions when trait extraction fails
     const askedQuestions = turns.map(t => t.question.toLowerCase())
-    const isDuplicate = askedQuestions.includes(questionText.toLowerCase())
+    const normalizedQuestion = normalizeQuestion(questionText)
+    const isDuplicate = askedQuestions.some(asked => {
+      const normalizedAsked = normalizeQuestion(asked)
+      return normalizedAsked === normalizedQuestion
+    })
     if (isDuplicate) {
       console.warn(`[Detective-RAG] Duplicate question detected: "${questionText}"`)
       console.warn('[Detective-RAG] Using fallback to avoid repeat')
@@ -1391,6 +1395,46 @@ Return your response as JSON.`
       topGuesses: ragGuesses.map(g => ({ name: g.name, confidence: g.confidence }))
     }
   }
+}
+
+/**
+ * Normalize a question for duplicate detection
+ * Handles semantic variations (Oscar vs Academy Award, etc.)
+ */
+function normalizeQuestion(question: string): string {
+  let normalized = question.toLowerCase().trim()
+  
+  // Remove punctuation
+  normalized = normalized.replace(/[?.!,]/g, '')
+  
+  // Normalize common variations
+  const replacements: Record<string, string> = {
+    'academy award': 'oscar',
+    'golden globe': 'golden globe award',
+    'emmy award': 'emmy',
+    'grammy award': 'grammy',
+    'nobel prize': 'nobel',
+    'super powers': 'superpowers',
+    'super hero': 'superhero',
+    'tv show': 'television',
+    'tv series': 'television',
+    'movie': 'film',
+    'comic book': 'comics',
+    'video game': 'videogame',
+    'anime or manga': 'anime',
+    'known for': 'famous for',
+    'best actor': 'best actor award',
+    'best actress': 'best actress award',
+  }
+  
+  for (const [from, to] of Object.entries(replacements)) {
+    normalized = normalized.replace(new RegExp(from, 'g'), to)
+  }
+  
+  // Remove extra whitespace
+  normalized = normalized.replace(/\s+/g, ' ').trim()
+  
+  return normalized
 }
 
 /**
@@ -1438,7 +1482,7 @@ const FALLBACK_QUESTIONS = [
 ]
 
 function getFallbackQuestion(askedQuestions: string[], traits: Trait[] = []): string {
-  const askedLower = askedQuestions.map(q => q.toLowerCase().trim())
+  const askedNormalized = askedQuestions.map(q => normalizeQuestion(q))
   
   // Check if category is confirmed
   const confirmedCategory = traits.find(t => 
@@ -1457,25 +1501,18 @@ function getFallbackQuestion(askedQuestions: string[], traits: Trait[] = []): st
     'is your character a politician?',
     'is your character from a tv show?',
     'is your character from a video game?'
-  ]
+  ].map(q => normalizeQuestion(q))
   
   for (const q of FALLBACK_QUESTIONS) {
-    const qLower = q.toLowerCase().replace(/[()]/g, '').replace(/\s+/g, ' ').trim()
+    const qNormalized = normalizeQuestion(q)
     
     // Skip if already asked (using same normalization as duplicate detection)
-    const isAlreadyAsked = askedLower.some(aq => {
-      const normalizedAq = aq.replace(/[()]/g, '').replace(/\s+/g, ' ').trim()
-      return normalizedAq === qLower || 
-             normalizedAq.includes(qLower) || 
-             qLower.includes(normalizedAq)
-    })
-    
-    if (isAlreadyAsked) {
+    if (askedNormalized.includes(qNormalized)) {
       continue
     }
     
     // Skip category questions if category is already confirmed
-    if (confirmedCategory && categoryQuestions.includes(qLower)) {
+    if (confirmedCategory && categoryQuestions.includes(qNormalized)) {
       console.log(`[Detective-RAG] Skipping category question "${q}" - category already confirmed as ${confirmedCategory.value}`)
       continue
     }
