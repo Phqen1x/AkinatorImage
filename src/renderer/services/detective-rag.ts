@@ -9,7 +9,7 @@
 
 import { z } from 'zod'
 import { chatCompletion } from './lemonade'
-import { DETECTIVE_MODEL, CONFIDENCE_THRESHOLD } from '../../shared/constants'
+import { DETECTIVE_MODEL, CONFIDENCE_THRESHOLD, ENABLE_WIKIPEDIA_SEARCH } from '../../shared/constants'
 import type { Trait, Guess, AnswerValue } from '../types/game'
 import {
   loadCharacterKnowledge,
@@ -566,26 +566,29 @@ async function askNextQuestion(
   // WIKIPEDIA AUGMENTATION: Only after a positive category is determined
   // This expands beyond the 407-character database to find additional matches
   // We need a confirmed category (not NOT_X) to build meaningful Wikipedia queries
-  const hasPositiveCategory = traits.some(t => 
-    t.key === 'category' && 
-    !t.value.startsWith('NOT_') && 
-    t.confidence >= 0.85
-  )
-  
+  // Controlled by ENABLE_WIKIPEDIA_SEARCH flag in constants.ts
   let wikipediaNames: string[] = []
-  if (turns.length >= 5 && hasPositiveCategory) {
-    console.info('[Detective-RAG] Positive category confirmed: Fetching supplemental characters from Wikipedia...')
-    try {
-      wikipediaNames = await getWikipediaSupplementalCharacters(traits)
-      if (wikipediaNames.length > 0) {
-        console.info(`[Wikipedia] ✓ Found ${wikipediaNames.length} supplemental characters`)
-        console.info(`[Wikipedia] Sample names:`, wikipediaNames.slice(0, 10).join(', '))
+  if (ENABLE_WIKIPEDIA_SEARCH) {
+    const hasPositiveCategory = traits.some(t =>
+      t.key === 'category' &&
+      !t.value.startsWith('NOT_') &&
+      t.confidence >= 0.85
+    )
+
+    if (turns.length >= 5 && hasPositiveCategory) {
+      console.info('[Detective-RAG] Positive category confirmed: Fetching supplemental characters from Wikipedia...')
+      try {
+        wikipediaNames = await getWikipediaSupplementalCharacters(traits)
+        if (wikipediaNames.length > 0) {
+          console.info(`[Wikipedia] ✓ Found ${wikipediaNames.length} supplemental characters`)
+          console.info(`[Wikipedia] Sample names:`, wikipediaNames.slice(0, 10).join(', '))
+        }
+      } catch (error) {
+        console.warn('[Wikipedia] Failed to fetch supplemental characters:', error)
       }
-    } catch (error) {
-      console.warn('[Wikipedia] Failed to fetch supplemental characters:', error)
+    } else if (turns.length >= 5) {
+      console.info('[Detective-RAG] No positive category yet - skipping Wikipedia search')
     }
-  } else if (turns.length >= 5) {
-    console.info('[Detective-RAG] No positive category yet - skipping Wikipedia search')
   }
   
   // If strict filtering returns too few results, use fuzzy matching

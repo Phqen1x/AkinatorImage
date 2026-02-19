@@ -15,6 +15,11 @@ export const IMAGE_MODEL = 'Flux-2-Klein-4B'
 export const CONFIDENCE_THRESHOLD = 0.95  // Must be high enough to avoid false positives
 export const MAX_TURNS = 100  // Allow extensive questioning to narrow down
 
+// Set to false to disable Wikipedia mid-game character discovery
+// When enabled, the detective searches Wikipedia after turn 5 for supplemental characters
+// beyond the local knowledge base. Disable if Wikipedia results are noisy or slow.
+export const ENABLE_WIKIPEDIA_SEARCH = false
+
 // Set to false to disable image generation during detective testing
 // DISABLED: Lemonade image generation takes 180+ seconds and times out
 export const ENABLE_IMAGE_GENERATION = true
