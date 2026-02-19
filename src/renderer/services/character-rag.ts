@@ -337,13 +337,16 @@ function characterMatchesTrait(char: CharacterData, trait: Trait): boolean {
  * Encodes logical implication rules to prevent nonsensical questions like:
  *   - "Does your character have superpowers?" when fictional=false (real people don't have superpowers)
  *   - "Is your character a historical figure (died before 1950)?" when character is confirmed alive
+ *   - Award questions too early (most people don't know specific awards)
  */
 export function shouldSkipQuestion(
   question: string,
   confirmedTraits: Trait[],
-  turns?: Array<{ question: string; answer: string }>
+  turns?: Array<{ question: string; answer: string }>,
+  remainingCandidateCount?: number
 ): boolean {
   const qLower = question.toLowerCase()
+  const turnCount = turns ? turns.length : 0
 
   const isNotFictional = confirmedTraits.some(t => t.key === 'fictional' && t.value === 'false' && t.confidence >= 0.7)
   const isFictional = confirmedTraits.some(t => t.key === 'fictional' && t.value === 'true' && t.confidence >= 0.7)
@@ -461,6 +464,18 @@ export function shouldSkipQuestion(
       'currently in office',
     ]
     if (realWorldKeywords.some(kw => qLower.includes(kw))) {
+      return true
+    }
+  }
+
+  // --- Rule 7: Defer award/trophy questions to late game ---
+  // Most players don't know specific awards. These questions are only useful
+  // when the candidate list is already small. Prefer movie/franchise/role questions first.
+  // Allow award questions only after turn 15 OR when very few candidates remain (≤10).
+  const isAwardQuestion = /\b(oscar|emmy|grammy|golden globe|academy award|nobel|tony award|bafta|sag award|pulitzer|award|prize|trophy|accolade)\b/.test(qLower)
+  if (isAwardQuestion) {
+    const candidatesSmall = remainingCandidateCount !== undefined && remainingCandidateCount <= 10
+    if (turnCount < 15 && !candidatesSmall) {
       return true
     }
   }
@@ -608,7 +623,7 @@ export function getMostInformativeQuestion(
              facts.includes('wrestling') || facts.includes('fighter') || facts.includes('martial arts')
     }, fictionOnly: false, realPersonOnly: true, categoryRequired: 'athletes' },
     
-    // Actors
+    // Actors - prioritize movie/franchise/role questions over awards
     { q: 'Is your character from the United Kingdom?', test: (c: CharacterData) => {
       if (c.category !== 'actors') return false
       const facts = c.distinctive_facts.join(' ').toLowerCase()
@@ -618,6 +633,42 @@ export function getMostInformativeQuestion(
       if (c.category !== 'actors') return false
       const facts = c.distinctive_facts.join(' ').toLowerCase()
       return facts.includes('marvel') || facts.includes('iron man') || facts.includes('avengers') || facts.includes('mcu')
+    }, fictionOnly: false, realPersonOnly: true, categoryRequired: 'actors' },
+    { q: 'Is your character known for dramatic or serious roles?', test: (c: CharacterData) => {
+      if (c.category !== 'actors') return false
+      const facts = c.distinctive_facts.join(' ').toLowerCase()
+      return facts.includes('drama') || facts.includes('dramatic') || facts.includes('serious')
+    }, fictionOnly: false, realPersonOnly: true, categoryRequired: 'actors' },
+    { q: 'Has your character starred in a famous movie franchise or series?', test: (c: CharacterData) => {
+      if (c.category !== 'actors') return false
+      const facts = c.distinctive_facts.join(' ').toLowerCase()
+      return facts.includes('franchise') || facts.includes('sequel') || facts.includes('trilogy') ||
+             facts.includes('star wars') || facts.includes('harry potter') || facts.includes('fast') ||
+             facts.includes('mission impossible') || facts.includes('james bond') || facts.includes('marvel') ||
+             facts.includes('lord of the rings') || facts.includes('pirates')
+    }, fictionOnly: false, realPersonOnly: true, categoryRequired: 'actors' },
+    { q: 'Is your character known for comedy movies or shows?', test: (c: CharacterData) => {
+      if (c.category !== 'actors') return false
+      const facts = c.distinctive_facts.join(' ').toLowerCase()
+      return facts.includes('comedy') || facts.includes('comedian') || facts.includes('comic') || facts.includes('funny')
+    }, fictionOnly: false, realPersonOnly: true, categoryRequired: 'actors' },
+    { q: 'Has your character appeared in a sci-fi or fantasy movie?', test: (c: CharacterData) => {
+      if (c.category !== 'actors') return false
+      const facts = c.distinctive_facts.join(' ').toLowerCase()
+      return facts.includes('sci-fi') || facts.includes('science fiction') || facts.includes('fantasy') ||
+             facts.includes('star wars') || facts.includes('matrix') || facts.includes('terminator') ||
+             facts.includes('alien') || facts.includes('lord of the rings')
+    }, fictionOnly: false, realPersonOnly: true, categoryRequired: 'actors' },
+    { q: 'Has your character starred in a war or historical movie?', test: (c: CharacterData) => {
+      if (c.category !== 'actors') return false
+      const facts = c.distinctive_facts.join(' ').toLowerCase()
+      return facts.includes('war') || facts.includes('historical') || facts.includes('world war') ||
+             facts.includes('saving private ryan') || facts.includes('schindler') || facts.includes('braveheart')
+    }, fictionOnly: false, realPersonOnly: true, categoryRequired: 'actors' },
+    { q: 'Is your character known for romantic movies?', test: (c: CharacterData) => {
+      if (c.category !== 'actors') return false
+      const facts = c.distinctive_facts.join(' ').toLowerCase()
+      return facts.includes('romantic') || facts.includes('romance') || facts.includes('rom-com') || facts.includes('love story')
     }, fictionOnly: false, realPersonOnly: true, categoryRequired: 'actors' },
     
     // Superheroes (fiction-only and category-specific)
@@ -820,8 +871,8 @@ export function getMostInformativeQuestion(
   }
   
   for (const {q, test, fictionOnly, realPersonOnly, categoryRequired} of questions) {
-    // Skip questions that violate logical implication rules (e.g., superpowers for real people, death for alive)
-    if (shouldSkipQuestion(q, confirmedTraits, turns)) {
+    // Skip questions that violate logical implication rules (e.g., superpowers for real people, death for alive, awards too early)
+    if (shouldSkipQuestion(q, confirmedTraits, turns, remainingCandidates.length)) {
       continue
     }
 

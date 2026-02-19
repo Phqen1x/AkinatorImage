@@ -64,13 +64,14 @@ When occupation is confirmed as "athlete" or "sports figure", focus on these hig
 🎬 ACTOR/ENTERTAINER STRATEGY:
 When occupation is confirmed as "actor", "entertainer", or "known for entertainment":
 - "Is your character primarily a movie star or TV actor?"
-- Genre: "Is your character known for action/comedy/drama?"
-- Awards: "Has your character won an Oscar/Emmy?"
-- Franchises: "Did your character star in Marvel/DC/Star Wars/Harry Potter?"
+- Genre FIRST: "Is your character known for action/comedy/drama/sci-fi/romance?"
+- Franchises: "Has your character starred in a famous movie franchise?" "Did your character star in Marvel/DC/Star Wars/Harry Potter?"
+- Era: "Is your character a classic Hollywood star or modern actor?" "Was your character active before 2000?"
 - Iconic roles: "Did your character star in Titanic/Godfather/Avengers/Breaking Bad/Game of Thrones/Friends/The Office?"
-- Era: "Is your character a classic Hollywood star or modern actor?"
+- War/historical films: "Has your character starred in a war movie?"
 - Type: "Is your character known for superhero movies? Comedy? Drama? Action?"
 - After narrowing genre/franchise, ask about specific movies or shows they're famous for
+- ⚠️ DO NOT ask about specific awards (Oscar, Emmy, Grammy, Golden Globe) until very late in the game. Most players don't know which specific awards someone has won. Prefer movie genres, franchises, and roles instead.
 
 📜 HISTORICAL FIGURE STRATEGY:
 When historical_era is confirmed OR character lived in past centuries:

@@ -138,10 +138,12 @@ const RAG_DETECTIVE_SYSTEM_PROMPT = `You are an expert detective in a character-
 3. Ask questions that eliminate ~50% of remaining candidates (information gain)
 4. When you have 3-5 candidates left, ask SPECIFIC differentiating questions about TRAITS, not character names
 5. Make a guess when confidence ≥ 0.95 OR remaining candidates ≤ 2
-6. **DO NOT ask about:** Specific dates, specific awards, specific physical features (too specific, can't be tracked)
-7. **ONLY ask about:** Category, fictional status, gender, powers, alignment, era (broad), origin medium, team membership, nationality (broad - American/British/European only)
-8. **NEVER ask "Is your character [Character Name]?"** — naming a specific character is a GUESS, not a question. Only the game system makes guesses.
-9. **NEVER ask questions that contradict previous answers.** If user confirmed "sitcom", do NOT ask about "drama". If user confirmed "basketball", do NOT ask about "soccer".
+6. **DO NOT ask about:** Specific dates, specific physical features (too specific, can't be tracked)
+7. **DO NOT ask about awards** (Oscar, Emmy, Grammy, Golden Globe, etc.) until very late in the game. Most players don't know specific awards. Instead ask about movie genres, franchises, types of roles, or eras.
+8. **For ACTORS:** Prefer asking about movies, franchises, genres (comedy/drama/action/sci-fi), and eras over awards. Examples: "Has your character starred in a famous movie franchise?", "Is your character known for comedy?", "Has your character appeared in a war movie?"
+9. **ONLY ask about:** Category, fictional status, gender, powers, alignment, era (broad), origin medium, team membership, nationality (broad - American/British/European only), movie genres, franchises
+10. **NEVER ask "Is your character [Character Name]?"** — naming a specific character is a GUESS, not a question. Only the game system makes guesses.
+11. **NEVER ask questions that contradict previous answers.** If user confirmed "sitcom", do NOT ask about "drama". If user confirmed "basketball", do NOT ask about "soccer".
 
 **CATEGORY LOGIC (CRITICAL):**
 Once a character's primary category is confirmed (e.g., actor, athlete, musician, politician):
@@ -1298,12 +1300,16 @@ CRITICAL RULES:
 4. If stuck, try a DIFFERENT type of question (era, appearance, personality, origin)
 5. NEVER name a specific character in your question — "Is your character [Name]?" is a GUESS, not a question
 6. NEVER ask questions that contradict confirmed answers (e.g., don't ask "drama?" after "sitcom" was confirmed)
+7. DO NOT ask about specific awards (Oscar, Emmy, Grammy, Golden Globe). Most players don't know which awards someone won. Ask about movie genres, franchises, and types of roles instead.
 
 BAD: "Is your character Dennis the Menace?" (this is a guess, not a question!)
 BAD: "Is your character from a drama?" (after user confirmed sitcom)
+BAD: "Has your character won an Oscar?" (most players don't know specific awards!)
 BAD: "Is your character part of a team that includes a member known for having a high level of agility?"
 GOOD: "Does your character work with a team?"
 GOOD: "Is your character known for intelligence?"
+GOOD: "Has your character starred in a famous movie franchise?"
+GOOD: "Is your character known for comedy?"
 
 Return your response as JSON.`
 
@@ -1493,15 +1499,20 @@ const FALLBACK_QUESTIONS = [
   'Is your character known for action?',
   'Does your character work with a team?',
   'Is your character a villain?',
-  
+
+  // Movies/Franchises (more useful than awards for actors)
+  'Has your character starred in a famous movie franchise?',
+  'Is your character known for dramatic or serious roles?',
+  'Has your character appeared in a sci-fi or fantasy movie?',
+
   // Appearance/Physical
   'Does your character wear a costume or uniform?',
   'Does your character have distinctive hair?',
-  
+
   // Origin/Source
   'Did your character originate in a comic book?',
   'Is your character from Japanese media?',
-  
+
   // Achievement/Role
   'Is your character a leader?',
   'Has your character won major awards?'
