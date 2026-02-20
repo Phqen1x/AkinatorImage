@@ -34,6 +34,9 @@ description: |
   The AI combines database searching, Wikipedia discovery, and logical reasoning
   to identify characters in as few questions as possible.
 
+  **THIS APPLICATION IS STILL EXPERIMENTAL**
+  Feedback and contributions are welcome.
+
 adopt-info: lemonator
 grade: stable
 confinement: strict
