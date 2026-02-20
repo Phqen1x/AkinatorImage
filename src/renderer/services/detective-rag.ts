@@ -398,6 +398,11 @@ function buildLookupCharacterToolResponse(
     category: char.category,
     traits: char.traits,
     distinctive_facts: char.distinctive_facts.slice(0, 5),
+    signature_works: char.signature_works.slice(0, 5).map(w => ({
+      name: w.name,
+      type: w.type,
+      year: w.year,
+    })),
     compatibility_score: Math.round(score * 100) / 100,
     compatibility_label:
       score >= 0.8 ? 'strong match' : score >= 0.5 ? 'partial match' : 'weak match',
@@ -471,7 +476,7 @@ const TRAIT_EXTRACTOR_PROMPT = `Extract a structured trait from this Q&A.
 - fictional (true/false) - Is the character entirely made up vs a real person?
 - gender (male/female)
 - category (actors, athletes, musicians, politicians, historical, anime, superheroes, tv-characters, video-games, other)
-- origin_medium (anime, movie, tv, video-game, comic-book)
+- media_origin (anime, movie, tv, video-game, comic-book)
 - has_powers (true/false) - Supernatural/superhuman abilities
 - alignment (hero, villain)
 - species (human, alien, robot, god, animal, etc.)
@@ -518,7 +523,7 @@ const TRAIT_EXTRACTOR_PROMPT = `Extract a structured trait from this Q&A.
 5. IMPORTANT: Characters can have overlapping traits
    - A character like "Iron Man" could be:
      * fictional=true (Tony Stark is a made-up character)
-     * origin_medium=movie (from Marvel movies)
+     * media_origin=movie (from Marvel movies)
      * category=superheroes (a superhero character)
    - Someone thinking of the character (not the actor) would say "yes" to fictional
    - Someone thinking of Robert Downey Jr. (the actor) would say "no" to fictional
@@ -656,7 +661,7 @@ Extract trait(s) as a JSON array.${contextualHint}${existingTraitsContext}`
       const contradictions = traits.filter(newTrait => {
         return existingTraits.some(existingTrait => {
           // Same key but different value (for single-valued traits)
-          if (newTrait.key === existingTrait.key && newTrait.key !== 'category' && newTrait.key !== 'origin_medium') {
+          if (newTrait.key === existingTrait.key && newTrait.key !== 'category' && newTrait.key !== 'media_origin') {
             // Allow same value (redundant but not contradictory)
             if (newTrait.value === existingTrait.value) return false
             
@@ -664,8 +669,8 @@ Extract trait(s) as a JSON array.${contextualHint}${existingTraitsContext}`
             return true
           }
           
-          // For category/origin_medium: check NOT_X vs X contradictions
-          if (newTrait.key === existingTrait.key && (newTrait.key === 'category' || newTrait.key === 'origin_medium')) {
+          // For category/media_origin: check NOT_X vs X contradictions
+          if (newTrait.key === existingTrait.key && (newTrait.key === 'category' || newTrait.key === 'media_origin')) {
             const newIsNegative = newTrait.value.startsWith('NOT_')
             const existingIsNegative = existingTrait.value.startsWith('NOT_')
             const newBase = newIsNegative ? newTrait.value.slice(4) : newTrait.value
@@ -1517,7 +1522,7 @@ async function askNextQuestion(
     )
     console.log('[Detective-RAG] Added fictionality rule: Character is real → no fictional origins or superpowers')
   } else if (fictionalTrait && fictionalTrait.value === 'true' && fictionalTrait.confidence >= 0.85) {
-    const originMediums = traits.filter(t => t.key === 'origin_medium' && !t.value.startsWith('NOT_'))
+    const originMediums = traits.filter(t => t.key === 'media_origin' && !t.value.startsWith('NOT_'))
     if (originMediums.length > 0) {
       contradictionRules.push(
         `Character is from ${originMediums[0].value} — focus on questions about this origin`
@@ -2103,7 +2108,7 @@ export async function askDetective(
     } else {
       // Regular question - extract traits (can be multiple!)
       console.info('[Detective-RAG] Extracting traits from Q&A...')
-      const validTraitKeys = ['category', 'fictional', 'gender', 'origin_medium', 'has_powers', 'alignment', 'species', 'age_group', 'tv_show_type', 'publisher', 'nationality', 'has_oscar', 'is_alive']
+      const validTraitKeys = ['category', 'fictional', 'gender', 'media_origin', 'has_powers', 'alignment', 'species', 'age_group', 'tv_show_type', 'publisher', 'nationality', 'has_oscar', 'is_alive']
       const extractedTraits = await extractTraits(questionToAnalyze, answerToAnalyze, turnAdded, validTraitKeys, traits)
       if (extractedTraits.length > 0) {
         newTraits.push(...extractedTraits)
@@ -2132,28 +2137,28 @@ export async function askDetective(
     // Add NOT_X traits for each impossible origin if not already present
     for (const origin of impossibleOrigins) {
       const alreadyHasNegation = allTraits.some(t => 
-        t.key === 'origin_medium' && t.value === `NOT_${origin}`
+        t.key === 'media_origin' && t.value === `NOT_${origin}`
       )
       const alreadyHasPositive = allTraits.some(t =>
-        t.key === 'origin_medium' && t.value === origin
+        t.key === 'media_origin' && t.value === origin
       )
       
       if (!alreadyHasNegation && !alreadyHasPositive) {
         const deducedTrait: Trait & TurnAdded = {
-          key: 'origin_medium',
+          key: 'media_origin',
           value: `NOT_${origin}`,
           confidence: 0.95,
           turnAdded: turnAdded
         }
         newTraits.push(deducedTrait)
-        console.info(`[Detective-RAG]   → Deduced: origin_medium=NOT_${origin} (real person can't be from ${origin})`)
+        console.info(`[Detective-RAG]   → Deduced: media_origin=NOT_${origin} (real person can't be from ${origin})`)
       }
     }
   }
   
   // LOGICAL DEDUCTION: Origin medium implications
   // If character IS from a fictional origin, they must be fictional
-  const originMediumTraits = allTraits.filter(t => t.key === 'origin_medium' && !t.value.startsWith('NOT_'))
+  const originMediumTraits = allTraits.filter(t => t.key === 'media_origin' && !t.value.startsWith('NOT_'))
   const hasFictionalOrigin = originMediumTraits.some(t => 
     ['marvel', 'dc', 'anime', 'manga', 'video-game', 'tv-show', 'movie-character', 'book-character', 'comic'].includes(t.value)
   )

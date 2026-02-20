@@ -5,18 +5,38 @@
  * Uses character-knowledge.json as the source of truth for all character data.
  */
 
+export interface SignatureWork {
+  name: string
+  type: string
+  year?: number
+}
+
+export interface Relationships {
+  spouse?: string[]
+  children?: string[]
+  parents?: string[]
+  siblings?: string[]
+  in_db?: string[]
+}
+
 export interface CharacterData {
   name: string
   category: string
-  signature_works: string[]
+  signature_works: SignatureWork[]
   traits: {
     fictional: boolean
+    nationality?: string
+    gender?: string
+    alive?: boolean
+    media_origin?: string
+    birth_decade?: number
     [key: string]: any
   }
   distinctive_facts: string[]
-  aliases: string[] | null
-  appearance: string | null
-  relationships: string | null
+  aliases?: string[]
+  appearance?: string
+  relationships?: Relationships
+  sitelink_count?: number
   source: string
   source_url: string
   last_updated: string
@@ -108,13 +128,25 @@ export function getAllCharacters(): CharacterData[] {
 }
 
 /**
- * Get character by name (case-insensitive)
+ * Get character by name or alias (case-insensitive)
  */
 export function getCharacterByName(name: string): CharacterData | null {
   if (!characterKnowledge) return null
-  
+
   const key = name.toLowerCase().trim()
-  return characterKnowledge.characters[key] || null
+
+  // First try direct name lookup (fast path)
+  const direct = characterKnowledge.characters[key]
+  if (direct) return direct
+
+  // If not found, search by alias
+  for (const char of Object.values(characterKnowledge.characters)) {
+    if ((char.aliases ?? []).some(alias => alias.toLowerCase() === key)) {
+      return char
+    }
+  }
+
+  return null
 }
 
 /**
@@ -191,30 +223,72 @@ function characterMatchesTrait(char: CharacterData, trait: Trait): boolean {
     return matches
   }
   
-  // gender (infer from distinctive facts or name)
+  // gender - use direct field from enriched database (v1.1.0)
   if (key === 'gender') {
+    // Prefer direct gender field (92% coverage from Wikidata)
+    if (char.traits.gender) {
+      const isMale = char.traits.gender === 'male'
+      return actualValue === 'male' ? isMale : !isMale
+    }
+
+    // Fallback: text inference for chars without the field
     const facts = char.distinctive_facts.join(' ').toLowerCase()
-    const name = char.name.toLowerCase()
-    
-    if (lowerValue === 'male') {
-      // Male indicators - check for 'actor' but NOT 'actress' to avoid substring match
+    if (actualValue === 'male') {
       return facts.includes('he ') || facts.includes('his ') ||
              (facts.includes('actor') && !facts.includes('actress')) ||
              facts.includes('businessman')
-    } else if (lowerValue === 'female') {
-      // Female indicators
+    } else if (actualValue === 'female') {
       return facts.includes('she ') || facts.includes('her ') ||
              facts.includes('actress') || facts.includes('businesswoman')
     }
 
-    // If no clear gender indicators found, return false (don't match)
     return false
   }
   
-  // origin_medium (anime, movie, tv, game, comic)
-  if (key === 'origin_medium') {
-    let mediumMatches = false
+  // alive - use direct field from enriched database (v1.1.0)
+  if (key === 'alive' || key === 'is_alive') {
+    // Prefer direct alive field (62% coverage from Wikidata)
+    if (char.traits.alive !== null && char.traits.alive !== undefined) {
+      const wantAlive = actualValue === 'true' || actualValue === 'yes'
+      const matches = char.traits.alive === wantAlive
+      return isNegative ? !matches : matches
+    }
 
+    // Fallback: infer from birth-death date range in facts
+    const factsText = char.distinctive_facts.join(' ')
+    const hasDeathDate = /\d{4}[–\-]\d{4}/.test(factsText)
+    const wantAlive = actualValue === 'true' || actualValue === 'yes'
+    const inferredAlive = !hasDeathDate
+    const matches = inferredAlive === wantAlive
+    return isNegative ? !matches : matches
+  }
+
+  // origin_medium / media_origin - use direct field from enriched database (v1.1.0)
+  if (key === 'origin_medium' || key === 'media_origin') {
+    // Map extractor values to database media_origin values
+    // Database uses: "manga/anime", "american_comic", "live_action_tv", "animated_tv"
+    const mediaOriginMappings: Record<string, string[]> = {
+      'anime': ['manga/anime'],
+      'manga': ['manga/anime'],
+      'manga/anime': ['manga/anime'],
+      'comic': ['american_comic'],
+      'american_comic': ['american_comic'],
+      'comic book': ['american_comic'],
+      'tv': ['live_action_tv', 'animated_tv'],
+      'television': ['live_action_tv', 'animated_tv'],
+      'live_action_tv': ['live_action_tv'],
+      'animated_tv': ['animated_tv'],
+    }
+
+    // Prefer direct media_origin field (37% coverage - all 190 fictional characters)
+    if (char.traits.media_origin) {
+      const possibleMatches = mediaOriginMappings[actualValue] || [actualValue]
+      const mediumMatches = possibleMatches.includes(char.traits.media_origin)
+      return isNegative ? !mediumMatches : mediumMatches
+    }
+
+    // Fallback: infer from category and facts
+    let mediumMatches = false
     if (actualValue === 'anime' || actualValue === 'manga') {
       mediumMatches = char.category === 'anime'
     } else if (actualValue === 'movie' || actualValue === 'film') {
@@ -227,8 +301,7 @@ function characterMatchesTrait(char: CharacterData, trait: Trait): boolean {
       mediumMatches = char.category === 'superheroes' || char.distinctive_facts.some(f => f.toLowerCase().includes('comic'))
     }
 
-    const matches = isNegative ? !mediumMatches : mediumMatches
-    return matches
+    return isNegative ? !mediumMatches : mediumMatches
   }
   
   // tv_show_type (sitcom, drama, animated)
@@ -374,6 +447,51 @@ function characterMatchesTrait(char: CharacterData, trait: Trait): boolean {
     const looksAlive = !/\d{4}[–\-]\d{4}/.test(bio) && !bio.toLowerCase().includes('died')
     if (isNegative) return !looksAlive
     return looksAlive === (actualValue === 'true' || actualValue === 'yes')
+  }
+
+  // has_signature_work - check if character appeared in a specific work
+  if (key === 'has_signature_work') {
+    return char.signature_works.some(w =>
+      w.name.toLowerCase().includes(lowerValue)
+    )
+  }
+
+  // birth_decade - era-based filtering for real people (null-safe - won't filter out unknowns)
+  if (key === 'born_before_1980') {
+    if (char.traits.birth_decade != null) {
+      const wantBefore1980 = actualValue === 'true' || actualValue === 'yes'
+      return wantBefore1980 ? char.traits.birth_decade < 1980 : char.traits.birth_decade >= 1980
+    }
+    return true  // Unknown - don't filter out
+  }
+
+  if (key === 'born_before_1960') {
+    if (char.traits.birth_decade != null) {
+      const wantBefore1960 = actualValue === 'true' || actualValue === 'yes'
+      return wantBefore1960 ? char.traits.birth_decade < 1960 : char.traits.birth_decade >= 1960
+    }
+    return true  // Unknown - don't filter out
+  }
+
+  if (key === 'born_before_2000') {
+    if (char.traits.birth_decade != null) {
+      const wantBefore2000 = actualValue === 'true' || actualValue === 'yes'
+      return wantBefore2000 ? char.traits.birth_decade < 2000 : char.traits.birth_decade >= 2000
+    }
+    return true  // Unknown - don't filter out
+  }
+
+  // relationships - check for famous family members
+  if (key === 'has_famous_spouse') {
+    const spouses = char.relationships?.spouse ?? []
+    const wantSpouse = actualValue === 'true' || actualValue === 'yes'
+    return wantSpouse ? spouses.length > 0 : spouses.length === 0
+  }
+
+  if (key === 'has_famous_children') {
+    const children = char.relationships?.children ?? []
+    const wantChildren = actualValue === 'true' || actualValue === 'yes'
+    return wantChildren ? children.length > 0 : children.length === 0
   }
 
   // Default: search in distinctive facts
@@ -730,6 +848,20 @@ export function getMostInformativeQuestion(
       const bio = c.distinctive_facts[0] || ''
       return !/\d{4}[–\-]\d{4}/.test(bio) && !bio.toLowerCase().includes('died')
     }, fictionOnly: false },
+    // Era questions (birth_decade) - efficiently split real people by generation
+    { q: 'Was this person born before 1980?', test: (c: CharacterData) => {
+      return c.traits.birth_decade != null && c.traits.birth_decade < 1980
+    }, fictionOnly: false, realPersonOnly: true },
+    { q: 'Was this person born before 1960?', test: (c: CharacterData) => {
+      return c.traits.birth_decade != null && c.traits.birth_decade < 1960
+    }, fictionOnly: false, realPersonOnly: true },
+    { q: 'Was this person born before 2000?', test: (c: CharacterData) => {
+      return c.traits.birth_decade != null && c.traits.birth_decade < 2000
+    }, fictionOnly: false, realPersonOnly: true },
+    // Relationship questions - link Jay-Z↔Beyoncé, Brad Pitt↔Angelina Jolie, etc.
+    { q: 'Is this person married to someone famous?', test: (c: CharacterData) => {
+      return (c.relationships?.spouse ?? []).length > 0
+    }, fictionOnly: false, realPersonOnly: true },
     { q: 'Is your character known primarily for comedy?', test: (c: CharacterData) => {
       const facts = c.distinctive_facts.join(' ').toLowerCase()
       return facts.includes('comedy') || facts.includes('comedian') || facts.includes('comic')
@@ -1212,7 +1344,7 @@ export function getTopGuesses(
 
     // Scale confidence based on number of DISCRIMINATING traits
     // Don't count deduced NOT_ traits — they inflate the count without adding
-    // real discriminating power (e.g., fictional=false deduces 9 NOT_origin_medium
+    // real discriminating power (e.g., fictional=false deduces 9 NOT_media_origin
     // traits that all non-fictional characters pass equally)
     const traitCount = traits.filter(t => !t.value.startsWith('NOT_')).length
     
@@ -1299,7 +1431,14 @@ export function getCandidateContext(
     `${remainingCandidates.length} candidates remaining. Top ${Math.min(topN, remainingCandidates.length)}:`,
     ...topCandidates.map((char, i) => {
       const facts = char.distinctive_facts.slice(0, 2).join('; ')
-      return `${i + 1}. ${char.name} (${char.category}): ${facts}`
+      const works = char.signature_works
+        .slice(0, 3)
+        .map(w => w.name)
+        .join(', ')
+      const prominence = char.sitelink_count ? `, ${char.sitelink_count} wiki links` : ''
+      const inDb = char.relationships?.in_db ?? []
+      const relNote = inDb.length > 0 ? ` | Linked to: ${inDb.join(', ')}` : ''
+      return `${i + 1}. ${char.name} (${char.category}${prominence}): ${facts}${works ? ` | Works: ${works}` : ''}${relNote}`
     })
   ]
   
@@ -1321,13 +1460,21 @@ export function scoreCharacterMatch(char: CharacterData, traits: Trait[]): numbe
     // Weight by confidence
     const weight = trait.confidence
     totalWeight += weight
-    
+
     if (matches) {
       totalScore += weight
     }
   }
-  
-  return totalWeight > 0 ? totalScore / totalWeight : 0
+
+  const baseScore = totalWeight > 0 ? totalScore / totalWeight : 0
+
+  // Add prominence bonus based on Wikipedia sitelink count
+  // More famous characters (more Wikipedia language versions) get a slight boost
+  // Einstein (319 links) → +0.15, minor character (20 links) → +0.01
+  const sitelinkCount = char.sitelink_count ?? 0
+  const prominenceBonus = Math.min(0.15, sitelinkCount / 2000)
+
+  return Math.min(1.0, baseScore + prominenceBonus)
 }
 
 /**
