@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { textToSpeech } from '../services/lemonade'
 import type { GameState } from '../types/game'
 import type { AnswerValue } from '../types/game'
@@ -92,6 +92,26 @@ let currentAudio: HTMLAudioElement | null = null
 let currentBlobUrl: string | null = null
 let currentAbortController: AbortController | null = null
 
+// Speech-end promise chain for waitForSpeechEnd()
+let speechEndResolve: (() => void) | null = null
+
+// React state setter references (registered by the hook instance)
+let setIsSpeakingFn: ((v: boolean) => void) | null = null
+let setSpokenTextFn: ((v: string | null) => void) | null = null
+
+function updateSpeechState(speaking: boolean, text: string | null): void {
+  setIsSpeakingFn?.(speaking)
+  setSpokenTextFn?.(text)
+}
+
+function resolveSpeechEnd(): void {
+  if (speechEndResolve) {
+    const resolve = speechEndResolve
+    speechEndResolve = null
+    resolve()
+  }
+}
+
 function interruptSpeech(): void {
   // Cancel any in-flight TTS request
   if (currentAbortController) {
@@ -108,6 +128,23 @@ function interruptSpeech(): void {
     URL.revokeObjectURL(currentBlobUrl)
     currentBlobUrl = null
   }
+  resolveSpeechEnd()
+  updateSpeechState(false, null)
+}
+
+/**
+ * Returns a promise that resolves when the current speech finishes naturally.
+ * Resolves immediately if nothing is playing.
+ */
+function waitForSpeechEnd(): Promise<void> {
+  if (!currentAudio && !currentAbortController) return Promise.resolve()
+  return new Promise(resolve => {
+    const prev = speechEndResolve
+    speechEndResolve = () => {
+      prev?.()
+      resolve()
+    }
+  })
 }
 
 /**
@@ -121,6 +158,8 @@ function speakText(text: string, onEnd?: () => void): void {
 
   const controller = new AbortController()
   currentAbortController = controller
+
+  updateSpeechState(true, text)
 
   console.info(`[Voice] → "${text.slice(0, 70)}${text.length > 70 ? '...' : ''}"`)
 
@@ -144,40 +183,66 @@ function speakText(text: string, onEnd?: () => void): void {
           currentBlobUrl = null
         }
         if (currentAudio === audio) currentAudio = null
+        updateSpeechState(false, null)
       }
 
       audio.onended = () => {
         cleanup()
+        resolveSpeechEnd()
         onEnd?.()
       }
       audio.onerror = (e) => {
         console.error('[Voice] Audio playback error:', e)
         cleanup()
+        resolveSpeechEnd()
         onEnd?.()  // still call onEnd so commentary loop continues
       }
 
       audio.play().catch(e => {
         console.error('[Voice] audio.play() failed:', e)
         cleanup()
+        resolveSpeechEnd()
         onEnd?.()
       })
     })
     .catch(e => {
       if (e instanceof Error && e.name === 'AbortError') return  // normal interrupt
       console.error('[Voice] TTS request failed:', e)
+      updateSpeechState(false, null)
+      resolveSpeechEnd()
       onEnd?.()  // keep the game moving even if TTS is down
     })
 }
 
+// ── Voice state returned to components ───────────────────────────────────────
+
+export interface VoiceState {
+  isSpeaking: boolean
+  spokenText: string | null
+}
+
 // ── Hook ──────────────────────────────────────────────────────────────────────
 
-export function useLemonadeVoice(state: GameState): void {
+export function useLemonadeVoice(state: GameState): VoiceState {
+  const [isSpeaking, setIsSpeaking] = useState(false)
+  const [spokenText, setSpokenText] = useState<string | null>(null)
+
   const prevPhaseRef = useRef(state.phase)
   const prevQuestionRef = useRef<string | null>(null)
 
   const isProcessingRef = useRef(false)
   const commentaryIndexRef = useRef(0)
   const commentaryTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Register React state setters so module-level functions can update UI
+  useEffect(() => {
+    setIsSpeakingFn = setIsSpeaking
+    setSpokenTextFn = setSpokenText
+    return () => {
+      setIsSpeakingFn = null
+      setSpokenTextFn = null
+    }
+  }, [])
 
   // Stable ref to recursive schedule function
   const scheduleCommentaryRef = useRef<() => void>(() => {})
@@ -226,30 +291,35 @@ export function useLemonadeVoice(state: GameState): void {
     }
 
     // ── User answered a question (waiting_for_answer → processing) ───────────
+    // Don't interrupt! Let the AI finish what it's saying, then play reaction.
     if (phase === 'processing' && prevPhase === 'waiting_for_answer') {
       isProcessingRef.current = true
       clearCommentary()
-      interruptSpeech()  // Cut off question being read
       const reactions = lastAnswer ? REACTIONS[lastAnswer] : null
       const reactionLine = reactions ? pickRandom(reactions) : "Hmm, interesting..."
-      speakText(reactionLine, () => {
-        if (isProcessingRef.current) scheduleCommentaryRef.current()
+      waitForSpeechEnd().then(() => {
+        speakText(reactionLine, () => {
+          if (isProcessingRef.current) scheduleCommentaryRef.current()
+        })
       })
       return
     }
 
     // ── Guess rejected, back to processing (guessing → processing) ───────────
+    // Let current speech finish, then play rejection reaction.
     if (phase === 'processing' && prevPhase === 'guessing') {
       isProcessingRef.current = true
       clearCommentary()
-      interruptSpeech()
-      speakText(pickRandom(REJECTION_REACTIONS), () => {
-        if (isProcessingRef.current) scheduleCommentaryRef.current()
+      waitForSpeechEnd().then(() => {
+        speakText(pickRandom(REJECTION_REACTIONS), () => {
+          if (isProcessingRef.current) scheduleCommentaryRef.current()
+        })
       })
       return
     }
 
     // ── New question arrived (→ waiting_for_answer) ───────────────────────────
+    // Wait for any current speech (reaction/commentary) to finish first.
     if (
       phase === 'waiting_for_answer' &&
       currentQuestion &&
@@ -258,16 +328,20 @@ export function useLemonadeVoice(state: GameState): void {
       prevQuestionRef.current = currentQuestion
       isProcessingRef.current = false
       clearCommentary()
-      speakText(currentQuestion)  // interruptSpeech() called inside speakText
+      waitForSpeechEnd().then(() => {
+        speakText(currentQuestion)
+      })
       return
     }
 
     // ── Guess announced (→ guessing) ─────────────────────────────────────────
+    // Wait for current speech to finish, then announce guess.
     if (phase === 'guessing' && finalGuess && prevPhase !== 'guessing') {
       isProcessingRef.current = false
       clearCommentary()
-      interruptSpeech()
-      speakText(`${pickRandom(GUESS_PREFIXES)}... ${finalGuess}!`)
+      waitForSpeechEnd().then(() => {
+        speakText(`${pickRandom(GUESS_PREFIXES)}... ${finalGuess}!`)
+      })
       return
     }
 
@@ -275,7 +349,9 @@ export function useLemonadeVoice(state: GameState): void {
     if (phase === 'idle') {
       isProcessingRef.current = false
       clearCommentary()
-      interruptSpeech()
+      interruptSpeech()  // OK to hard-interrupt on game reset
     }
   }, [state.phase, state.currentQuestion, state.lastAnswer, state.finalGuess]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  return { isSpeaking, spokenText }
 }

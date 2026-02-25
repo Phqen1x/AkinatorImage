@@ -17,10 +17,13 @@ function GameApp() {
   const state = useGameState()
   const { startGame, submitAnswer, confirmGuess, resetGame } = useGameLoop()
   const { isConnected } = useLemonadeHealth()
-  useLemonadeVoice(state)
+  const { isSpeaking, spokenText } = useLemonadeVoice(state)
 
   const showReveal = state.phase === 'guessing' || state.phase === 'revealed' || state.phase === 'hero_render'
   const showGame = state.phase !== 'idle'
+
+  // Answer buttons should be disabled while voice is speaking something other than the question
+  const voiceReady = !isSpeaking || spokenText === state.currentQuestion
 
   return (
     <>
@@ -33,8 +36,8 @@ function GameApp() {
             <DetectiveBrain />
           </div>
           <div className="center-column">
-            <QuestionBubble />
-            <AnswerButtons onAnswer={submitAnswer} />
+            <QuestionBubble isSpeaking={isSpeaking} spokenText={spokenText} />
+            <AnswerButtons onAnswer={submitAnswer} voiceReady={voiceReady} />
             <Canvas />
             <NewGameButton onNewGame={resetGame} />
           </div>

@@ -259,6 +259,17 @@ body {
   font-weight: 500;
 }
 
+/* Voice-only bubble (reactions, commentary — not a question) */
+.question-bubble.voice-only {
+  background: linear-gradient(135deg, #2a1f4a 0%, #1e3a5f 100%);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  font-style: italic;
+}
+
+.question-bubble.voice-only .question-bubble-text {
+  color: #c8b8e0;
+}
+
 /* ── Chat Log ──────────────────────────────── */
 
 .chatlog {

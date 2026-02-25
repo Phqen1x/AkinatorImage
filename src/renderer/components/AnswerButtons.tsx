@@ -11,11 +11,14 @@ const ANSWERS: Array<{ value: AnswerValue; label: string; className: string }> =
 
 interface Props {
   onAnswer: (answer: AnswerValue) => void
+  voiceReady?: boolean
 }
 
-export default function AnswerButtons({ onAnswer }: Props) {
+export default function AnswerButtons({ onAnswer, voiceReady = true }: Props) {
   const { phase, isProcessing } = useGameState()
-  const disabled = phase !== 'waiting_for_answer' || isProcessing
+  // Disable when not waiting for answer, when processing, or when voice is
+  // speaking something other than the current question (e.g., a reaction)
+  const disabled = phase !== 'waiting_for_answer' || isProcessing || !voiceReady
 
   return (
     <div className="answer-buttons">
